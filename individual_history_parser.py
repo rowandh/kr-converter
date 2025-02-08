@@ -2,7 +2,10 @@
 
 from typing import List, Dict, Any
 
-def parse_hand_history(hand_history: str) -> List[Dict[str, Any]]:
+from models import ParsedHandHistory
+
+
+def parse_hand_history(hand_history: str) -> ParsedHandHistory:
     """
     Parses a poker hand history line by line into structured data.
     Each line is categorized into a type and stored with relevant details.
@@ -11,10 +14,10 @@ def parse_hand_history(hand_history: str) -> List[Dict[str, Any]]:
     - A list of dictionaries where each dictionary represents one line of the hand history.
     """
     lines = hand_history.strip().split("\n")
-    parsed_lines = []
+    parsed_lines: ParsedHandHistory = []
 
     for line in lines:
-        parsed_line = {}
+        parsed_line: Dict[str, Any] = {}
 
         # 시작 (Start of the hand): Contains hand metadata like StageNo, Credit, Blinds
         if "시작 :" in line:
