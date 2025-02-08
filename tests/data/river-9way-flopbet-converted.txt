@@ -1,0 +1,68 @@
+PokerStars Hand #15327892343:  Hold'em No Limit (2000/2000) - 2025/02/08 00:00:00 WET
+Table 'WinningPokerHud' 9-max Seat #7 is the button
+Seat 1: yrhbvdn (580000 in chips) 
+Seat 2: dknenwk (145760 in chips) 
+Seat 3: vppqpdgq (233297 in chips) 
+Seat 4: k (200000 in chips) 
+Seat 5: qwsyuhz (723275 in chips) 
+Seat 6: kk (600000 in chips) 
+Seat 7: qerjdfnam (670231 in chips) 
+Seat 8: ajrehftor (196000 in chips) 
+Seat 9: gjskadqizxzx (702050 in chips) 
+ajrehftor: posts the ante 2000
+gjskadqizxzx: posts the ante 2000
+yrhbvdn: posts the ante 2000
+dknenwk: posts the ante 2000
+vppqpdgq: posts the ante 2000
+k: posts the ante 2000
+qwsyuhz: posts the ante 2000
+kk: posts the ante 2000
+qerjdfnam: posts the ante 2000
+ajrehftor: posts small blind 2000
+gjskadqizxzx: posts big blind 2000
+*** HOLE CARDS ***
+Dealt to yrhbvdn [8h 6c]
+Dealt to ajrehftor [Jc 9d]
+Dealt to gjskadqizxzx [Js 8d]
+Dealt to dknenwk [Ah 9s]
+Dealt to vppqpdgq [As 5c]
+Dealt to k [Kd 2d]
+Dealt to qwsyuhz [Qd 2s]
+Dealt to kk [7h 5s]
+Dealt to qerjdfnam [Qc 7d]
+yrhbvdn: folds
+dknenwk: calls 2000
+vppqpdgq: calls 2000
+k: calls 2000
+qwsyuhz: folds
+kk: calls 2000
+qerjdfnam: folds
+ajrehftor: checks
+gjskadqizxzx: checks
+*** FLOP *** [7s 3d 4h]
+ajrehftor: checks
+gjskadqizxzx: checks
+dknenwk: checks
+vppqpdgq: checks
+k: bets 15000
+kk: calls 15000
+ajrehftor: folds
+gjskadqizxzx: folds
+dknenwk: folds
+vppqpdgq: calls 15000
+*** TURN *** [7s 3d 4h] [Kh]
+vppqpdgq: checks
+k: bets 37500
+kk: calls 37500
+vppqpdgq: folds
+*** RIVER *** [7s 3d 4h Kh] [Jh]
+k: checks
+kk: checks
+*** SHOW DOWN ***
+k collected 142050 from pot
+*** SUMMARY ***
+Total pot 142050 | Rake 0
+Board [7s 3d 4h Kh Jh]
+
+
+

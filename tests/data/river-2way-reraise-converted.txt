@@ -1,0 +1,50 @@
+PokerStars Hand #15327875839:  Hold'em No Limit (2000/2000) - 2025/02/08 00:00:00 WET
+Table 'WinningPokerHud' 9-max Seat #5 is the button
+Seat 1: vedecdeee (1070621 in chips) 
+Seat 2: k (616304 in chips) 
+Seat 3: kjbfhbkdh (560185 in chips) 
+Seat 4: 1 (195671 in chips) 
+Seat 5: qwrzkvkxnzxf (641027 in chips) 
+Seat 6: d (169000 in chips) 
+Seat 7: fgyhnmr3 (408027 in chips) 
+d: posts the ante 2000
+fgyhnmr3: posts the ante 2000
+vedecdeee: posts the ante 2000
+k: posts the ante 2000
+kjbfhbkdh: posts the ante 2000
+1: posts the ante 2000
+qwrzkvkxnzxf: posts the ante 2000
+d: posts small blind 2000
+fgyhnmr3: posts big blind 2000
+*** HOLE CARDS ***
+Dealt to vedecdeee [Kc 6d]
+Dealt to d [Js 4c]
+Dealt to fgyhnmr3 [9s 9d]
+Dealt to k [As 2d]
+Dealt to kjbfhbkdh [6s 3h]
+Dealt to 1 [Ad Ks]
+Dealt to qwrzkvkxnzxf [Jd 5d]
+vedecdeee: folds
+k: calls 2000
+kjbfhbkdh: folds
+1: raises 22000 to 24000
+qwrzkvkxnzxf: folds
+d: folds
+fgyhnmr3: calls 22000
+k: folds
+*** FLOP *** [2h 7c 7s]
+fgyhnmr3: checks
+1: bets 33000
+fgyhnmr3: raises 66000 to 99000
+1: calls 66000
+*** TURN *** [2h 7c 7s] [8s]
+fgyhnmr3: bets 132000
+1: folds
+Uncalled bet (132000) returned to fgyhnmr3
+fgyhnmr3 collected 250008 from pot
+*** SUMMARY ***
+Total pot 264000 | Rake 0
+Board [2h 7c 7s 8s]
+
+
+

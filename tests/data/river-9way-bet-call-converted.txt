@@ -1,0 +1,67 @@
+PokerStars Hand #15286756675: Hold'em No Limit (2000/2000) - 2025/02/08 00:00:00 WET
+Table 'WinningPokerHud' 9-max Seat #7 is the button
+Seat 1: tblnj (164774 in chips)
+Seat 2: rjrhrhh5 (85000 in chips)
+Seat 3: fgyhnmr3 (256674 in chips)
+Seat 4: htytff (170039 in chips)
+Seat 5: vcbbvasddas (964716 in chips)
+Seat 6: hjagjhgdj (369491 in chips)
+Seat 7: 315fasff (326274 in chips)
+Seat 8: kollosart (153967 in chips)
+Seat 9: drsfbnuserfyb (366080 in chips)
+kollosart: posts the ante 1000
+drsfbnuserfyb: posts the ante 1000
+tblnj: posts the ante 1000
+rjrhrhh5: posts the ante 1000
+fgyhnmr3: posts the ante 1000
+htytff: posts the ante 1000
+vcbbvasddas: posts the ante 1000
+hjagjhgdj: posts the ante 1000
+315fasff: posts the ante 1000
+kollosart: posts small blind 1000
+drsfbnuserfyb: posts big blind 1000
+*** HOLE CARDS ***
+Dealt to tblnj [9d 4s]
+Dealt to kollosart [5h 2d]
+Dealt to drsfbnuserfyb [Jh 8h]
+Dealt to rjrhrhh5 [Ah Qd]
+Dealt to fgyhnmr3 [Js Td]
+Dealt to htytff [Kc 2s]
+Dealt to vcbbvasddas [8c Ts]
+Dealt to hjagjhgdj [6d 6c]
+Dealt to 315fasff [Ks 4h]
+tblnj: folds
+rjrhrhh5: calls 1000
+fgyhnmr3: calls 1000
+htytff: folds
+vcbbvasddas: calls 1000
+hjagjhgdj: calls 1000
+315fasff: calls 1000
+kollosart: checks
+drsfbnuserfyb: checks
+*** FLOP *** [7h 2c 7c]
+kollosart: checks
+drsfbnuserfyb: checks
+rjrhrhh5: checks
+fgyhnmr3: checks
+vcbbvasddas: checks
+hjagjhgdj: checks
+315fasff: checks
+*** TURN *** [7h 2c 7c] [3d]
+kollosart: checks
+drsfbnuserfyb: folds
+rjrhrhh5: bets 8000
+fgyhnmr3: folds
+vcbbvasddas: folds
+hjagjhgdj: calls 8000
+315fasff: folds
+kollosart: calls 8000
+*** RIVER *** [7h 2c 7c 3d] [7d]
+kollosart: checks
+rjrhrhh5: folds
+hjagjhgdj: checks
+*** SHOW DOWN ***
+hjagjhgdj collected 37880 from pot
+*** SUMMARY ***
+Total pot 37880 | Rake 0
+Board [7h 2c 7c 3d 7d]
