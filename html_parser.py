@@ -1,14 +1,15 @@
-# Full HTML Parser to Extract Poker Hand Histories
-
 from bs4 import BeautifulSoup
-from typing import List, Dict, Any
+from typing import List, Any
 
-def extract_hand_histories_from_html(html_content: str) -> List[Dict[str, Any]]:
+from models import RawPlayerAction, RawPokerHand
+
+
+def extract_hand_histories_from_html(html_content: str) -> List[RawPokerHand]:
     """
     Extracts structured poker hand history metadata from an HTML file.
 
     Returns:
-    - A list of dictionaries where each item contains metadata about a poker hand.
+    - A list of RawPokerHand objects.
     """
     soup = BeautifulSoup(html_content, "html.parser")
 
@@ -26,35 +27,28 @@ def extract_hand_histories_from_html(html_content: str) -> List[Dict[str, Any]]:
 
     for row in hand_history_rows:
         columns = row.find_all("td")
-
         if len(columns) < 6:  # Ensure we have the correct number of columns
             continue
 
-        hand_data = {
-            "round_id": columns[0].text.strip(),  # 라운드ID
-            "timestamp": columns[1].text.strip(),  # 시각
-            "game_type": columns[2].text.strip(),  # 게임 종류 (e.g., 홀덤)
-            "winner": columns[3].text.strip(),  # 승자(족보)
-            "winning_amount": columns[4].text.strip(),  # 이긴금액
-            "detailed_info": parse_detailed_info(str(columns[5]))  # Pass nested HTML for parsing
-        }
+        hand_data = RawPokerHand(
+            round_id=columns[0].text.strip(), # 라운드ID
+            timestamp=columns[1].text.strip(), # 시각
+            game_type=columns[2].text.strip(), # 게임 종류 (e.g., 홀덤)
+            winner=columns[3].text.strip(), # 승자(족보)
+            winning_amount=columns[4].text.strip(), # 이긴금액
+            players=parse_detailed_info(str(columns[5]))  # Pass nested HTML for parsing
+        )
 
         hand_histories.append(hand_data)
 
     return hand_histories
 
-def parse_detailed_info(detailed_info_html: str) -> List[Dict[str, Any]]:
+def parse_detailed_info(detailed_info_html: str) -> List[RawPlayerAction]:
     """
     Parses the nested table inside the 'detailed_info' column.
 
-    Extracts:
-    - Player names
-    - Hand rankings
-    - Betting actions
-    - Final stack sizes
-
     Returns:
-    - A list of structured player actions for a given hand.
+    - A list of RawPlayerAction objects for each player in the hand.
     """
     soup = BeautifulSoup(detailed_info_html, "html.parser")
 
@@ -73,12 +67,12 @@ def parse_detailed_info(detailed_info_html: str) -> List[Dict[str, Any]]:
         if len(columns) < 4:  # Ensure correct number of columns
             continue
 
-        player_data = {
-            "player": columns[0].text.strip(),  # 참가자 Player name
-            "betting_action": columns[1].text.strip(),  # 족보 Betting action
-            "amount_won_lost": columns[2].text.strip(),  # 변동 금액 Won/lost
-            "final_stack": columns[3].text.strip()  # 남은 잔액 Final stack size
-        }
+        player_data = RawPlayerAction(
+            player=columns[0].text.strip(), # 참가자 Player name
+            betting_action=columns[1].text.strip(), # 족보 Betting action
+            amount_won_lost=columns[2].text.strip(), # 변동 금액 Won/lost
+            final_stack=columns[3].text.strip() # 남은 잔액 Final stack size
+        )
 
         parsed_players.append(player_data)
 
