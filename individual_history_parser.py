@@ -1,10 +1,6 @@
-from bs4 import BeautifulSoup
-import re
+# Parses the Korean HH to a normalized structure
 
-from models import PokerHand, Player
-from typing import List, Dict, Optional, Tuple
-
-from typing import List, Dict, Optional, Any
+from typing import List, Dict, Any
 
 def parse_hand_history(hand_history: str) -> List[Dict[str, Any]]:
     """
@@ -135,10 +131,6 @@ def parse_hand_history(hand_history: str) -> List[Dict[str, Any]]:
 
     return parsed_lines
 
-
-from typing import Dict, Any
-
-
 def parse_betting_action(line: str) -> Dict[str, Any]:
     """
     Parses a poker betting action line into a structured dictionary.
@@ -261,95 +253,3 @@ def parse_bet_amount(line: str) -> Dict[str, Any]:
             parsed_data["amount"] = int(bet_amount_str) if bet_amount_str.isdigit() else None
 
     return parsed_data
-
-
-def parse_hand_history2(hand_history: str) -> Optional[Player]:
-    '''
-    Interpret the lines of hand history
-    :param hand_history:
-    :return:
-    '''
-    lines = hand_history.split("\n")
-
-    actions = []
-    winnings = None
-    final_hand = None
-    final_stack = None
-    betting_order = None
-    community_cards = []
-
-    for i, line in enumerate(lines):
-        # Extract hand stage number
-        if "시작 :" in line:
-            parts = line.split(" ")
-            for part in parts:
-                if "StageNo:" in part:
-                    stage_number = part.split("StageNo:")[1].strip("[]")
-                if "SB:" in part:
-                    sb = part.split("SB:")[1].strip("[]").replace("원", "").replace(",", "")
-                if "BB:" in part:
-                    bb = part.split("BB:")[1].strip("[]").replace("원", "").replace(",", "")
-
-        # Extract player nickname and initial stack
-        if "NICKNAME:[" in line:
-            name_start = line.find("[") + 1
-            name_end = line.find("]", name_start)
-            nickname = line[name_start:name_end]
-
-            # Extract stack size
-            credit_line = next((l for l in lines[i + 1 : i + 5] if "Credit:" in l), None)
-            if credit_line:
-                starting_stack = int(credit_line.split("Credit:")[1].split("원")[0].replace(",", ""))
-            else:
-                starting_stack = 0  # Default if missing
-
-        # Extract preflop betting order to determine position
-        if "베팅순서: [0][" in line:
-            order_start = line.find("[0][") + 4
-            order_end = line.find("]", order_start)
-            betting_order = int(line[order_start:order_end])
-
-        # Extract hole cards
-        if "홀 카드딜:" in line:
-            hole_cards = re.findall(r"([♠♣♦♥][A2-9TJQK])\(\d+\)", line)
-
-        # Extract board cards
-        if "커뮤니티 카드 딜:" in line:
-            h_start = line.index("H(") + 2
-            h_end = line.index(")", h_start)
-            hole_cards_section = line[h_start:h_end]
-            hole_cards = [hole_cards_section[i:i + 2] for i in range(0, len(hole_cards_section), 2)]
-
-            # Step 2: Extract community cards after "C "
-            c_start = line.index("C (") + 2  # Start after "C ("
-            c_section = line[c_start:]  # Get everything after "C "
-
-            # Step 3: Split community cards while keeping empty streets
-            c_groups = c_section.split(") (")  # Split at street boundaries
-            c_groups = [group.replace("(", "").replace(")", "").strip() for group in c_groups]  # Clean up
-            community_cards = [[group[i:i + 2] for i in range(0, len(group), 2)] if group else [] for group in c_groups]
-
-        # Extract actions
-        if "베팅:" in line:
-            parts = line.split(" ")
-            action_type = parts[1]  # 콜, 체크, 다이, 풀, etc.
-            # bet_amount = 0 if action_type == "체크" else int(parts[-1].replace("원", "").replace(",", "")) if len(parts) > 2 else None
-            # actions.append(("preflop" if "[0]" in line else "postflop", action_type, bet_amount))
-
-        # Extract winnings
-        if "WinMoney[" in line:
-            winnings = line.split("WinMoney[")[1].split("원")[0].replace(",", "")
-            print(winnings)
-    # Convert player data into Player objects
-
-    return Player(
-        nickname,
-        betting_order,
-        starting_stack,
-        hole_cards,
-        community_cards,
-        final_stack,
-        actions,
-        final_hand,
-        winnings,
-    )

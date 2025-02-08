@@ -1,7 +1,9 @@
 import unittest
 from pprint import pprint
+from pathlib import Path
 
-from poker_hand_parser import parse_hand_history, parse_betting_action  # Import your function
+from individual_history_parser import parse_hand_history, parse_betting_action  # Import your function
+from html_parser import extract_hand_histories_from_html
 
 class TestActionsParsing(unittest.TestCase):
     def test_parse(self):
@@ -41,6 +43,20 @@ class TestActionsParsing(unittest.TestCase):
 
         for line in test_lines:
             print(parse_betting_action(line))
+
+    def test_parse_html(self):
+        script_dir = Path(__file__).parent
+
+        # Define the path to the "data" subdirectory
+        data_folder = script_dir / "data"
+
+        files = [f for f in data_folder.iterdir() if f.is_file()]
+
+        for file in files:
+            with open(file, "r", encoding="utf-8") as file:
+                html_content = file.read()
+                str = extract_hand_histories_from_html(html_content)
+                pprint(str)
 
 if __name__ == '__main__':
     unittest.main()

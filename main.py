@@ -1,5 +1,5 @@
 import sys
-from poker_hand_parser import parse_hand_history
+from individual_history_parser import parse_hand_history
 
 def main():
     """
