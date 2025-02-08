@@ -1,10 +1,10 @@
 from bs4 import BeautifulSoup
 from typing import List, Any
 
-from models import RawPlayerAction, RawPokerHand
+from models import PlayerAction, PokerHand
 
 
-def extract_hand_histories_from_html(html_content: str) -> List[RawPokerHand]:
+def extract_hand_histories_from_html(html_content: str) -> List[PokerHand]:
     """
     Extracts structured poker hand history metadata from an HTML file.
 
@@ -30,7 +30,7 @@ def extract_hand_histories_from_html(html_content: str) -> List[RawPokerHand]:
         if len(columns) < 6:  # Ensure we have the correct number of columns
             continue
 
-        hand_data = RawPokerHand(
+        hand_data = PokerHand(
             round_id=columns[0].text.strip(), # 라운드ID
             timestamp=columns[1].text.strip(), # 시각
             game_type=columns[2].text.strip(), # 게임 종류 (e.g., 홀덤)
@@ -43,7 +43,7 @@ def extract_hand_histories_from_html(html_content: str) -> List[RawPokerHand]:
 
     return hand_histories
 
-def parse_detailed_info(detailed_info_html: str) -> List[RawPlayerAction]:
+def parse_detailed_info(detailed_info_html: str) -> List[PlayerAction]:
     """
     Parses the nested table inside the 'detailed_info' column.
 
@@ -67,7 +67,7 @@ def parse_detailed_info(detailed_info_html: str) -> List[RawPlayerAction]:
         if len(columns) < 4:  # Ensure correct number of columns
             continue
 
-        player_data = RawPlayerAction(
+        player_data = PlayerAction(
             player=columns[0].text.strip(), # 참가자 Player name
             betting_action=columns[1].text.strip(), # 족보 Betting action
             amount_won_lost=columns[2].text.strip(), # 변동 금액 Won/lost
