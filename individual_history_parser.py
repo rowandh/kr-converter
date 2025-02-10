@@ -56,14 +56,15 @@ def parse_hand_history(hand_history: str) -> ParsedHandHistory:
             # Extract remaining stack (removing parentheses, commas, and '원')
             remaining_stack = int(parts[1].strip("()").replace(",", "").replace("원", ""))
 
-            parsed_line["ante"] = ante_amount
+            parsed_line["amount"] = ante_amount
             parsed_line["remaining_stack"] = remaining_stack
 
         # 홀 카드딜 (Hole Cards Deal): Player's starting hand
         elif "홀 카드딜:" in line:
             parsed_line["type"] = "HOLE_CARDS"
             parts = line.split(": ")[1].split(" ")
-            parsed_line["hole_cards"] = parts[:2]
+            # Don't set the hole cards here
+            # parsed_line["hole_cards"] = parts[:2]
 
         # 커뮤니티 카드 딜 (Community Card Deal): The board cards for each street
         elif "커뮤니티 카드 딜:" in line:
@@ -71,16 +72,22 @@ def parse_hand_history(hand_history: str) -> ParsedHandHistory:
             h_start = line.index("H(") + 2
             h_end = line.index(")", h_start)
             hole_cards_section = line[h_start:h_end]
+            # Change 10 to T
+            hole_cards_section = hole_cards_section.replace("10", "T")
             parsed_line["hole_cards"] = [hole_cards_section[i:i + 2] for i in range(0, len(hole_cards_section), 2)]
 
             # Step 2: Extract community cards after "C "
             c_start = line.index("C (") + 2  # Start after "C ("
             c_section = line[c_start:]  # Get everything after "C "
+            # Change 10 to T
+            c_section = c_section.replace("10", "T")
 
             # Step 3: Split community cards while keeping empty streets
             c_groups = c_section.split(") (")  # Split at street boundaries
+
             c_groups = [group.replace("(", "").replace(")", "").strip() for group in c_groups]  # Clean up
-            parsed_line["community_cards"] = [[group[i:i + 2] for i in range(0, len(group), 2)] if group else [] for group in c_groups]
+            cc = [[group[i:i + 2] for i in range(0, len(group), 2)] if group else [] for group in c_groups]
+            parsed_line["community_cards"] = cc
 
         elif "턴 시작:" in line:
             parsed_line["type"] = "ROUND_START"
@@ -102,12 +109,12 @@ def parse_hand_history(hand_history: str) -> ParsedHandHistory:
                 parsed_line["hand_ranking"] = line[hand_start:hand_end]
 
             # Extract hole cards
-            if "(" in parsed_line["hand_ranking"]:
-                parsed_line["hole_cards"] = parsed_line["hand_ranking"].split("(")[1].strip(")")
+            # if "(" in parsed_line["hand_ranking"]:
+            #     parsed_line["hole_cards"] = parsed_line["hand_ranking"].split("(")[1].strip(")")
 
         # 베팅 (Betting Action): Player actions (call, check, fold, raise)
         elif "베팅:" in line:
-            parsed_line = parse_betting_action(line)
+            parsed_line = _parse_betting_action(line)
 
         # 종료 (End of Hand): Contains winnings and final stack
         elif "종료:" in line:
@@ -134,7 +141,7 @@ def parse_hand_history(hand_history: str) -> ParsedHandHistory:
 
     return parsed_lines
 
-def parse_betting_action(line: str) -> Dict[str, Any]:
+def _parse_betting_action(line: str) -> Dict[str, Any]:
     """
     Parses a poker betting action line into a structured dictionary.
 
@@ -159,7 +166,8 @@ def parse_betting_action(line: str) -> Dict[str, Any]:
     }
     """
 
-    parsed_line = parse_bet_amount(line)
+    parsed_line = _parse_bet_amount(line)
+    parsed_line["type"] = "ACTION"
 
     # Extract remaining stack from parentheses "(xxx,xxx원)"
     remaining_stack = None
@@ -203,7 +211,7 @@ def parse_betting_action(line: str) -> Dict[str, Any]:
 
     return parsed_line
 
-def parse_bet_amount(line: str) -> Dict[str, Any]:
+def _parse_bet_amount(line: str) -> Dict[str, Any]:
     """
     Extracts the bet amount from a poker betting action line.
 
