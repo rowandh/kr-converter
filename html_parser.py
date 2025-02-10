@@ -37,12 +37,19 @@ def extract_hand_histories_from_html(html_content: str) -> PokerHand | None:
         round_id=columns[0].text.strip(), # 라운드ID
         timestamp=columns[1].text.strip(), # 시각
         game_type=columns[2].text.strip(), # 게임 종류 (e.g., 홀덤)
-        winner=columns[3].text.strip(), # 승자(족보)
+        winner=extract_winner(columns[3].text.strip()), # 승자(족보)
         winning_amount=columns[4].text.strip().replace(",", ""), # 이긴금액
         players=parse_detailed_info(str(columns[5]))  # Pass nested HTML for parsing
     )
 
     return hand_data
+
+def extract_winner(winner: str):
+    split = winner.split(' ')
+    if len(split) > 0:
+        return split[0]
+    return winner
+
 
 def parse_detailed_info(detailed_info_html: str) -> List[PlayerAction]:
     """

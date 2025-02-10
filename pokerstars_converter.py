@@ -94,7 +94,9 @@ def convert_to_pokerstars_format(poker_hand: PokerHand) -> str | None:
 
         sorted_flop_street_actions = sorted(flop_actions, key=lambda item: item[1].betting_position)
 
-        flop_betting_rounds = generate_betting_rounds(bb, sorted_preflop_street_actions)
+        flop_betting_rounds = generate_betting_rounds(bb, sorted_flop_street_actions)
+
+        history_parts.append("\n".join(flop_betting_rounds))
 
     # If there's a turn
     if len(community_cards) > 1:
@@ -103,14 +105,40 @@ def convert_to_pokerstars_format(poker_hand: PokerHand) -> str | None:
         turn_str = f"*** TURN *** [{flop}] [{turn}]"
         history_parts.append(turn_str)
 
-    if len(community_cards) >= 2:
+        turn_players = poker_hand.get_ordered_turn_players()
+
+        turn_actions = []
+        for player in turn_players:
+            betting = [action for action in player.betting_actions if action.type == "ACTION" and action.betting_round == 2]
+            for action in betting:
+                turn_actions.append((player, action))
+
+        sorted_turn_street_actions = sorted(turn_actions, key=lambda item: item[1].betting_position)
+
+        turn_betting_rounds = generate_betting_rounds(bb, sorted_turn_street_actions)
+
+        history_parts.append("\n".join(turn_betting_rounds))
+
+    if len(community_cards) > 2:
         flop = ' '.join(change_suit_card(s) for s in community_cards[0])
         turn = ' '.join(change_suit_card(s) for s in community_cards[1])
         river = ' '.join(change_suit_card(s) for s in community_cards[2])
         river_str = ''f"*** RIVER *** [{flop}] [{turn}] [{river}]"
         history_parts.append(river_str)
 
+        river_players = poker_hand.get_ordered_river_players()
 
+        river_actions = []
+        for player in river_players:
+            betting = [action for action in player.betting_actions if action.type == "ACTION" and action.betting_round == 2]
+            for action in betting:
+                river_actions.append((player, action))
+
+        sorted_river_street_actions = sorted(river_actions, key=lambda item: item[1].betting_position)
+
+        river_betting_rounds = generate_betting_rounds(bb, sorted_river_street_actions)
+
+        history_parts.append("\n".join(river_betting_rounds))
     # showdown = "*** SHOWDOWN ***\n"
     # for player in poker_hand.players:
     #     if "shows" in player.raw_betting_action:
@@ -162,6 +190,8 @@ def generate_betting_rounds(min_bet_size, sorted_flop_street_actions):
             result.append(f"{player.player}: calls {amount}")
         elif "다이" in action:
             result.append(f"{player.player}: folds")
+        elif "하프" in action:
+            result.append(f"{player.player}: bets {amount}")
         elif "풀" in action:
             raise_size = amount
             result.append(f"{player.player}: raises {raise_size - last_bet_size} to {amount}")

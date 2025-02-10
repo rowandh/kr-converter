@@ -33,6 +33,7 @@ class ActionEntry:
     betting_round: Optional[int]
     betting_position: Optional[int]
     time_taken_ms: Optional[int]
+    uncalled_bet: Optional[int]
 
 class HoleCardsEntry(TypedDict):
     type: str  # "HOLE_CARDS"
@@ -125,19 +126,27 @@ class PokerHand:
 
     def get_ordered_flop_players(self):
         return sorted(
-            self.players,
+            self.get_players_in_hand(1),
             key=lambda item: self.get_sort_key(item, 1)
         )
 
+    def get_players_in_hand(self, street):
+        players = []
+        for player in self.players:
+            for betting_action in player.betting_actions:
+                if isinstance(betting_action, ActionEntry) and betting_action.betting_round == street:
+                    players.append(player)
+        return players
+
     def get_ordered_turn_players(self):
         return sorted(
-            self.players,
+            self.get_players_in_hand(2),
             key=lambda item: self.get_sort_key(item, 2)
         )
 
     def get_ordered_river_players(self):
         return sorted(
-            self.players,
+            self.get_players_in_hand(3),
             key=lambda item: self.get_sort_key(item, 3)
         )
 

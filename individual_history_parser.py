@@ -1,7 +1,7 @@
 # Parses the Korean HH to a normalized structure
 from argparse import Action
 from typing import List, Dict, Any
-
+import re
 from models import ParsedHandHistory, StartEntry, HistoryLine, PlayerEntry, AnteEntry, CommunityCardsEntry, ActionEntry
 
 
@@ -13,7 +13,27 @@ def parse_hand_history(hand_history: str) -> ParsedHandHistory:
     Returns:
     - A list of dictionaries where each dictionary represents one line of the hand history.
     """
+
+    # Fixes an issue where MS are on a newline
     lines = hand_history.strip().split("\n")
+    lines_to_remove = []
+    uncalled_bet = None
+    uncalled_bet_index = None
+
+    for line in lines:
+        if "ms]" in line:
+            index = lines.index(line) - 1
+            lines[index] += line.strip()
+            lines_to_remove.append(line)
+
+        # Sometimes the uncalled bet will be at the start of the line and we need to persist it for later
+        if "# 공베팅 반환" in line:
+            start_index = line.find("# 공베팅 반환 [") + len("# 공베팅 반환 [")
+            end_index = line.find("원]", start_index)
+            uncalled_bet_str = line[start_index:end_index].replace(",", "")
+            uncalled_bet = int(uncalled_bet_str)
+            uncalled_bet_index = lines.index(line)
+
     parsed_lines: ParsedHandHistory = []
 
     for line in lines:
@@ -93,6 +113,12 @@ def parse_hand_history(hand_history: str) -> ParsedHandHistory:
         elif "베팅:" in line:
             parsed_line = _parse_betting_action(line)
 
+            # Hack to make sure we're setting the uncalled bet on the correct action
+            if uncalled_bet and uncalled_bet_index:
+                line_index = lines.index(line)
+                if line_index == uncalled_bet_index - 2:
+                    parsed_line.uncalled_bet = uncalled_bet
+
         if parsed_line is not None:
             parsed_lines.append(parsed_line)
 
@@ -131,6 +157,14 @@ def _parse_betting_action(line: str) -> ActionEntry:
 
     # Extract remaining stack from parentheses "(xxx,xxx원)"
     remaining_stack = None
+
+    # Uncalled bet
+    matches_after_marker = re.findall(r'\[(.*?)]', line)
+    # Sometimes the uncalled bet will be at the start of the line
+    if "# 공베팅 반환" in line:
+        if len(matches_after_marker) >= 0:
+            parsed_line.uncalled_bet = matches_after_marker[0]
+
     if "(" in line and "원" in line:
         stack_start = line.find("(") + 1
         stack_end = line.find("원", stack_start)
@@ -157,17 +191,10 @@ def _parse_betting_action(line: str) -> ActionEntry:
 
     parsed_line.betting_position = betting_position
     parsed_line.betting_round = betting_round
-
     # Extract time taken in milliseconds [xxxxms]
-    time_taken = None
     if "[" in line and "ms]" in line:
-        try:
-            time_start = line.rfind("[") + 1
-            time_end = line.find("ms]", time_start)
-            time_taken = int(line[time_start:time_end].strip()) if time_start < time_end else None
-        except ValueError:
-            time_taken = None
-    parsed_line.time_taken_ms = time_taken
+        if len(matches_after_marker) >= 4:
+            parsed_line.time_taken_ms = matches_after_marker[3]
 
     return parsed_line
 
