@@ -1,8 +1,8 @@
 # Parses the Korean HH to a normalized structure
-
+from argparse import Action
 from typing import List, Dict, Any
 
-from models import ParsedHandHistory
+from models import ParsedHandHistory, StartEntry, HistoryLine, PlayerEntry, AnteEntry, CommunityCardsEntry, ActionEntry
 
 
 def parse_hand_history(hand_history: str) -> ParsedHandHistory:
@@ -17,35 +17,35 @@ def parse_hand_history(hand_history: str) -> ParsedHandHistory:
     parsed_lines: ParsedHandHistory = []
 
     for line in lines:
-        parsed_line: Dict[str, Any] = {}
+        parsed_line: HistoryLine | None = None
 
         # 시작 (Start of the hand): Contains hand metadata like StageNo, Credit, Blinds
         if "시작 :" in line:
-            parsed_line["type"] = "START"
+            parsed_line = StartEntry()
             parts = line.replace("[", "").replace("]", "").split()
             for part in parts:
                 if "StageNo:" in part:
-                    parsed_line["stage_number"] = part.split("StageNo:")[1]
+                    parsed_line.stage_number = part.split("StageNo:")[1]
                 elif "Credit:" in part:
-                    parsed_line["credit"] = int(part.split("Credit:")[1].replace(",", "").replace("원", ""))
+                    parsed_line.credit = int(part.split("Credit:")[1].replace(",", "").replace("원", ""))
                 elif "SB:" in part:
-                    parsed_line["sb"] = int(part.split("SB:")[1].replace(",", "").replace("원", ""))
+                    parsed_line.sb = int(part.split("SB:")[1].replace(",", "").replace("원", ""))
                 elif "BB:" in part:
-                    parsed_line["bb"] = int(part.split("BB:")[1].replace(",", "").replace("원", ""))
+                    parsed_line.bb = int(part.split("BB:")[1].replace(",", "").replace("원", ""))
                 elif "MBI:" in part:
-                    parsed_line["mbi"] = int(part.split("MBI:")[1].replace(",", "").replace("원", ""))
+                    parsed_line.mbi = int(part.split("MBI:")[1].replace(",", "").replace("원", ""))
                 elif "CBIR:" in part:
-                    parsed_line["cbir"] = int(part.split("CBIR:")[1].replace(",", "").replace("원", ""))
+                    parsed_line.cbir = int(part.split("CBIR:")[1].replace(",", "").replace("원", ""))
 
         # NICKNAME (플레이어 이름): Identifies the player
         elif "NICKNAME:[" in line:
-            parsed_line["type"] = "PLAYER"
+            parsed_line = PlayerEntry()
             start = line.find("[") + 1
             end = line.find("]", start)
-            parsed_line["nickname"] = line[start:end]
+            parsed_line.nickname = line[start:end]
 
         elif "앤티:" in line:
-            parsed_line["type"] = "ANTE"
+            parsed_line = AnteEntry()
 
             # Remove "* 앤티:" and split by spaces, handling multiple spaces
             parts = line.replace("* 앤티:", "").strip().split("원")
@@ -56,25 +56,25 @@ def parse_hand_history(hand_history: str) -> ParsedHandHistory:
             # Extract remaining stack (removing parentheses, commas, and '원')
             remaining_stack = int(parts[1].strip("()").replace(",", "").replace("원", ""))
 
-            parsed_line["amount"] = ante_amount
-            parsed_line["remaining_stack"] = remaining_stack
+            parsed_line.amount = ante_amount
+            parsed_line.remaining_stack = remaining_stack
 
         # 홀 카드딜 (Hole Cards Deal): Player's starting hand
-        elif "홀 카드딜:" in line:
-            parsed_line["type"] = "HOLE_CARDS"
-            parts = line.split(": ")[1].split(" ")
-            # Don't set the hole cards here
-            # parsed_line["hole_cards"] = parts[:2]
+        # elif "홀 카드딜:" in line:
+        #     parsed_line["type"] = "HOLE_CARDS"
+        #     parts = line.split(": ")[1].split(" ")
+        #     # Don't set the hole cards here
+        #     # parsed_line["hole_cards"] = parts[:2]
 
         # 커뮤니티 카드 딜 (Community Card Deal): The board cards for each street
         elif "커뮤니티 카드 딜:" in line:
-            parsed_line["type"] = "COMMUNITY_CARDS"
+            parsed_line = CommunityCardsEntry()
             h_start = line.index("H(") + 2
             h_end = line.index(")", h_start)
             hole_cards_section = line[h_start:h_end]
             # Change 10 to T
             hole_cards_section = hole_cards_section.replace("10", "T")
-            parsed_line["hole_cards"] = [hole_cards_section[i:i + 2] for i in range(0, len(hole_cards_section), 2)]
+            parsed_line.hole_cards = [hole_cards_section[i:i + 2] for i in range(0, len(hole_cards_section), 2)]
 
             # Step 2: Extract community cards after "C "
             c_start = line.index("C (") + 2  # Start after "C ("
@@ -87,61 +87,18 @@ def parse_hand_history(hand_history: str) -> ParsedHandHistory:
 
             c_groups = [group.replace("(", "").replace(")", "").strip() for group in c_groups]  # Clean up
             cc = [[group[i:i + 2] for i in range(0, len(group), 2)] if group else [] for group in c_groups]
-            parsed_line["community_cards"] = cc
-
-        elif "턴 시작:" in line:
-            parsed_line["type"] = "ROUND_START"
-
-            # Extract the round name (Preflop, Flop, Turn, River)
-            if "프리플랍" in line:
-                parsed_line["round"] = "Preflop"
-            elif "플랍" in line:
-                parsed_line["round"] = "Flop"
-            elif "턴" in line:
-                parsed_line["round"] = "Turn"
-            elif "리버" in line:
-                parsed_line["round"] = "River"
-
-            # Extract the hand ranking (족보)
-            if "족보:" in line:
-                hand_start = line.find("족보:") + 3
-                hand_end = line.find(")", hand_start) + 1
-                parsed_line["hand_ranking"] = line[hand_start:hand_end]
-
-            # Extract hole cards
-            # if "(" in parsed_line["hand_ranking"]:
-            #     parsed_line["hole_cards"] = parsed_line["hand_ranking"].split("(")[1].strip(")")
+            parsed_line.community_cards = cc
 
         # 베팅 (Betting Action): Player actions (call, check, fold, raise)
         elif "베팅:" in line:
             parsed_line = _parse_betting_action(line)
 
-        # 종료 (End of Hand): Contains winnings and final stack
-        elif "종료:" in line:
-            parsed_line["type"] = "END"
-            parts = line.split(" ")
-            # parsed_line["win_money"] = int(
-            #     parts[1].split("[")[1].replace("원]", "").replace(",", "")) if "WinMoney[" in line else 0
-            # parsed_line["final_credit"] = int(
-            #     parts[-1].split("[")[1].replace("원]", "").replace(",", "")) if "Credit[" in line else None
-
-        # 결과 (Result): Final hand and whether the player won or lost
-        # elif "결과:" in line:
-        #     parsed_line["type"] = "RESULT"
-        #     parts = line.split(" ")
-        #     parsed_line["outcome"] = parts[1]  # Example: "패배" (Loss), "승리" (Win)
-        #     parsed_line["final_hand"] = parts[-1].strip("[]")  # Extract final hand
-
-        # If the line does not match known categories, store it as UNKNOWN
-        else:
-            parsed_line["type"] = "UNKNOWN"
-            parsed_line["content"] = line
-
-        parsed_lines.append(parsed_line)
+        if parsed_line is not None:
+            parsed_lines.append(parsed_line)
 
     return parsed_lines
 
-def _parse_betting_action(line: str) -> Dict[str, Any]:
+def _parse_betting_action(line: str) -> ActionEntry:
     """
     Parses a poker betting action line into a structured dictionary.
 
@@ -166,8 +123,11 @@ def _parse_betting_action(line: str) -> Dict[str, Any]:
     }
     """
 
-    parsed_line = _parse_bet_amount(line)
-    parsed_line["type"] = "ACTION"
+    bet_amount = _parse_bet_amount(line)
+    parsed_line = ActionEntry()
+    parsed_line.action = bet_amount["action"]
+    parsed_line.amount = bet_amount["amount"]
+    parsed_line.is_blind = bet_amount["is_blind"]
 
     # Extract remaining stack from parentheses "(xxx,xxx원)"
     remaining_stack = None
@@ -175,7 +135,7 @@ def _parse_betting_action(line: str) -> Dict[str, Any]:
         stack_start = line.find("(") + 1
         stack_end = line.find("원", stack_start)
         remaining_stack = int(line[stack_start:stack_end].replace(",", "").strip())
-    parsed_line["remaining_stack"] = remaining_stack
+    parsed_line.remaining_stack = remaining_stack
 
     # Extract betting round and position from "베팅순서: [0][3]"
     betting_round, betting_position = None, None
@@ -195,8 +155,8 @@ def _parse_betting_action(line: str) -> Dict[str, Any]:
         except ValueError:
             betting_round = None
 
-    parsed_line["betting_position"] = betting_position
-    parsed_line["betting_round"] = betting_round
+    parsed_line.betting_position = betting_position
+    parsed_line.betting_round = betting_round
 
     # Extract time taken in milliseconds [xxxxms]
     time_taken = None
@@ -207,7 +167,7 @@ def _parse_betting_action(line: str) -> Dict[str, Any]:
             time_taken = int(line[time_start:time_end].strip()) if time_start < time_end else None
         except ValueError:
             time_taken = None
-    parsed_line["time_taken_ms"] = time_taken
+    parsed_line.time_taken_ms = time_taken
 
     return parsed_line
 
