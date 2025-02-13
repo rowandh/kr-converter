@@ -1,9 +1,8 @@
 # Parses the Korean HH to a normalized structure
 import re
-from math import remainder
-
-import constants
-from constants import BetType
+from constants import BetType, ALL_IN, CHECK, RAISE, CALL, FOLD, BIG_BLIND, SMALL_BLIND, QUARTER_POT, HALF_POT, \
+    FULL_POT, \
+    MoneyUnit, GENERIC
 from models import ParsedHandHistory, StartEntry, HistoryLine, PlayerEntry, AnteEntry, CommunityCardsEntry, ActionEntry, \
     PostBlindEntry
 
@@ -129,7 +128,7 @@ def parse_hand_history(hand_history: str) -> ParsedHandHistory:
 
 
 def parse_chips(text, part):
-    return int(part.split(text)[1].replace(",", "").replace(constants.MoneyUnit, ""))
+    return int(part.split(text)[1].replace(",", "").replace(MoneyUnit, ""))
 
 
 def _parse_betting_action(line: str) -> ActionEntry:
@@ -151,22 +150,22 @@ def _parse_betting_action(line: str) -> ActionEntry:
     parsed_data.remaining_stack = remaining_stack
 
     # Extract betting action
-    if constants.CHECK in line:
+    if CHECK in line:
         parsed_data.action = BetType.CHECK
 
-    if constants.CALL in line:
+    if CALL in line:
         parsed_data.action = BetType.CALL
 
-    if constants.FOLD in line:
+    if FOLD in line:
         parsed_data.action = BetType.FOLD
 
-    if constants.HALF_POT in line or constants.QUARTER_POT in line or constants.FULL_POT in line:
+    if any(term in line for term in [GENERIC, QUARTER_POT, HALF_POT, FULL_POT, RAISE, ALL_IN]):
         parsed_data.action = BetType.BET
 
-    if constants.ALL_IN in line:
+    if ALL_IN in line:
         parsed_data.action = BetType.ALL_IN
 
-    if constants.RAISE in line:
+    if RAISE in line:
         parsed_data.action = BetType.RAISE
 
     # TODO extract bet sizes
@@ -214,24 +213,28 @@ def _extract_bet_and_stack_constants(line):
     remaining_stack = 0
 
     # Extract remaining stack first
-    stack_match = re.search(rf"Credit\(([\d,]+){constants.MoneyUnit}\)|Creadit:\s*([\d,]+){constants.MoneyUnit}|\(([\d,]+){constants.MoneyUnit}\)", line)
+    stack_match = re.search(rf"Credit\(([\d,]+){MoneyUnit}\)|Creadit:\s*([\d,]+){MoneyUnit}|\(([\d,]+){MoneyUnit}\)", line)
+    bet_match = None
 
-    # Special handling for Quarter, Half, Full Pot, and Raise cases
-    # For Quarter-Pot (쿼터), Half-Pot (하프), Full-Pot (풀), and Raise (레이즈), the remaining stack is placed after Credit(...):
-    if any(term in line for term in [constants.QUARTER_POT, constants.HALF_POT, constants.FULL_POT, constants.RAISE]):
-        stack_match_alt = re.search(r"Credit\(([\d,]+)원\)", line)
-        remaining_stack = int(stack_match_alt.group(1).replace(",", "")) if stack_match_alt else remaining_stack
-    else:
-        # For most betting actions (e.g., Call, Fold, Check), the remaining stack is found inside parentheses ()
-        remaining_stack = int(stack_match.group(1).replace(",", "")) if stack_match and stack_match.group(1) else (
-                          int(stack_match.group(2).replace(",", "")) if stack_match and stack_match.group(2) else
-                          int(stack_match.group(3).replace(",", "")) if stack_match and stack_match.group(3) else 0)
+    # **Case 1: Quarter, Half, Full Pot, Raise, All-In (stack found in Credit(...))**
+    if any(term in line for term in [GENERIC, QUARTER_POT, HALF_POT, FULL_POT, RAISE, ALL_IN]):
+        stack_match = re.search(r"Credit\(([\d,]+)원\)", line)
+        bet_match = re.search(r"\(([\d,]+)원\)", line)  # Extract bet size
 
-    # Extract bet size, ensuring folds have a bet size of 0
-    if constants.FOLD in line:  # If the action is a fold, bet size should be 0
-        bet_size = 0
+    elif any(term in line for term in [SMALL_BLIND, BIG_BLIND]):
+        stack_match = re.search(r"Creadit:\s*([\d,]+)원", line)  # Extract remaining stack
+        bet_match = re.search(r"\[금액:([\d,]+)원\]", line)  # Extract blind amount
+
+    # **Case 3: Checks, Calls, and Folds (stack found inside parentheses `()`)**
     else:
-        bet_match = re.search(rf"[-\[]?(?:{constants.CALL}|{constants.RAISE}|{constants.ALL_IN}|{constants.BIG_BLIND}|{constants.SMALL_BLIND}|{constants.QUARTER_POT}|{constants.HALF_POT}|{constants.FULL_POT})?\s*\[?\D*\]? ?\(?([\d,]+){constants.MoneyUnit}\)?", line)
-        bet_size = int(bet_match.group(1).replace(",", "")) if bet_match else 0
+        stack_match = re.search(r"\(([\d,]+)원\)", line)  # Extract remaining stack
+        if CALL in line or CHECK in line:  # Calls and checks have a bet amount
+            bet_match = re.search(r"-([\d,]+)원", line)
+        elif FOLD in line:  # Folds always have a bet size of 0
+            bet_match = None
+
+    # **Extract bet size and stack**
+    remaining_stack = int(stack_match.group(1).replace(",", "")) if stack_match else 0
+    bet_size = int(bet_match.group(1).replace(",", "")) if bet_match else 0
 
     return bet_size, remaining_stack

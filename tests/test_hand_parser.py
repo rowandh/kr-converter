@@ -184,59 +184,15 @@ class TestActionsParsing(unittest.TestCase):
         self.assertEqual(bet.betting_round, 1)
         self.assertEqual(bet.betting_position, 9)
 
-    def test_parse_actions(self):
-        test_lines = [
-            # Fold
-            "* 베팅: 다이 [0](169,039원) - 베팅순서: [0][4] [3085ms]",
+    def test_parse_generic(self):
+        action = parse_hand_history("* 베팅: [베팅] (11,000원) Credit(209,880원) - 베팅순서: [1][4]")
 
-            # Check
-            "* 베팅: 체크 -0원(364,080원) - 베팅순서: [1][2] [1831ms]",
-
-            # Fold
-            "* 베팅: 다이 [1](364,080원) - 베팅순서: [2][2] [7371ms]",
-
-            # Call 1000
-            "* 베팅: 콜 -1,000원(367,491원) - 베팅순서: [0][6] [318ms]",
-
-            # Check
-            "* 베팅: 체크 -0원(359,491원) - 베팅순서: [3][3] [950ms]",
-
-            # Post big blind
-            "* 베팅: [블라인드:BIG] [금액:1,000원] [Creadit:364,080원]",
-
-            # Post small blind
-            "* 베팅: [블라인드:SMALL] [금액:1,000원] [Creadit:151,967원]",
-
-            # Call 2000
-            "* 베팅: 콜 -2,000원(260,846원) - 베팅순서: [0][5] [216ms]",
-
-            # Check
-            "* 베팅: 체크 -0원(260,846원) - 베팅순서: [1][4] [1087ms]",
-
-            # Fold
-            "* 베팅: 다이 [0](260,846원) - 베팅순서: [3][4] [236ms]",
-
-            # Raise to an all-in size
-            "* 베팅: [레이즈] (150,615원) Credit(0원) - 베팅순서: [1][6] [3394ms]",
-
-            # Raise to a non-all-in size
-            "* 베팅: [레이즈] (7,000원) Credit(92,000원) - 베팅순서: [0][6]",
-
-            # All-in
-            "* 베팅: [올인] (38,500원) Credit(0원) - 베팅순서: [1][9]",
-
-            # Quarter pot
-            "* 베팅: [쿼터] (9,937원) Credit(163,347원) - 베팅순서: [2][2]",
-
-            # Half pot
-            "* 베팅: [하프] (8,500원) Credit(405,687원) - 베팅순서: [0][2]",
-
-            # Full pot
-            "* 베팅: [풀] (13,000원) Credit(391,687원) - 베팅순서: [0][1]"
-        ]
-
-        for line in test_lines:
-            print(_parse_betting_action(line))
+        bet: ActionEntry = action[0]
+        self.assertEqual(bet.action, BetType.BET)
+        self.assertEqual(bet.amount, 11000)
+        self.assertEqual(bet.remaining_stack, 209880)
+        self.assertEqual(bet.betting_round, 1)
+        self.assertEqual(bet.betting_position, 4)
 
     def test_parse_html(self):
         script_dir = Path(__file__).parent
