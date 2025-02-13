@@ -1,6 +1,9 @@
 from typing import List, Union, TypedDict, Optional
 from dataclasses import dataclass
 
+from constants import BetType
+
+
 class StartEntry:
     type: str  = "START" # "START"
     stage_number: str
@@ -26,14 +29,23 @@ class CommunityCardsEntry:
 
 class ActionEntry:
     type: str = "ACTION" # "ACTION"
-    action: str  # "콜", "체크", "다이", "풀"
+    action: BetType  # "콜", "체크", "다이", "풀"
     amount: Optional[int]
     remaining_stack: Optional[int]
-    is_blind: Optional[bool]
     betting_round: Optional[int]
     betting_position: Optional[int]
     time_taken_ms: Optional[int]
     uncalled_bet: Optional[int]
+
+
+class PostBlindEntry():
+    def __init__(self, blind_type):
+        self.blind_type = blind_type
+
+    type: str = "POST_BLIND"
+    amount: int
+    blind_type: str
+    remaining_stack: int
 
 class HoleCardsEntry(TypedDict):
     type: str  # "HOLE_CARDS"

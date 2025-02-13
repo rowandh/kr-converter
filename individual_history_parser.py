@@ -1,8 +1,11 @@
 # Parses the Korean HH to a normalized structure
-from argparse import Action
-from typing import List, Dict, Any
 import re
-from models import ParsedHandHistory, StartEntry, HistoryLine, PlayerEntry, AnteEntry, CommunityCardsEntry, ActionEntry
+from math import remainder
+
+import constants
+from constants import BetType
+from models import ParsedHandHistory, StartEntry, HistoryLine, PlayerEntry, AnteEntry, CommunityCardsEntry, ActionEntry, \
+    PostBlindEntry
 
 
 def parse_hand_history(hand_history: str) -> ParsedHandHistory:
@@ -47,15 +50,15 @@ def parse_hand_history(hand_history: str) -> ParsedHandHistory:
                 if "StageNo:" in part:
                     parsed_line.stage_number = part.split("StageNo:")[1]
                 elif "Credit:" in part:
-                    parsed_line.credit = int(part.split("Credit:")[1].replace(",", "").replace("원", ""))
+                    parsed_line.credit = parse_chips("Credit:", part)
                 elif "SB:" in part:
-                    parsed_line.sb = int(part.split("SB:")[1].replace(",", "").replace("원", ""))
+                    parsed_line.sb = parse_chips("SB:", part)
                 elif "BB:" in part:
-                    parsed_line.bb = int(part.split("BB:")[1].replace(",", "").replace("원", ""))
+                    parsed_line.bb = parse_chips("BB:", part)
                 elif "MBI:" in part:
-                    parsed_line.mbi = int(part.split("MBI:")[1].replace(",", "").replace("원", ""))
+                    parsed_line.mbi = parse_chips("MBI:", part)
                 elif "CBIR:" in part:
-                    parsed_line.cbir = int(part.split("CBIR:")[1].replace(",", "").replace("원", ""))
+                    parsed_line.cbir = parse_chips("CBIR:", part)
 
         # NICKNAME (플레이어 이름): Identifies the player
         elif "NICKNAME:[" in line:
@@ -124,37 +127,49 @@ def parse_hand_history(hand_history: str) -> ParsedHandHistory:
 
     return parsed_lines
 
+
+def parse_chips(text, part):
+    return int(part.split(text)[1].replace(",", "").replace(constants.MoneyUnit, ""))
+
+
 def _parse_betting_action(line: str) -> ActionEntry:
-    """
-    Parses a poker betting action line into a structured dictionary.
+    line = line.replace("* 베팅:", "").strip()
 
-    Handles:
-    - Folds (다이)
-    - Checks (체크)
-    - Calls (콜)
-    - Blinds (블라인드:BIG, 블라인드:SMALL)
+    bet_size, remaining_stack = _extract_bet_and_stack_constants(line)
 
-    Example input:
-    * 베팅: 콜 -1,000원(254,674원) - 베팅순서: [0][3] [2531ms]
+    # Check if it's a blind posting (Small Blind / Big Blind)
+    if "블라인드:SMALL" in line or "블라인드:BIG" in line:
 
-    Returns:
-    {
-        "type": "ACTION",
-        "action": "콜",
-        "amount": 1000,
-        "remaining_stack": 254674,
-        "betting_round": 0,
-        "betting_position": 3,
-        "time_taken_ms": 2531
-    }
-    """
+        blind_entry = PostBlindEntry("small") if "블라인드:SMALL" in line else PostBlindEntry("big")
+        blind_entry.amount = bet_size
+        blind_entry.remaining_stack = remaining_stack
 
-    bet_amount = _parse_bet_amount(line)
-    parsed_line = ActionEntry()
-    parsed_line.action = bet_amount["action"]
-    parsed_line.amount = bet_amount["amount"]
-    parsed_line.is_blind = bet_amount["is_blind"]
+        return blind_entry
 
+    parsed_data = ActionEntry()
+    parsed_data.amount = bet_size
+    parsed_data.remaining_stack = remaining_stack
+
+    # Extract betting action
+    if constants.CHECK in line:
+        parsed_data.action = BetType.CHECK
+
+    if constants.CALL in line:
+        parsed_data.action = BetType.CALL
+
+    if constants.FOLD in line:
+        parsed_data.action = BetType.FOLD
+
+    if constants.HALF_POT in line or constants.QUARTER_POT in line or constants.FULL_POT in line:
+        parsed_data.action = BetType.BET
+
+    if constants.ALL_IN in line:
+        parsed_data.action = BetType.ALL_IN
+
+    if constants.RAISE in line:
+        parsed_data.action = BetType.RAISE
+
+    # TODO extract bet sizes
     # Extract remaining stack from parentheses "(xxx,xxx원)"
     remaining_stack = None
 
@@ -163,13 +178,7 @@ def _parse_betting_action(line: str) -> ActionEntry:
     # Sometimes the uncalled bet will be at the start of the line
     if "# 공베팅 반환" in line:
         if len(matches_after_marker) >= 0:
-            parsed_line.uncalled_bet = matches_after_marker[0]
-
-    if "(" in line and "원" in line:
-        stack_start = line.find("(") + 1
-        stack_end = line.find("원", stack_start)
-        remaining_stack = int(line[stack_start:stack_end].replace(",", "").strip())
-    parsed_line.remaining_stack = remaining_stack
+            parsed_data.uncalled_bet = matches_after_marker[0]
 
     # Extract betting round and position from "베팅순서: [0][3]"
     betting_round, betting_position = None, None
@@ -189,65 +198,40 @@ def _parse_betting_action(line: str) -> ActionEntry:
         except ValueError:
             betting_round = None
 
-    parsed_line.betting_position = betting_position
-    parsed_line.betting_round = betting_round
+    parsed_data.betting_position = betting_position
+    parsed_data.betting_round = betting_round
     # Extract time taken in milliseconds [xxxxms]
     if "[" in line and "ms]" in line:
         if len(matches_after_marker) >= 4:
-            parsed_line.time_taken_ms = matches_after_marker[3]
-
-    return parsed_line
-
-def _parse_bet_amount(line: str) -> Dict[str, Any]:
-    """
-    Extracts the bet amount from a poker betting action line.
-
-    Handles:
-    - Regular bets (Call, Check, Fold, Raise)
-    - Small Blind & Big Blind postings
-
-    Returns:
-    {
-        "action": "콜",
-        "amount": 1000,
-        "is_blind": False
-    }
-    """
-    parsed_data = {"action": None, "amount": None, "is_blind": False}
-
-    # Remove "* 베팅:" at the start
-    line = line.replace("* 베팅:", "").strip()
-
-    # Check if it's a blind posting (Small Blind / Big Blind)
-    if "블라인드:SMALL" in line or "블라인드:BIG" in line:
-        parsed_data["is_blind"] = True
-        parsed_data["action"] = "블라인드:SMALL" if "블라인드:SMALL" in line else "블라인드:BIG"
-
-        # Extract blind bet amount
-        if "금액:" in line:
-            start = line.find("금액:") + 3
-            end = line.find("원", start)
-            blind_amount = line[start:end].replace(",", "").strip()
-            parsed_data["amount"] = int(blind_amount) if blind_amount.isdigit() else None
-
-        if "[Creadit:" in line:
-            stack_start = line.find("[Creadit:") + len("[Creadit:")
-            stack_end = line.find("원", stack_start)
-            remaining_stack = int(line[stack_start:stack_end].replace(",", "").strip())
-            parsed_data["remaining_stack"] = remaining_stack
-
-    else:
-        # Extract betting action (콜, 다이, 체크, 풀)
-        parts = line.split()
-        parsed_data["action"] = parts[0]  # First word is the action (e.g., "콜", "다이", "체크", "풀")
-
-        # Find the first "원" outside of parentheses (bet amount)
-        first_won_index = line.find("원")
-        first_paren_index = line.find("(")
-
-        # If "원" exists AND it's before "(", it's a bet amount
-        if first_won_index != -1 and (first_paren_index == -1 or first_won_index < first_paren_index):
-            bet_amount_str = line[:first_won_index].split()[-1].replace(",", "").replace("-", "").strip()
-            parsed_data["amount"] = int(bet_amount_str) if bet_amount_str.isdigit() else None
+            parsed_data.time_taken_ms = matches_after_marker[3]
 
     return parsed_data
+
+
+def _extract_bet_and_stack_constants(line):
+
+    bet_size = 0
+    remaining_stack = 0
+
+    # Extract remaining stack first
+    stack_match = re.search(rf"Credit\(([\d,]+){constants.MoneyUnit}\)|Creadit:\s*([\d,]+){constants.MoneyUnit}|\(([\d,]+){constants.MoneyUnit}\)", line)
+
+    # Special handling for Quarter, Half, Full Pot, and Raise cases
+    # For Quarter-Pot (쿼터), Half-Pot (하프), Full-Pot (풀), and Raise (레이즈), the remaining stack is placed after Credit(...):
+    if any(term in line for term in [constants.QUARTER_POT, constants.HALF_POT, constants.FULL_POT, constants.RAISE]):
+        stack_match_alt = re.search(r"Credit\(([\d,]+)원\)", line)
+        remaining_stack = int(stack_match_alt.group(1).replace(",", "")) if stack_match_alt else remaining_stack
+    else:
+        # For most betting actions (e.g., Call, Fold, Check), the remaining stack is found inside parentheses ()
+        remaining_stack = int(stack_match.group(1).replace(",", "")) if stack_match and stack_match.group(1) else (
+                          int(stack_match.group(2).replace(",", "")) if stack_match and stack_match.group(2) else
+                          int(stack_match.group(3).replace(",", "")) if stack_match and stack_match.group(3) else 0)
+
+    # Extract bet size, ensuring folds have a bet size of 0
+    if constants.FOLD in line:  # If the action is a fold, bet size should be 0
+        bet_size = 0
+    else:
+        bet_match = re.search(rf"[-\[]?(?:{constants.CALL}|{constants.RAISE}|{constants.ALL_IN}|{constants.BIG_BLIND}|{constants.SMALL_BLIND}|{constants.QUARTER_POT}|{constants.HALF_POT}|{constants.FULL_POT})?\s*\[?\D*\]? ?\(?([\d,]+){constants.MoneyUnit}\)?", line)
+        bet_size = int(bet_match.group(1).replace(",", "")) if bet_match else 0
+
+    return bet_size, remaining_stack

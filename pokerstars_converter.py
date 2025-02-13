@@ -23,11 +23,13 @@ def convert_to_pokerstars_format(poker_hand: PokerHand) -> str | None:
 
     preflop_players = poker_hand.get_ordered_preflop_players()
 
-    header = f"PokerStars Indigo Hand #{hand_id}:  {game_type} - {timestamp} KST\n"
+    # HEADER DATA
+    header = f"PokerStars Hand #{hand_id}:  {game_type} - {timestamp} KST\n"
     header += f"Table 'Table 1' 9-max Seat #{dealer.flop_betting_position} is the button"
 
     history_parts.append(header)
 
+    # STATUS HISTORY
     # Seat numbers are 1-indexed
     seat_lines = []
     for idx, player in enumerate(preflop_players, start=1):
@@ -35,6 +37,7 @@ def convert_to_pokerstars_format(poker_hand: PokerHand) -> str | None:
 
     history_parts.append("\n".join(seat_lines))
 
+    # ANTE HISTORY
     antes = []
     for player in preflop_players:
         ante = player.get_ante()
@@ -42,6 +45,7 @@ def convert_to_pokerstars_format(poker_hand: PokerHand) -> str | None:
 
     history_parts.append("\n".join(antes))
 
+    # BLIND HISTORY
     blinds = []
     for player in preflop_players:
         blind = player.get_blind()
@@ -54,6 +58,7 @@ def convert_to_pokerstars_format(poker_hand: PokerHand) -> str | None:
 
     history_parts.append("\n".join(blinds))
 
+    # PREFLOP HISTORY
     hole_cards_str = "*** HOLE CARDS ***\n"
     for player in poker_hand.players:
         hole_cards = player.get_hole_cards()
@@ -62,9 +67,6 @@ def convert_to_pokerstars_format(poker_hand: PokerHand) -> str | None:
             hole_cards_str += f"Dealt to {player.player} [{' '.join(mapped_cards)}]\n"
 
     history_parts.append(hole_cards_str)
-
-    # We want to iterate through every player's action for this street
-    # Each action will have a betting_position and we want to order the actions by this
 
     preflop_actions: List[Tuple[PlayerAction, ActionEntry]] = []
     for player in preflop_players:
