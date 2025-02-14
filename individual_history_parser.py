@@ -1,11 +1,15 @@
 # Parses the Korean HH to a normalized structure
 import re
+from tkinter.messagebox import showinfo
+
+import constants
 from constants import BetType, ALL_IN, CHECK, RAISE, CALL, FOLD, BIG_BLIND, SMALL_BLIND, QUARTER_POT, HALF_POT, \
     FULL_POT, \
     MoneyUnit, GENERIC
 from models import ParsedHandHistory, StartEntry, HistoryLine, PlayerEntry, AnteEntry, CommunityCardsEntry, ActionEntry, \
-    PostBlindEntry
-
+    PostBlindEntry, ResultsEntry
+import locale
+locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
 
 def parse_hand_history(hand_history: str) -> ParsedHandHistory:
     """
@@ -23,10 +27,10 @@ def parse_hand_history(hand_history: str) -> ParsedHandHistory:
     uncalled_bet_index = None
 
     for line in lines:
-        if "ms]" in line:
-            index = lines.index(line) - 1
-            lines[index] += line.strip()
-            lines_to_remove.append(line)
+        # if "ms]" in line:
+        #     index = lines.index(line) - 1
+        #     lines[index] += line.strip()
+        #     lines_to_remove.append(line)
 
         # Sometimes the uncalled bet will be at the start of the line and we need to persist it for later
         if "# 공베팅 반환" in line:
@@ -121,14 +125,44 @@ def parse_hand_history(hand_history: str) -> ParsedHandHistory:
                 if line_index == uncalled_bet_index - 2:
                     parsed_line.uncalled_bet = uncalled_bet
 
+        elif "결과:" in line:
+            parsed_line: ResultsEntry = ResultsEntry()
+            parsed_line.result, parsed_line.showdown = parse_result_line(line)
+
         if parsed_line is not None:
             parsed_lines.append(parsed_line)
 
     return parsed_lines
 
 
+def parse_result_line(line):
+    pattern = re.search(r"결과: (패배|승리) \[족보:(.*?)\] \[카드:(.*?)\]( - (기권승|기권))?", line)
+
+    if not pattern:
+        return None  # Return None if the line does not match
+
+    # "result": pattern.group(1),  # 승리 (Win) or 패배 (Loss)
+    # "hand_strength": pattern.group(2),  # The hand's strength (e.g., "A 탑")
+    # "Final Cards": pattern.group(3),  # The player's final hand
+    # "Forfeit Type": pattern.group(5) if pattern.group(5) else None  # Differentiates 기권승 (Forfeit Win) vs. 기권 (Fold)
+
+    result_match = pattern.group(1)
+    result = None
+    if result_match == constants.WIN:
+        result = "win"
+    elif result_match == constants.LOSS:
+        result = "loss"
+
+    # If we have a pattern here, it's forfeit win or fold, which means this hand didn't get shown down for this player.
+    # Only absence of a pattern indicates a showdown (I think)
+    showdown = False if pattern.group(5) else True
+
+    return result, showdown
+
 def parse_chips(text, part):
-    return int(part.split(text)[1].replace(",", "").replace(MoneyUnit, ""))
+    val = int(part.split(text)[1].replace(",", "").replace(MoneyUnit, ""))
+
+    return val
 
 
 def _parse_betting_action(line: str) -> ActionEntry:

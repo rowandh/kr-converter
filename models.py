@@ -1,6 +1,7 @@
 from typing import List, Union, TypedDict, Optional
 from dataclasses import dataclass
 
+import constants
 from constants import BetType
 
 
@@ -28,6 +29,10 @@ class CommunityCardsEntry:
     community_cards: List[List[str]]
 
 class ActionEntry:
+
+    def __init__(self):
+        self.uncalled_bet = None
+
     type: str = "ACTION" # "ACTION"
     action: BetType  # "콜", "체크", "다이", "풀"
     amount: Optional[int]
@@ -66,12 +71,18 @@ class UnknownEntry(TypedDict):
     type: str  # "UNKNOWN"
     content: str
 
+class ResultsEntry:
+    type: str = "RESULTS"
+    result: str
+    showdown: str
+
 HistoryLine = Union[
     StartEntry,
     PlayerEntry,
     AnteEntry,
     CommunityCardsEntry,
-    ActionEntry
+    ActionEntry,
+    ResultsEntry
 ]
 
 # Define the return type as a list of different entry types
@@ -88,6 +99,34 @@ class PlayerAction:
     amount_won_lost: str  # 변동 금액 (How much they won or lost)
     final_stack: str  # 남은 잔액 (Final stack after the hand)
 
+    def is_winner(self):
+        result = self.results()
+        return result is not None and result.result == "win"
+
+    def went_to_showdown(self):
+        result = self.results()
+        return result is not None and result.showdown
+
+    def results(self):
+        return next((action for action in self.betting_actions
+             if isinstance(action, ResultsEntry)))
+
+    def get_round_actions(self, betting_round):
+        return [action for action in self.betting_actions if
+                isinstance(action, ActionEntry) and action.betting_round == betting_round]
+
+    def get_preflop_actions(self):
+        return self.get_round_actions(0)
+
+    def get_flop_actions(self):
+        return self.get_round_actions(1)
+
+    def get_turn_actions(self):
+        return self.get_round_actions(2)
+
+    def get_river_actions(self):
+        return self.get_round_actions(3)
+
     @property
     def flop_betting_position(self):
         return next((action.betting_position for action in self.betting_actions
@@ -97,10 +136,9 @@ class PlayerAction:
         return next((action.amount for action in self.betting_actions
              if isinstance(action, AnteEntry)  and action.amount is not None), 0)
 
-    def get_blind(self) -> ActionEntry:
+    def get_blind(self) -> PostBlindEntry:
         return next((action for action in self.betting_actions
-             if isinstance(action, ActionEntry) and action.is_blind is not None
-                     and action.is_blind == True), None)
+             if isinstance(action, PostBlindEntry)), None)
 
     def get_start_stack(self):
         return next((action.credit for action in self.betting_actions
@@ -132,7 +170,7 @@ class PokerHand:
     # Returns the players ordered by their action on the flop
     def get_ordered_preflop_players(self):
         return sorted(
-            self.players,
+            self.get_players_in_hand(0),
             key=lambda item: self.get_sort_key(item, 0)
         )
 
@@ -145,9 +183,9 @@ class PokerHand:
     def get_players_in_hand(self, street):
         players = []
         for player in self.players:
-            for betting_action in player.betting_actions:
-                if isinstance(betting_action, ActionEntry) and betting_action.betting_round == street:
-                    players.append(player)
+            match = [a for a in player.betting_actions if isinstance(a, ActionEntry) and a.betting_round == street]
+            if match:
+                players.append(player)
         return players
 
     def get_ordered_turn_players(self):

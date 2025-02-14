@@ -1,7 +1,8 @@
-from pprint import pprint
 from typing import Tuple, List
 
-from models import PokerHand, ParsedHandHistory, CommunityCardsEntry, PlayerAction, ActionEntry
+from constants import BetType
+from models import PokerHand, PlayerAction, ActionEntry, PostBlindEntry
+from utils import convert_korean_datetime_with_timezone
 
 
 def convert_to_pokerstars_format(poker_hand: PokerHand) -> str | None:
@@ -15,7 +16,8 @@ def convert_to_pokerstars_format(poker_hand: PokerHand) -> str | None:
     sb = poker_hand.get_small_blind()
     bb = poker_hand.get_big_blind()
     game_type = f"Hold'em No Limit ({sb}/{bb})"
-    timestamp = poker_hand.timestamp.replace("오전", "AM").replace("오후", "PM")
+
+    timestamp = convert_korean_datetime_with_timezone(poker_hand.timestamp)
     community_cards = poker_hand.get_community_cards()
     history_parts = []
 
@@ -24,10 +26,11 @@ def convert_to_pokerstars_format(poker_hand: PokerHand) -> str | None:
     preflop_players = poker_hand.get_ordered_preflop_players()
 
     # HEADER DATA
-    header = f"PokerStars Hand #{hand_id}:  {game_type} - {timestamp} KST\n"
-    header += f"Table 'Table 1' 9-max Seat #{dealer.flop_betting_position} is the button"
+    header = []
+    header.append(f"PokerStars Hand #{hand_id}:  {game_type} - {timestamp}")
+    header.append(f"Table 'Table 1' 9-max Seat #{dealer.flop_betting_position} is the button")
 
-    history_parts.append(header)
+    history_parts.extend(header)
 
     # STATUS HISTORY
     # Seat numbers are 1-indexed
@@ -35,7 +38,7 @@ def convert_to_pokerstars_format(poker_hand: PokerHand) -> str | None:
     for idx, player in enumerate(preflop_players, start=1):
         seat_lines.append(f"Seat {idx}: {player.player} ({player.get_start_stack()} in chips)")
 
-    history_parts.append("\n".join(seat_lines))
+    history_parts.extend(seat_lines)
 
     # ANTE HISTORY
     antes = []
@@ -43,34 +46,35 @@ def convert_to_pokerstars_format(poker_hand: PokerHand) -> str | None:
         ante = player.get_ante()
         antes.append(f"{player.player}: posts the ante {ante}")
 
-    history_parts.append("\n".join(antes))
+    history_parts.extend(antes)
 
     # BLIND HISTORY
     blinds = []
     for player in preflop_players:
-        blind = player.get_blind()
+        blind: PostBlindEntry = player.get_blind()
         if blind is not None:
             blind_amount = blind.amount
-            if "SMALL" in blind.action:
+            if blind.blind_type == "small":
                 blinds.append(f"{player.player}: posts small blind {blind_amount}")
-            if "BIG" in blind.action:
+            if blind.blind_type == "big":
                 blinds.append(f"{player.player}: posts big blind {blind_amount}")
 
-    history_parts.append("\n".join(blinds))
+    history_parts.extend(blinds)
 
     # PREFLOP HISTORY
-    hole_cards_str = "*** HOLE CARDS ***\n"
+    hole_cards_str = []
+    hole_cards_str.append("*** HOLE CARDS ***")
     for player in poker_hand.players:
         hole_cards = player.get_hole_cards()
         if hole_cards:
             mapped_cards = [change_suit_card(card) for card in hole_cards]
-            hole_cards_str += f"Dealt to {player.player} [{' '.join(mapped_cards)}]\n"
+            hole_cards_str.append(f"Dealt to {player.player} [{' '.join(mapped_cards)}]")
 
-    history_parts.append(hole_cards_str)
+    history_parts.extend(hole_cards_str)
 
     preflop_actions: List[Tuple[PlayerAction, ActionEntry]] = []
     for player in preflop_players:
-        flop_betting = [action for action in player.betting_actions if action.type == "ACTION" and action.type == 0]
+        flop_betting = player.get_preflop_actions()
         for action in flop_betting:
             preflop_actions.append((player, action))
 
@@ -78,69 +82,71 @@ def convert_to_pokerstars_format(poker_hand: PokerHand) -> str | None:
 
     preflop_betting_rounds = generate_betting_rounds(bb, sorted_preflop_street_actions)
 
-    history_parts = history_parts + preflop_betting_rounds
+    history_parts.extend(preflop_betting_rounds)
 
     # If there's a flop
+    flop_parts = []
     if len(community_cards) > 0:
         flop = ' '.join(change_suit_card(s) for s in community_cards[0])
         flop_str = f"*** FLOP *** [{flop}]"
-        history_parts.append(flop_str)
+        flop_parts.append(flop_str)
 
         flop_players = poker_hand.get_ordered_flop_players()
 
         flop_actions = []
         for player in flop_players:
-            betting = [action for action in player.betting_actions if action.type == "ACTION" and action.betting_round == 1]
-            for action in betting:
+            flop_betting = player.get_flop_actions()
+            for action in flop_betting:
                 flop_actions.append((player, action))
 
+        # Get the flop actions in the order they occurred
         sorted_flop_street_actions = sorted(flop_actions, key=lambda item: item[1].betting_position)
 
-        flop_betting_rounds = generate_betting_rounds(bb, sorted_flop_street_actions)
-
-        history_parts.append("\n".join(flop_betting_rounds))
+        flop_parts.extend(generate_betting_rounds(0, sorted_flop_street_actions))
+        history_parts.extend(flop_parts)
 
     # If there's a turn
+    turn_parts = []
     if len(community_cards) > 1:
         flop = ' '.join(change_suit_card(s) for s in community_cards[0])
         turn = ' '.join(change_suit_card(s) for s in community_cards[1])
         turn_str = f"*** TURN *** [{flop}] [{turn}]"
-        history_parts.append(turn_str)
+        turn_parts.append(turn_str)
 
         turn_players = poker_hand.get_ordered_turn_players()
 
         turn_actions = []
         for player in turn_players:
-            betting = [action for action in player.betting_actions if action.type == "ACTION" and action.betting_round == 2]
-            for action in betting:
+            flop_betting = [action for action in player.betting_actions if action.type == "ACTION" and action.betting_round == 2]
+            for action in flop_betting:
                 turn_actions.append((player, action))
 
         sorted_turn_street_actions = sorted(turn_actions, key=lambda item: item[1].betting_position)
 
-        turn_betting_rounds = generate_betting_rounds(bb, sorted_turn_street_actions)
+        turn_parts.extend(generate_betting_rounds(0, sorted_turn_street_actions))
+        history_parts.extend(turn_parts)
 
-        history_parts.append("\n".join(turn_betting_rounds))
-
+    river_parts = []
     if len(community_cards) > 2:
         flop = ' '.join(change_suit_card(s) for s in community_cards[0])
         turn = ' '.join(change_suit_card(s) for s in community_cards[1])
         river = ' '.join(change_suit_card(s) for s in community_cards[2])
         river_str = ''f"*** RIVER *** [{flop}] [{turn}] [{river}]"
-        history_parts.append(river_str)
+        river_parts.append(river_str)
 
         river_players = poker_hand.get_ordered_river_players()
 
         river_actions = []
         for player in river_players:
-            betting = [action for action in player.betting_actions if action.type == "ACTION" and action.betting_round == 2]
-            for action in betting:
+            flop_betting = [action for action in player.betting_actions if action.type == "ACTION" and action.betting_round == 2]
+            for action in flop_betting:
                 river_actions.append((player, action))
 
         sorted_river_street_actions = sorted(river_actions, key=lambda item: item[1].betting_position)
 
-        river_betting_rounds = generate_betting_rounds(bb, sorted_river_street_actions)
+        river_parts.extend(generate_betting_rounds(0, sorted_river_street_actions))
+        history_parts.extend(river_parts)
 
-        history_parts.append("\n".join(river_betting_rounds))
     # showdown = "*** SHOWDOWN ***\n"
     # for player in poker_hand.players:
     #     if "shows" in player.raw_betting_action:
@@ -171,33 +177,57 @@ def convert_to_pokerstars_format(poker_hand: PokerHand) -> str | None:
         board_part = f"Board [{flop}]"
         history_parts.append(board_part)
 
+    for player in preflop_players:
+        mapped_cards = [change_suit_card(card) for card in player.get_hole_cards()]
+
+        if player.is_winner():
+            summary_line = f"Seat {player.flop_betting_position}: {player.player} showed [{" ".join(mapped_cards)}] and won ({player.amount_won_lost})"
+        elif player.went_to_showdown():
+            summary_line = f"Seat {player.flop_betting_position}: {player.player} showed [{" ".join(mapped_cards)}] and lost"
+        else:
+            summary_line = f"Seat {player.flop_betting_position}: {player.player} mucked [{" ".join(mapped_cards)}]"
+
+        history_parts.append(summary_line)
+
     pokerstars_history = "\n".join(history_parts)
 
-    pprint(pokerstars_history)
     return pokerstars_history
 
 
-def generate_betting_rounds(min_bet_size, sorted_flop_street_actions):
+def generate_betting_rounds(min_bet_size, sorted_street_actions):
     last_bet_size = min_bet_size
     result = []
 
-    for flop_action in sorted_flop_street_actions:
-        player = flop_action[0]
-        player_action = flop_action[1]
+    # Stars format seems to expect a "raise" if there has been any kind of previous action
+    # eg. if we're preflop and a blind has been posted
+
+    for street_action in sorted_street_actions:
+        player: PlayerAction = street_action[0]
+        player_action = street_action[1]
         action = player_action.action
         amount = player_action.amount
-        if "체크" in action:
+        if action is BetType.CHECK:
             result.append(f"{player.player}: checks")
-        elif "콜" in action:
+        elif action is BetType.CALL:
             result.append(f"{player.player}: calls {amount}")
-        elif "다이" in action:
+        elif action is BetType.FOLD:
             result.append(f"{player.player}: folds")
-        elif "하프" in action:
-            result.append(f"{player.player}: bets {amount}")
-        elif "풀" in action:
-            raise_size = amount
-            result.append(f"{player.player}: raises {raise_size - last_bet_size} to {amount}")
-            last_bet_size = raise_size # TODO CHECK THIS
+        elif action is BetType.BET:
+            if last_bet_size == 0:
+                result.append(f"{player.player}: bets {amount}")
+            else:
+                result.append(f"{player.player}: raises {amount - last_bet_size} to {amount}")
+            last_bet_size = amount
+        elif action is BetType.RAISE:
+            result.append(f"{player.player}: raises {amount - last_bet_size} to {amount}")
+            last_bet_size = amount # TODO CHECK THIS
+        elif action is BetType.ALL_IN:
+            result.append(f"{player.player}: raises {amount - last_bet_size} to {amount} and is all-in")
+            last_bet_size = amount  # TODO CHECK THIS
+
+        if player_action.uncalled_bet is not None and not 0:
+            uncalled_bet = player_action.uncalled_bet
+            result.append(f"Uncalled bet ({uncalled_bet}) returned to {player.player}")
 
     return result
 

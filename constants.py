@@ -15,6 +15,10 @@ LEFT_ROOM = "방나감"  # Treat as fold
 TIMEOUT = "타임아웃"  # Treat as fold
 BIG_BLIND = "블라인드:BIG"
 SMALL_BLIND = "블라인드:SMALL"
+WIN = "승리"
+LOSS = "패배"
+WIN_BY_FORFEIT = "기권승"
+FORFEIT = "기권"
 
 class BetType(Enum):
     CHECK = "check"

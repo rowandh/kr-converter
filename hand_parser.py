@@ -12,3 +12,5 @@ def parse(html_content: str):
 
     # Convert to Pokerstars format
     pokerstars_format = convert_to_pokerstars_format(hand_history_raw)
+
+    return pokerstars_format
