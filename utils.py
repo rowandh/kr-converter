@@ -1,6 +1,10 @@
 from datetime import datetime
+from pathlib import Path
+
 import pytz
 import re
+import os
+import fnmatch
 
 def convert_korean_datetime_with_timezone(datetime_str):
     """
@@ -23,3 +27,9 @@ def convert_korean_datetime_with_timezone(datetime_str):
 
     # Format output in 'YYYY/MM/DD HH:MM:SS ZZZ' (e.g., 2025/02/08 00:00:00 KST)
     return dt_kst.strftime("%Y/%m/%d %H:%M:%S %Z")
+
+def find_files(directory, pattern="*.html"):
+    directory = Path(directory) 
+    for root, _, files in os.walk(directory):
+        for filename in fnmatch.filter(files, pattern):
+            yield Path(root) / filename

@@ -1,10 +1,11 @@
 import unittest
 from pprint import pprint
 from pathlib import Path
-import os
-import fnmatch
+
 
 from hand_parser import parse
+from utils import find_files
+
 
 class TestActionsParsing(unittest.TestCase):
 
@@ -52,11 +53,6 @@ class TestActionsParsing(unittest.TestCase):
                 print(f"Processed {processed}")
                 processed = processed + 1
                 #pprint(str)
-
-def find_files(directory, pattern="*.html"):
-    for root, dirs, files in os.walk(directory):
-        for filename in fnmatch.filter(files, pattern):
-            yield os.path.join(root, filename)
 
 if __name__ == '__main__':
     unittest.main()
