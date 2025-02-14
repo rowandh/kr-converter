@@ -26,16 +26,16 @@ lopghfvas: posts big blind 1000
 *** HOLE CARDS ***
 MuNnW738j1: raises 3000 to 4000
 lopghfvas: folds
-Uncalled bet (4000) returned to MuNnW738j1
-MuNnW738j1 collected 
+Uncalled bet (3000) returned to MuNnW738j1
+MuNnW738j1 collected 3788 from pot
 *** SUMMARY ***
 Total pot 4000 | Rake 212
-Seat 1: MuNnW738j1 showed [Ah 5c] and won (4000)
-Seat 2: lopghfvas showed [Ts 4s]
-"""
+Seat 1: MuNnW738j1 showed [Ah 5c] and won (3788)
+Seat 2: lopghfvas mucked [Ts 4s]"""
         content = self.read_test_file("smallhand.html")
         converted = parse(content)
 
+        pprint(converted)
         self.assertTrue(converted.startswith(expected))
 
     def test_river_9way_bet_call(self):

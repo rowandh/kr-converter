@@ -7,7 +7,7 @@ from constants import BetType, ALL_IN, CHECK, RAISE, CALL, FOLD, BIG_BLIND, SMAL
     FULL_POT, \
     MoneyUnit, GENERIC
 from models import ParsedHandHistory, StartEntry, HistoryLine, PlayerEntry, AnteEntry, CommunityCardsEntry, ActionEntry, \
-    PostBlindEntry, ResultsEntry
+    PostBlindEntry, ResultsEntry, HoleCardsEntry
 import locale
 locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
 
@@ -86,11 +86,9 @@ def parse_hand_history(hand_history: str) -> ParsedHandHistory:
             parsed_line.remaining_stack = remaining_stack
 
         # 홀 카드딜 (Hole Cards Deal): Player's starting hand
-        # elif "홀 카드딜:" in line:
-        #     parsed_line["type"] = "HOLE_CARDS"
-        #     parts = line.split(": ")[1].split(" ")
-        #     # Don't set the hole cards here
-        #     # parsed_line["hole_cards"] = parts[:2]
+        elif "홀 카드딜:" in line:
+            parsed_line = HoleCardsEntry()
+            parsed_line.hole_cards = extract_hole_cards(line)
 
         # 커뮤니티 카드 딜 (Community Card Deal): The board cards for each street
         elif "커뮤니티 카드 딜:" in line:
@@ -134,6 +132,39 @@ def parse_hand_history(hand_history: str) -> ParsedHandHistory:
 
     return parsed_lines
 
+def extract_hole_cards(line):
+    """
+    Extracts and normalizes hole cards from poker hand history lines.
+
+    Parameters:
+        lines (list): A list of strings containing hand history lines with hole cards.
+
+    Returns:
+        list: A list of strings representing the extracted and formatted hole cards.
+    """
+    # Mapping suit symbols to standard poker notation
+    suit_map = {
+        "♥": "h",  # Hearts
+        "♠": "s",  # Spades
+        "♣": "c",  # Clubs
+        "◆": "d"   # Diamonds (Korean uses ◆ instead of ♦)
+    }
+
+    # Convert 10 to T
+    rank_map = {"10": "T"}
+
+    hole_cards = ""
+
+    # Extract the two hole cards using regex
+    match = re.findall(r"([♠♥♣◆])(\d+|A|J|Q|K)", line)
+    if match and len(match) == 2:
+        # Normalize rank and suit
+        normalized_cards = [
+            (rank_map.get(rank, rank) + suit_map[suit]) for suit, rank in match
+        ]
+        hole_cards = " ".join(normalized_cards)
+
+    return hole_cards
 
 def parse_result_line(line):
     pattern = re.search(r"결과: (패배|승리) \[족보:(.*?)\] \[카드:(.*?)\]( - (기권승|기권))?", line)

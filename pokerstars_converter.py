@@ -64,12 +64,11 @@ def convert_to_pokerstars_format(poker_hand: PokerHand) -> str | None:
     # PREFLOP HISTORY
     hole_cards_str = []
     hole_cards_str.append("*** HOLE CARDS ***")
-    for player in poker_hand.players:
-        hole_cards = player.get_hole_cards()
-        if hole_cards:
-            mapped_cards = [change_suit_card(card) for card in hole_cards]
-            hole_cards_str.append(f"Dealt to {player.player} [{' '.join(mapped_cards)}]")
-
+    # for player in poker_hand.players:
+    #     hole_cards = player.get_hole_cards()
+    #     if hole_cards:
+    #         hole_cards_str.append(f"Dealt to {player.player} [{hole_cards}]")
+    #
     history_parts.extend(hole_cards_str)
 
     preflop_actions: List[Tuple[PlayerAction, ActionEntry]] = []
@@ -178,14 +177,14 @@ def convert_to_pokerstars_format(poker_hand: PokerHand) -> str | None:
         history_parts.append(board_part)
 
     for player in preflop_players:
-        mapped_cards = [change_suit_card(card) for card in player.get_hole_cards()]
+        hole_cards = player.get_hole_cards()
 
         if player.is_winner():
-            summary_line = f"Seat {player.flop_betting_position}: {player.player} showed [{" ".join(mapped_cards)}] and won ({player.amount_won_lost})"
+            summary_line = f"Seat {player.flop_betting_position}: {player.player} showed [{hole_cards}] and won ({poker_hand.winning_amount})"
         elif player.went_to_showdown():
-            summary_line = f"Seat {player.flop_betting_position}: {player.player} showed [{" ".join(mapped_cards)}] and lost"
+            summary_line = f"Seat {player.flop_betting_position}: {player.player} showed [{hole_cards}] and lost"
         else:
-            summary_line = f"Seat {player.flop_betting_position}: {player.player} mucked [{" ".join(mapped_cards)}]"
+            summary_line = f"Seat {player.flop_betting_position}: {player.player} mucked [{hole_cards}]"
 
         history_parts.append(summary_line)
 
@@ -197,6 +196,7 @@ def convert_to_pokerstars_format(poker_hand: PokerHand) -> str | None:
 def generate_betting_rounds(min_bet_size, sorted_street_actions):
     last_bet_size = min_bet_size
     result = []
+    uncalled_bet = None
 
     # Stars format seems to expect a "raise" if there has been any kind of previous action
     # eg. if we're preflop and a blind has been posted
@@ -206,28 +206,34 @@ def generate_betting_rounds(min_bet_size, sorted_street_actions):
         player_action = street_action[1]
         action = player_action.action
         amount = player_action.amount
+        bet_diff = amount - last_bet_size
+
         if action is BetType.CHECK:
             result.append(f"{player.player}: checks")
         elif action is BetType.CALL:
             result.append(f"{player.player}: calls {amount}")
         elif action is BetType.FOLD:
             result.append(f"{player.player}: folds")
+
         elif action is BetType.BET:
             if last_bet_size == 0:
                 result.append(f"{player.player}: bets {amount}")
             else:
-                result.append(f"{player.player}: raises {amount - last_bet_size} to {amount}")
+                result.append(f"{player.player}: raises {bet_diff} to {amount}")
             last_bet_size = amount
         elif action is BetType.RAISE:
-            result.append(f"{player.player}: raises {amount - last_bet_size} to {amount}")
-            last_bet_size = amount # TODO CHECK THIS
+            result.append(f"{player.player}: raises {bet_diff} to {amount}")
+            last_bet_size = amount
         elif action is BetType.ALL_IN:
-            result.append(f"{player.player}: raises {amount - last_bet_size} to {amount} and is all-in")
-            last_bet_size = amount  # TODO CHECK THIS
+            result.append(f"{player.player}: raises {bet_diff} to {amount} and is all-in")
+            last_bet_size = amount
 
         if player_action.uncalled_bet is not None and not 0:
-            uncalled_bet = player_action.uncalled_bet
-            result.append(f"Uncalled bet ({uncalled_bet}) returned to {player.player}")
+            uncalled_bet = f"Uncalled bet ({bet_diff}) returned to {player.player}"
+
+    # Append the uncalled bet after all the other player actions
+    if uncalled_bet is not None:
+        result.append(uncalled_bet)
 
     return result
 

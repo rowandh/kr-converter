@@ -52,9 +52,9 @@ class PostBlindEntry():
     blind_type: str
     remaining_stack: int
 
-class HoleCardsEntry(TypedDict):
-    type: str  # "HOLE_CARDS"
-    hole_cards: List[str]
+class HoleCardsEntry():
+    type: str  = "HOLE_CARDS"
+    hole_cards: str
 
 class RoundStartEntry(TypedDict):
     type: str  # "ROUND_START"
@@ -153,9 +153,8 @@ class PlayerAction:
              if isinstance(action, StartEntry)), 0)
 
     def get_hole_cards(self):
-        for action in self.betting_actions:
-            if isinstance(action, CommunityCardsEntry) and action.hole_cards is not None:
-                return action.hole_cards
+        return next((action.hole_cards for action in self.betting_actions
+                     if isinstance(action, HoleCardsEntry)))
 
 @dataclass
 class PokerHand:
