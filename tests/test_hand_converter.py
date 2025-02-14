@@ -47,10 +47,8 @@ class TestActionsParsing(unittest.TestCase):
         for file in find_files(data_folder, "*.html"):
             with open(file, "r", encoding="utf-8") as file:
                 html_content = file.read()
-                try:
-                    str = parse(html_content)
-                except:
-                    print(f"Error processing file {file.name}")
+                str = parse(html_content)
+
                 print(f"Processed {processed}")
                 processed = processed + 1
                 #pprint(str)
