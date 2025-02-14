@@ -109,7 +109,7 @@ class PlayerAction:
 
     def results(self):
         return next((action for action in self.betting_actions
-             if isinstance(action, ResultsEntry)))
+             if isinstance(action, ResultsEntry)), None)
 
     def get_round_actions(self, betting_round):
         return [action for action in self.betting_actions if
