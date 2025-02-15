@@ -175,4 +175,29 @@ Seat 9: zqclbn9xgi mucked [Qc 2d]"""
 
         pprint(converted)
 
+        self.assertEqual(converted, expected)
+
+    # Scenario where HU and a player leaves before betting
+    def test_parse_error2(self):
+        expected = """PokerStars Hand #15292027240:  Hold'em No Limit (1000/1000) - 2024/12/23 22:25:49 KST
+Table 'Table 1' 9-max Seat #1 is the button
+Seat 1: i309357ai1 (200000 in chips)
+Seat 2: msyjk (100000 in chips)
+i309357ai1: posts the ante 1000
+msyjk: posts the ante 1000
+i309357ai1: posts small blind 1000
+msyjk: posts big blind 1000
+*** HOLE CARDS ***
+i309357ai1: folds
+msyjk collected 3788 from pot
+*** SUMMARY ***
+Total pot 4000 | Rake 212
+Seat 1: i309357ai1 mucked [Qc 9s]
+Seat 2: msyjk showed [9d 2d] and won (3788)"""
+
+        content = self.read_test_file("parseerror2_2025-02-08T20-57-51.html")
+        converted = parse(content)
+
+        pprint(converted)
+
         self.assertTrue(converted == expected)

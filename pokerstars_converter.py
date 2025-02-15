@@ -180,12 +180,14 @@ def convert_to_pokerstars_format(poker_hand: PokerHand, correct_datetime: dateti
     for player in preflop_players:
         hole_cards = player.get_hole_cards()
 
+        betting_position = poker_hand.get_betting_position(player)
+
         if player.is_winner():
-            summary_line = f"Seat {player.flop_betting_position}: {player.player} showed [{hole_cards}] and won ({poker_hand.winning_amount})"
+            summary_line = f"Seat {betting_position}: {player.player} showed [{hole_cards}] and won ({poker_hand.winning_amount})"
         elif player.went_to_showdown():
-            summary_line = f"Seat {player.flop_betting_position}: {player.player} showed [{hole_cards}] and lost"
+            summary_line = f"Seat {betting_position}: {player.player} showed [{hole_cards}] and lost"
         else:
-            summary_line = f"Seat {player.flop_betting_position}: {player.player} mucked [{hole_cards}]"
+            summary_line = f"Seat {betting_position}: {player.player} mucked [{hole_cards}]"
 
         history_parts.append(summary_line)
 

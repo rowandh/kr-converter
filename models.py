@@ -166,6 +166,9 @@ class PokerHand:
     winning_amount: str  # 이긴금액 (Amount won by the winner)
     players: List[PlayerAction]  # List of player actions
 
+    def get_betting_position(self, player: PlayerAction):
+        return self.get_ordered_preflop_players().index(player) + 1
+
     # Returns the players ordered by their action on the flop
     def get_ordered_preflop_players(self):
         return sorted(
@@ -180,7 +183,11 @@ class PokerHand:
         )
 
     def get_players_in_hand(self, street):
+        if len(self.players) <= 2:
+            return [self.get_small_blind_player(), self.get_big_blind_player()]
+
         players = []
+
         for player in self.players:
             match = [a for a in player.betting_actions if isinstance(a, ActionEntry) and a.betting_round == street]
             if match:
