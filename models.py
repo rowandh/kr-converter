@@ -201,13 +201,15 @@ class PokerHand:
 
     def get_small_blind_player(self):
         for player in self.players:
-            if player.get_blind().blind_type == "small":
+            blind = player.get_blind()
+            if blind is not None and blind.blind_type == "small":
                 return player
         return None
 
     def get_big_blind_player(self):
         for player in self.players:
-            if player.get_blind().blind_type == "big":
+            blind = player.get_blind()
+            if blind is not None and blind.blind_type == "big":
                 return player
         return None
 
