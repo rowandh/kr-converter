@@ -8,8 +8,10 @@ MuNnW738j1: posts small blind 1000
 lopghfvas: posts big blind 1000
 *** HOLE CARDS ***
 MuNnW738j1: raises 3000 to 4000
-Uncalled bet (4000) returned to MuNnW738j1
 lopghfvas: folds
+Uncalled bet (3000) returned to MuNnW738j1
 MuNnW738j1 collected 3788 from pot
 *** SUMMARY ***
 Total pot 4000 | Rake 212
+Seat 1: MuNnW738j1 showed [Ah 5c] and won (3788)
+Seat 2: lopghfvas mucked [Ts 4s]
