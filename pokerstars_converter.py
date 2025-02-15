@@ -1,11 +1,12 @@
+from datetime import datetime
 from typing import Tuple, List
 
 from constants import BetType
 from models import PokerHand, PlayerAction, ActionEntry, PostBlindEntry
-from utils import convert_korean_datetime_with_timezone
+from utils import convert_korean_datetime_with_timezone, format_korean_date
 
 
-def convert_to_pokerstars_format(poker_hand: PokerHand) -> str | None:
+def convert_to_pokerstars_format(poker_hand: PokerHand, correct_datetime: datetime = None) -> str | None:
     """
     Converts a PokerHand object into PokerStars hand history format.
     """
@@ -17,7 +18,7 @@ def convert_to_pokerstars_format(poker_hand: PokerHand) -> str | None:
     bb = poker_hand.get_big_blind_amount()
     game_type = f"Hold'em No Limit ({sb}/{bb})"
 
-    timestamp = convert_korean_datetime_with_timezone(poker_hand.timestamp)
+    timestamp = convert_korean_datetime_with_timezone(poker_hand.timestamp) if correct_datetime is None else format_korean_date(correct_datetime)
     community_cards = poker_hand.get_community_cards()
     history_parts = []
 

@@ -1,7 +1,7 @@
 import os
 from pathlib import Path
 from hand_parser import parse
-from utils import find_files
+from utils import find_files, extract_datetime_from_filename
 
 
 def main():
@@ -14,7 +14,9 @@ def main():
         processed = 0
         for file in find_files(data_folder, "*.html"):
             html_content = file.read_text(encoding="utf-8")
-            converted_content = parse(html_content)
+
+            corrected_timestamp = extract_datetime_from_filename(file)
+            converted_content = parse(html_content, corrected_timestamp)
 
             output_filename = f"{file.stem}_converted.txt"
             output_filepath = output_folder / output_filename

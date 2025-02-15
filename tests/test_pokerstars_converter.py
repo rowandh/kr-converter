@@ -1,4 +1,5 @@
 import unittest
+from datetime import datetime
 from pprint import pprint
 from pathlib import Path
 import os
@@ -38,7 +39,7 @@ Seat 2: lopghfvas mucked [Ts 4s]"""
         pprint(converted)
         self.assertTrue(converted.startswith(expected))
 
-    def test_river_9way_bet_call(self):
+    def test_river_9way_bet_call_with_corrected_date(self):
         expected = """PokerStars Hand #15286756675:  Hold'em No Limit (1000/1000) - 2024/12/31 06:57:16 KST
 Table 'Table 1' 9-max Seat #7 is the button
 Seat 1: tblnj (164774 in chips)
@@ -99,14 +100,16 @@ Total pot 40000 | Rake 2120
 Board [7h 2c 7c 3d 7d]"""
 
         content = self.read_test_file("river-9way-bet-call.html")
-        converted = parse(content)
+
+        correct_datetime = datetime(2024, 11,30, 13, 34, 46)
+        converted = parse(content, correct_datetime)
 
         pprint(converted)
 
         self.assertTrue(converted.startswith(expected))
 
     def test_all_in_pre(self):
-        expected = """PokerStars Hand #15286303849:  Hold'em No Limit (1000/1000) - 2024/11/10 15:32:02 KST
+        expected = """PokerStars Hand #15286303849:  Hold'em No Limit (1000/1000) - 2024/11/30 12:34:46 KST
 Table 'Table 1' 9-max Seat #7 is the button
 Seat 1: bn09 (10917 in chips)
 Seat 2: jqjwhhre (153512 in chips)
