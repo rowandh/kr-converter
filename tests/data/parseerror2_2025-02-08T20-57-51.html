@@ -1,0 +1,371 @@
+
+<iframe width="0" height="0" name="hfrm"></iframe>
+<script language="javascript">
+	function goProc(mode,uid,infotype,money){
+		form = document.form1;
+		form.target="hfrm";
+		if (money < 1) {
+			alert("1보다 큰금액만 입력하실수 있습니다");
+			return;
+		}
+		form.infotype.value=infotype;
+		form.money.value=money;
+		form.user_id.value=uid;
+		form.action="userinmoney_proc.asp";
+		
+			if(confirm(uid + "에게 " + money + "원 하자처리 하시겠습니까?")){
+				form.submit();
+			}		
+
+	}
+</script>
+
+<style>
+		body {background:#f5f5f5;}
+		* {padding:0; margin:0;}
+		input:focus,
+		select:focus {
+			outline:none;
+		}
+		.page-layout {
+			height:100%;
+			
+		}
+		
+		.page-layout .bar-search {
+			display:flex;
+			justify-content: space-between;
+			align-items: center;
+			flex-wrap: wrap;
+			gap:0.875rem;
+			
+			padding:0 0.875rem 0.875rem;
+			background:#2e2f39;
+		    border-bottom: 1px solid #e6e6f2;
+		    box-shadow: 0 1px 4px 0 rgba(82,63,105,.15);
+		}
+		
+		.page-layout .bar-search .title {
+			padding-top:0.875rem;
+			font-family:'Malgun Gothic';
+			color:#c5ff88;
+			font-size:1.425rem;
+			font-weight:bolder;
+			letter-spacing:-2px;
+		}
+		
+		.page-layout .bar-search .title > span {
+			font-size:1rem;
+			letter-spacing:0;
+		}
+		
+		.page-layout .bar-search > div:nth-child(2) {
+			flex-grow:1;
+			
+			display:inline-flex;
+    		flex-wrap: wrap;
+    		justify-content: flex-end;
+			gap:0.875rem;
+			
+			padding-top:0.875rem;
+			border-top:1px solid #60931e;
+		}
+		
+		.page-layout .bar-search > div:nth-child(2) span {
+		    line-height:2rem;
+		    color: #fff;
+		    font-weight:bold;
+		}
+		
+		.page-layout .bar-search > div:nth-child(2) select,
+		.page-layout .bar-search > div:nth-child(2) input {
+		    height: calc(2em + 0.8rem + 2px);
+		    padding:0 1rem;
+		    font-size: 1rem;
+		    font-weight: 400;
+		    height:2rem;
+		    line-height:2rem;
+		    color: #ccc;
+		    background-color: #141529;
+		    background-clip: padding-box;
+		    border: 1px solid #141529;
+		    border-radius: 0.25rem;
+		    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+		}
+		
+		.page-layout .bar-search > div:nth-child(2) input.btn-serarch {
+			color:#fff;
+			font-weight:bold;
+			background:#73a730 ;
+			border:1px solid #629322;
+		}
+		
+		
+		.table-area {
+			border:1px solid #e6e6f2;
+			border-radius:1rem;
+			overflow-x:auto;
+			background:#fff;
+			box-shadow:3px 3px 5px #e7e7e7;
+			margin:1rem;
+		}
+		
+		.table-area th {
+			padding: 0 0.5rem;
+			font-size:1rem;
+			height:46px;
+			font-weight: 600;
+    		color: #2e2f39;
+			background:#fff;
+			border-bottom:2px solid #e6e6f2;
+		}
+		
+		.table-area th a {
+			color:#cf0b0b;
+			text-decoration:none;
+		}
+		
+		.table-area td {
+			font-size:14px;
+			padding:0.425rem 0.75rem;
+			color:#71748d;
+			white-space:nowrap;
+			background:#fff;
+			border-bottom:1px solid #e6e6f2;
+		}
+		/*
+		.table-area tr:nth-child(2n) td {
+			background:#f4f4f5;
+			border-top:1px solid #e6e6f2;
+			border-bottom:1px solid #e6e6f2;
+		}
+		*/
+		.table-area th,
+		.table-area td {
+			border-right:1px solid #e6e6f2;
+		}
+		
+		.table-area table td a {
+			display:inline-block;
+			
+			padding:0 1rem 0 1.425rem;
+			line-height:1rem;
+			color:#5e8d21;
+			font-size:14px;
+			font-weight:bold;
+			text-decoration:none;
+			border-radius:0.312rem;
+			background:url('../images/icon-move.png') left 50% no-repeat;
+		}
+		
+		.table-area table td a:hover {
+			filter:hue-rotate(275deg);
+		}
+		
+		.table-area table th.double-table,
+		.table-area table td.double-table {
+			padding:0;
+		}
+		
+		
+		.table-area table th.double-table th {
+			padding:0 0.75rem;
+			border-bottom:none;
+		}
+		
+		.table-area table td.double-table td {
+			line-height:1.5rem;
+			border:none;
+			background:none;
+		}
+		
+		.table-area table td.double-table tr td+td {
+			border-left:1px solid #e6e6f2;
+		}
+		
+		.table-area table td.double-table tr+tr td {
+			border-top:1px solid #e6e6f2;
+		}
+		
+		.table-area table td.double-table tr:nth-child(2n) td {
+			background:#f9f9f9;
+		}
+		
+		.btn-history-back {
+			padding:0 1rem;
+			font-size:1rem;
+			height:2.625rem;
+			line-height:2.625rem;
+			color:#fff;
+			font-weight:bold; 
+			background:#37a730; 
+			border-radius:0.25rem; 
+			border:1px solid #629322; 
+			box-shadow:1px 1px 0 #629322;
+			cursor:pointer;
+		}
+		
+		.btn-history-back:hover {
+			filter:brightness(1.1);
+			border:1px solid #37a730; 
+			box-shadow:1px 1px 0 #37a730;
+		}
+		
+	</style>
+	
+	<div class="page-layout">
+		<div class="bar-search">
+			<div class="title">게임기록보기</div>
+			<div>
+                <div>
+					<input type="button" value="닫기" onclick="self.close()" class="btn-serarch" />
+                </div>	
+			</div>
+		</div>
+		
+		<div class="table-area">
+			<table cellspacing="0" width="100%"  border="0" >
+				<tr>
+                          <th width="" height="34"><p align="center">라운드ID</p></th>
+                          <th width="" height="34"><p align="center">시각</p></th>
+                          <th width="" height="34"><p align="center">게임 종류</p></th>
+                          <th width="" height="34"><p align="center">승자(족보)</p></th>
+					<th width="" height="34"><p align="center">이긴금액</p></th>
+					<th class="double-table">
+						상세정보
+					</th>
+				</tr>
+
+
+
+
+                            <tr bgcolor="white">
+								<td width="56" height="26"><p align="center">&nbsp;15-2-92027240</p></td>
+                                <td height="26" ><p align="center">&nbsp;2024-12-23 오후 10:25:49</p></td>
+                                <td ><p align="center">&nbsp;홀덤</p></td>
+                                <td ><p align="center">&nbsp;<b>msyjk (9 탑)</b></p></td>
+<!--								<td ><p align="center">&nbsp;3788</p></td>   -->
+								<td ><p align="center">&nbsp;3,788</p></td>
+								<td class="double-table">
+									
+									<table cellspacing="0" width="100%"  border="0">										
+										<colgroup>
+											<col width="200" />
+											<col width="*" />
+											<col width="160" />
+											<col width="200" />
+										</colgroup>
+										<tr>
+											<th height="34" style="word-break:break-all"><p align="center">참가자</p></th>
+											<th height="34" style="word-break:break-all"><p align="center">족보</p></th>
+											<th height="34" style="word-break:break-all"><p align="center">변동 금액</p></th>
+											<th height="34" style="word-break:break-all"><p align="center">남은 잔액</p></th>
+										</tr>
+										
+										
+
+
+									
+										<tr bgcolor="white">
+											<td style="word-break:break-all" bgcolor="white"><p align="center"><b><font color=>msyjk</font></b></p></td>
+											
+											<td style="word-break:break-all"><p align="left">
+											<font color='red'>◆</font>9 <font color='red'>◆</font>2 [9 탑]  (Big Blind)
+<br>* 시작 : [StageNo:92027240] [Credit:100,000원] [SB:1,000원] [BB:1,000원] [MBI:100,000원] [CBIR:100]
+<br>* NICKNAME:[msyjk]
+<br>* 앤티: -1,000원(99,000원)
+<br>* 홀 카드딜: <font color='red'>◆</font>9(21) <font color='red'>◆</font>2(14) [9 탑]
+<br>* 턴 시작: [프리플랍(0)] [족보:9 탑(<font color='red'>◆</font>9 <font color='red'>◆</font>2)]
+<br>* 베팅: [블라인드:BIG] [금액:1,000원] [Creadit:98,000원]
+<br>* 종료: WinMoney[3,788원] Credit[101,788원]
+<br>* 결과: 승리 [족보:9 탑] [카드:<font color='red'>◆</font>9 <font color='red'>◆</font>2] - 기권승
+
+											</p></td>
+											
+											<td style="word-break:break-all"><p align="right"><font color='red'>1,788</font></p></td>
+											<td style="word-break:break-all"><p align="right">101,788</p></td>
+											
+										</tr>
+
+
+									
+										<tr bgcolor="white">
+											<td style="word-break:break-all" bgcolor="white"><p align="center"><b><font color=>i309357ai1</font></b></p></td>
+											
+											<td style="word-break:break-all"><p align="left">
+											♣Q ♠9 [Q 탑]  <font color='blue'><b>(시간)</b></font> (Small Blind)
+<br>* 시작 : [StageNo:92027240] [Credit:200,000원] [SB:1,000원] [BB:1,000원] [MBI:100,000원] [CBIR:200]
+<br>* NICKNAME:[i309357ai1]
+<br>* 앤티: -1,000원(199,000원)
+<br>* 홀 카드딜: ♣Q(50) ♠9(8) [Q 탑]
+<br>* 턴 시작: [프리플랍(0)] [족보:Q 탑(♣Q ♠9)]
+<br>* 베팅: [블라인드:SMALL] [금액:1,000원] [Creadit:198,000원]
+<br>* 베팅: 타임아웃[자동다이]
+<br>* 베팅: 다이 [2](198,000원) - 베팅순서: [0][1]
+[10212ms]
+<br>* 종료: WinMoney[0원] Credit[198,000원]
+<br>* 결과: 패배 [족보:Q 탑] [카드:♣Q ♠9] - 기권
+
+											</p></td>
+											
+											<td style="word-break:break-all"><p align="right"><font color='red'>-2,000</font></p></td>
+											<td style="word-break:break-all"><p align="right">198,000</p></td>
+											
+										</tr>
+
+									 </table>
+								</td>
+                            </tr>
+
+
+
+
+
+
+						
+                        </table>
+                        
+                        <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                            <tr>
+                                <td width="100%" align="center" style="padding:1rem 0; background:#fdfdfd;">
+                                	<input type="button" value="닫기" onclick="self.close()" class="btn-history-back">
+                                </td>
+                            </tr>
+                        </table>
+                        
+		</div>
+                        
+	</div>
+
+
+
+
+<form name="form1" method="Post">
+<input type="hidden" name="s_scroll" value="">
+<input type="hidden" name="s_key" value="">
+<input type="hidden" name="logno" value="15-2-92027240">
+<input type="hidden" name="regdate_f" value="">
+<input type="hidden" name="user_id">
+<input type="hidden" name="userid">
+<input type="hidden" name="rebateid">
+<input type="hidden" name="topid">
+<input type="hidden" name="infotype">
+<input type="hidden" name="money">
+</form>
+
+<form name="form3" method="post">
+<input type="hidden" name="idx">
+<input type="hidden" name="p_logno">
+<input type="hidden" name="s_scroll" value="">
+<input type="hidden" name="s_key" value="">
+<input type="hidden" name="page" value="">
+
+<input type="hidden" name="s_regdate_y1" value="">
+<input type="hidden" name="s_regdate_m1" value="">
+<input type="hidden" name="s_regdate_d1" value="">
+<input type="hidden" name="s_regdate_h1" value="">
+<input type="hidden" name="game_id" value="">
+<input type="hidden" name="s_regdate" value="">
+</form>
+
+

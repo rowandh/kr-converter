@@ -13,8 +13,8 @@ def convert_to_pokerstars_format(poker_hand: PokerHand) -> str | None:
         return None
 
     hand_id = poker_hand.round_id.replace("-", "")
-    sb = poker_hand.get_small_blind()
-    bb = poker_hand.get_big_blind()
+    sb = poker_hand.get_small_blind_amount()
+    bb = poker_hand.get_big_blind_amount()
     game_type = f"Hold'em No Limit ({sb}/{bb})"
 
     timestamp = convert_korean_datetime_with_timezone(poker_hand.timestamp)

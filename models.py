@@ -199,14 +199,26 @@ class PokerHand:
             key=lambda item: self.get_sort_key(item, 3)
         )
 
+    def get_small_blind_player(self):
+        for player in self.players:
+            if player.get_blind().blind_type == "small":
+                return player
+        return None
+
+    def get_big_blind_player(self):
+        for player in self.players:
+            if player.get_blind().blind_type == "big":
+                return player
+        return None
+
     @property
     def start_entry(self):
         return next((action for action in self.players[0].betting_actions if isinstance(action, StartEntry)))
 
-    def get_small_blind(self):
+    def get_small_blind_amount(self):
         return self.start_entry.sb
 
-    def get_big_blind(self):
+    def get_big_blind_amount(self):
         return self.start_entry.bb
 
     @staticmethod
@@ -219,11 +231,16 @@ class PokerHand:
         return float('inf')
 
     def get_dealer(self):
-        flop_ordered_players = self.get_ordered_preflop_players()
-        # Dealer is SB if we're heads up
-        dealer = flop_ordered_players[-3] if len(flop_ordered_players) >= 3 else flop_ordered_players[-2]
+        sb = self.get_small_blind_player()
 
-        return dealer
+        # HU, return the SB. Can't get the preflop ordered players because they're not always there.
+        if (len(self.players) <= 2):
+            return sb
+
+        preflop = self.get_ordered_preflop_players()
+
+        # Get the player to the right of the SB
+        return preflop[-3]
 
     def get_community_cards(self):
         return next((action.community_cards for action in reversed(self.players[0].betting_actions)
