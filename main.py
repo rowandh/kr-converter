@@ -10,9 +10,9 @@ def main():
     output_folder = data_folder.parent / f"{data_folder.name}_converted"
     output_folder.mkdir(exist_ok=True)
 
-    try:
-        processed = 0
-        for file in find_files(data_folder, "*.html"):
+    processed = 0
+    for file in find_files(data_folder, "*.html"):
+        try:
             html_content = file.read_text(encoding="utf-8")
 
             corrected_timestamp = extract_datetime_from_filename(file)
@@ -23,10 +23,13 @@ def main():
 
             output_filepath.write_text(converted_content, encoding="utf-8")
 
-            print(f"Processed {processed}")
             processed = processed + 1
-    except Exception as e:
-        print(f"Error parsing file '{file}': {e}")
+
+        except Exception as e:
+            print(f"Error parsing file '{file}': {e}")
+
+
+    print(f"Processed {processed}")
 
 if __name__ == "__main__":
     main()

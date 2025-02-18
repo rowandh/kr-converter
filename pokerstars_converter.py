@@ -1,6 +1,7 @@
 from datetime import datetime
 from typing import Tuple, List
 
+import constants
 from constants import BetType
 from models import PokerHand, PlayerAction, ActionEntry, PostBlindEntry
 from utils import convert_korean_datetime_with_timezone, format_korean_date
@@ -16,7 +17,7 @@ def convert_to_pokerstars_format(poker_hand: PokerHand, correct_datetime: dateti
     hand_id = poker_hand.round_id.replace("-", "")
     sb = poker_hand.get_small_blind_amount()
     bb = poker_hand.get_big_blind_amount()
-    game_type = f"Hold'em No Limit ({sb}/{bb})"
+    game_type = f"Hold'em No Limit ({format_currency(sb)}/{format_currency(bb)})"
 
     timestamp = convert_korean_datetime_with_timezone(poker_hand.timestamp) if correct_datetime is None else format_korean_date(correct_datetime)
     community_cards = poker_hand.get_community_cards()
@@ -37,7 +38,7 @@ def convert_to_pokerstars_format(poker_hand: PokerHand, correct_datetime: dateti
     # Seat numbers are 1-indexed
     seat_lines = []
     for idx, player in enumerate(preflop_players, start=1):
-        seat_lines.append(f"Seat {idx}: {player.player} ({player.get_start_stack()} in chips)")
+        seat_lines.append(f"Seat {idx}: {player.player} ({format_currency(player.get_start_stack())} in chips)")
 
     history_parts.extend(seat_lines)
 
@@ -45,7 +46,7 @@ def convert_to_pokerstars_format(poker_hand: PokerHand, correct_datetime: dateti
     antes = []
     for player in preflop_players:
         ante = player.get_ante()
-        antes.append(f"{player.player}: posts the ante {ante}")
+        antes.append(f"{player.player}: posts the ante {format_currency(ante)}")
 
     history_parts.extend(antes)
 
@@ -56,9 +57,9 @@ def convert_to_pokerstars_format(poker_hand: PokerHand, correct_datetime: dateti
         if blind is not None:
             blind_amount = blind.amount
             if blind.blind_type == "small":
-                blinds.append(f"{player.player}: posts small blind {blind_amount}")
+                blinds.append(f"{player.player}: posts small blind {format_currency(blind_amount)}")
             if blind.blind_type == "big":
-                blinds.append(f"{player.player}: posts big blind {blind_amount}")
+                blinds.append(f"{player.player}: posts big blind {format_currency(blind_amount)}")
 
     history_parts.extend(blinds)
 
@@ -152,7 +153,7 @@ def convert_to_pokerstars_format(poker_hand: PokerHand, correct_datetime: dateti
     #     if "shows" in player.raw_betting_action:
     #         showdown += f"{player.player}: shows [{player.hole_cards}]\n"
 
-    winner_statement = f"{poker_hand.winner} collected {poker_hand.winning_amount} from pot"
+    winner_statement = f"{poker_hand.winner} collected {format_currency(poker_hand.winning_amount)} from pot"
 
     summary = "*** SUMMARY ***"
 
@@ -165,7 +166,7 @@ def convert_to_pokerstars_format(poker_hand: PokerHand, correct_datetime: dateti
 
     rake = chips_before - chips_after
     pot = int(poker_hand.winning_amount) + rake
-    total_pot = f"Total pot {pot} | Rake {rake}"
+    total_pot = f"Total pot {format_currency(pot)} | Rake {format_currency(rake)}"
 
     history_parts.append(winner_statement)
     history_parts.append(summary)
@@ -183,7 +184,7 @@ def convert_to_pokerstars_format(poker_hand: PokerHand, correct_datetime: dateti
         betting_position = poker_hand.get_betting_position(player)
 
         if player.is_winner():
-            summary_line = f"Seat {betting_position}: {player.player} showed [{hole_cards}] and won ({poker_hand.winning_amount})"
+            summary_line = f"Seat {betting_position}: {player.player} showed [{hole_cards}] and won ({format_currency(poker_hand.winning_amount)})"
         elif player.went_to_showdown():
             summary_line = f"Seat {betting_position}: {player.player} showed [{hole_cards}] and lost"
         else:
@@ -214,25 +215,25 @@ def generate_betting_rounds(min_bet_size, sorted_street_actions):
         if action is BetType.CHECK:
             result.append(f"{player.player}: checks")
         elif action is BetType.CALL:
-            result.append(f"{player.player}: calls {amount}")
+            result.append(f"{player.player}: calls {format_currency(amount)}")
         elif action is BetType.FOLD:
             result.append(f"{player.player}: folds")
 
         elif action is BetType.BET:
             if last_bet_size == 0:
-                result.append(f"{player.player}: bets {amount}")
+                result.append(f"{player.player}: bets {format_currency(amount)}")
             else:
-                result.append(f"{player.player}: raises {bet_diff} to {amount}")
+                result.append(f"{player.player}: raises {format_currency(bet_diff)} to {format_currency(amount)}")
             last_bet_size = amount
         elif action is BetType.RAISE:
-            result.append(f"{player.player}: raises {bet_diff} to {amount}")
+            result.append(f"{player.player}: raises {format_currency(bet_diff)} to {format_currency(amount)}")
             last_bet_size = amount
         elif action is BetType.ALL_IN:
-            result.append(f"{player.player}: raises {bet_diff} to {amount} and is all-in")
+            result.append(f"{player.player}: raises {format_currency(bet_diff)} to {format_currency(amount)} and is all-in")
             last_bet_size = amount
 
         if player_action.uncalled_bet is not None and not 0:
-            uncalled_bet = f"Uncalled bet ({bet_diff}) returned to {player.player}"
+            uncalled_bet = f"Uncalled bet ({format_currency(bet_diff)}) returned to {player.player}"
 
     # Append the uncalled bet after all the other player actions
     if uncalled_bet is not None:
@@ -245,3 +246,7 @@ def change_suit_card(line):
     suit = {"♠": "s", "◆": "d", "♣": "c", "♥": "h"}
 
     return line[1] + suit[line[0]]
+
+def format_currency(amount):
+
+    return f"{constants.CURRENCY_SYMBOL}{amount}"

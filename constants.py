@@ -1,6 +1,7 @@
 from enum import Enum
 
 MoneyUnit = "원"
+CURRENCY_SYMBOL = "₩"
 
 CHECK = "체크"
 CALL = "콜"
