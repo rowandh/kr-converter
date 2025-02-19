@@ -78,8 +78,8 @@ class PokerStarsConverter():
 
         preflop_actions: List[Tuple[PlayerAction, ActionEntry]] = []
         for player in preflop_players:
-            flop_betting = player.get_preflop_actions()
-            for action in flop_betting:
+            river_betting = player.get_preflop_actions()
+            for action in river_betting:
                 preflop_actions.append((player, action))
 
         sorted_preflop_street_actions = sorted(preflop_actions, key=lambda item: item[1].betting_position)
@@ -99,8 +99,8 @@ class PokerStarsConverter():
 
             flop_actions = []
             for player in flop_players:
-                flop_betting = player.get_flop_actions()
-                for action in flop_betting:
+                river_betting = player.get_flop_actions()
+                for action in river_betting:
                     flop_actions.append((player, action))
 
             # Get the flop actions in the order they occurred
@@ -121,8 +121,8 @@ class PokerStarsConverter():
 
             turn_actions = []
             for player in turn_players:
-                flop_betting = [action for action in player.betting_actions if action.type == "ACTION" and action.betting_round == 2]
-                for action in flop_betting:
+                river_betting = [action for action in player.betting_actions if action.type == "ACTION" and action.betting_round == 2]
+                for action in river_betting:
                     turn_actions.append((player, action))
 
             sorted_turn_street_actions = sorted(turn_actions, key=lambda item: item[1].betting_position)
@@ -142,8 +142,8 @@ class PokerStarsConverter():
 
             river_actions = []
             for player in river_players:
-                flop_betting = [action for action in player.betting_actions if action.type == "ACTION" and action.betting_round == 2]
-                for action in flop_betting:
+                river_betting = [action for action in player.betting_actions if action.type == "ACTION" and action.betting_round == 3]
+                for action in river_betting:
                     river_actions.append((player, action))
 
             sorted_river_street_actions = sorted(river_actions, key=lambda item: item[1].betting_position)
