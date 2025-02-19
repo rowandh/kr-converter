@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Tuple, List
 from constants import BetType
-from models import PokerHand, PlayerAction, ActionEntry, PostBlindEntry
+from models import PokerHand, PlayerAction, ActionEntry, PostBlindEntry, EntryFeeEntry
 from utils import convert_korean_datetime_with_timezone, format_korean_date
 
 
@@ -63,6 +63,12 @@ class PokerStarsConverter():
                     blinds.append(f"{player.player}: posts small blind {self.format_currency(blind_amount)}")
                 if blind.blind_type == "big":
                     blinds.append(f"{player.player}: posts big blind {self.format_currency(blind_amount)}")
+
+        # Now post the entry fees
+        for player in preflop_players:
+            entry_fee: EntryFeeEntry = player.get_entry_fee()
+            if entry_fee is not None:
+                blinds.append(f"{player.player}: posts big blind {self.format_currency(entry_fee.amount)}")
 
         history_parts.extend(blinds)
 

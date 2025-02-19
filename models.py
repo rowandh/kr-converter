@@ -76,13 +76,19 @@ class ResultsEntry:
     result: str
     showdown: str
 
+class EntryFeeEntry:
+    type: str = "ENTRY_FEE"
+    amount: int
+    remaining_stack: int
+
 HistoryLine = Union[
     StartEntry,
     PlayerEntry,
     AnteEntry,
     CommunityCardsEntry,
     ActionEntry,
-    ResultsEntry
+    ResultsEntry,
+    EntryFeeEntry
 ]
 
 # Define the return type as a list of different entry types
@@ -139,6 +145,10 @@ class PlayerAction:
     def get_blind(self) -> PostBlindEntry:
         return next((action for action in self.betting_actions
              if isinstance(action, PostBlindEntry)), None)
+
+    def get_entry_fee(self) -> PostBlindEntry:
+        return next((action for action in self.betting_actions
+             if isinstance(action, EntryFeeEntry)), None)
 
     def get_start_stack(self):
         return next((action.credit for action in self.betting_actions

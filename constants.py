@@ -21,6 +21,8 @@ LOSS = "패배"
 WIN_BY_FORFEIT = "기권승"
 FORFEIT = "기권"
 
+ENTRY_FEE = "신규 참가비"
+
 class BetType(Enum):
     CHECK = "check"
     BET = "bet"

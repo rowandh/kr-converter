@@ -7,7 +7,7 @@ from constants import BetType, ALL_IN, CHECK, RAISE, CALL, FOLD, BIG_BLIND, SMAL
     FULL_POT, \
     MoneyUnit, GENERIC
 from models import ParsedHandHistory, StartEntry, HistoryLine, PlayerEntry, AnteEntry, CommunityCardsEntry, ActionEntry, \
-    PostBlindEntry, ResultsEntry, HoleCardsEntry
+    PostBlindEntry, ResultsEntry, HoleCardsEntry, EntryFeeEntry
 import locale
 locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
 
@@ -116,6 +116,10 @@ def parse_hand_history(hand_history: str) -> ParsedHandHistory:
         elif "결과:" in line:
             parsed_line: ResultsEntry = ResultsEntry()
             parsed_line.result, parsed_line.showdown = parse_result_line(line)
+
+        elif constants.ENTRY_FEE in line:
+            parsed_line: EntryFeeEntry = EntryFeeEntry()
+            parsed_line.amount, parsed_line.remaining_stack = _extract_bet_and_stack_constants(line)
 
         if parsed_line is not None:
             parsed_lines.append(parsed_line)
@@ -278,6 +282,10 @@ def _extract_bet_and_stack_constants(line):
 
     elif any(term in line for term in [SMALL_BLIND, BIG_BLIND]):
         stack_match = re.search(r"Creadit:\s*([\d,]+)원", line)  # Extract remaining stack
+        bet_match = re.search(r"\[금액:([\d,]+)원\]", line)  # Extract blind amount
+
+    elif constants.ENTRY_FEE in line:
+        stack_match = re.search(r"Credit:([\d,]+)원", line)
         bet_match = re.search(r"\[금액:([\d,]+)원\]", line)  # Extract blind amount
 
     # **Case 3: Checks, Calls, and Folds (stack found inside parentheses `()`)**
