@@ -1,11 +1,13 @@
 import os
 from pathlib import Path
+
+import constants
 from hand_parser import parse
 from utils import find_files, extract_datetime_from_filename
 
 
 def main():
-    data_folder = Path(r"C:\Users\Work\Downloads\zips_handhistories-agent-blue-all-dates\2025-02-08")
+    data_folder = Path(r"C:\Users\Work\Documents\Source\kr-converter\tests\data")
 
     output_folder = data_folder.parent / f"{data_folder.name}_converted"
     output_folder.mkdir(exist_ok=True)
@@ -16,7 +18,7 @@ def main():
             html_content = file.read_text(encoding="utf-8")
 
             corrected_timestamp = extract_datetime_from_filename(file)
-            converted_content = parse(html_content, corrected_timestamp)
+            converted_content = parse(html_content, corrected_timestamp, "$")
 
             output_filename = f"{file.stem}_converted.txt"
             output_filepath = output_folder / output_filename

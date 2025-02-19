@@ -32,14 +32,14 @@ class TestActionsParsing(unittest.TestCase):
     def test_river_reraise(self):
         script_dir = Path(__file__).parent
 
-        file = script_dir / "data" / "smallhand.html"
+        file = script_dir / "data" / "bighand.html"
 
         with open(file, "r", encoding="utf-8") as file:
             html_content = file.read()
             str = parse(html_content)
             pprint(str)
 
-        save = script_dir / "converted" / "smallhand_converted.txt"
+        save = script_dir / "converted" / "bighand_converted.txt"
         with open (save, "w", encoding="utf-8") as file:
             file.write(str)
 
