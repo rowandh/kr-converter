@@ -240,10 +240,11 @@ class PokerStarsConverter():
                 blind = False  # Don't add any blinds after this
                 action_opened = True
 
-            # If the bet type is all_in, it's a raise if no previous action, otherwise it's a call
-            elif action is BetType.ALL_IN:
+            elif action is BetType.ALL_IN or BetType.RAISE:
                 if action_opened:
                     result.append(f"{player.player}: calls {self.format_currency(amount)} and is all-in")
+                elif last_bet_size > 0:
+                    result.append(f"{player.player}: raises {self.format_currency(bet_diff)} to {self.format_currency(amount)} and is all-in")
                 else:
                     result.append(f"{player.player}: bets {self.format_currency(amount)} and is all-in")
                 last_bet_size = amount

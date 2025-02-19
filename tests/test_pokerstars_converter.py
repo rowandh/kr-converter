@@ -89,9 +89,8 @@ hjagjhgdj: calls 8000
 kollosart: calls 8000
 *** RIVER *** [7h 2c 7c] [3d] [7d]
 kollosart: checks
-rjrhrhh5: bets 8000
-hjagjhgdj: calls 8000
-kollosart: calls 8000
+rjrhrhh5: folds
+hjagjhgdj: checks
 hjagjhgdj collected 37880 from pot
 *** SUMMARY ***
 Total pot 40000 | Rake 2120
@@ -139,7 +138,7 @@ zqclbn9xgi: posts the ante 1000
 apsdifjadsfjhzehzihn: posts small blind 1000
 zqclbn9xgi: posts big blind 1000
 *** HOLE CARDS ***
-bn09: bets 9917 and is all-in
+bn09: raises 8917 to 9917 and is all-in
 jqjwhhre: folds
 zjckvjvnek: folds
 nsukrwph: folds
