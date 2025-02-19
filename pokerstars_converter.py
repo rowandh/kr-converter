@@ -231,12 +231,14 @@ class PokerStarsConverter():
                     result.append(f"{player.player}: raises {self.format_currency(bet_diff)} to {self.format_currency(amount)}{all_in}")
                 last_bet_size = amount
                 blind = False # Don't add any blinds after this
+                action_opened = True
 
             # Raises that put a player all in always seem to appear as a raise type
             elif action is BetType.RAISE:
                 result.append(f"{player.player}: raises {self.format_currency(bet_diff)} to {self.format_currency(amount)}{all_in}")
                 last_bet_size = amount
                 blind = False  # Don't add any blinds after this
+                action_opened = True
 
             # If the bet type is all_in, it's a raise if no previous action, otherwise it's a call
             elif action is BetType.ALL_IN:
@@ -246,11 +248,10 @@ class PokerStarsConverter():
                     result.append(f"{player.player}: bets {self.format_currency(amount)} and is all-in")
                 last_bet_size = amount
                 blind = False  # Don't add any blinds after this
+                action_opened = True
 
             if player_action.uncalled_bet is not None and not 0:
                 uncalled_bet = f"Uncalled bet ({self.format_currency(player_action.uncalled_bet)}) returned to {player.player}"
-
-            action_opened = True
 
         # Append the uncalled bet after all the other player actions
         if uncalled_bet is not None:
