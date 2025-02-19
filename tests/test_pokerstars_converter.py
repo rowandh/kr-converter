@@ -23,9 +23,9 @@ lopghfvas: posts the ante 1000
 MuNnW738j1: posts small blind 1000
 lopghfvas: posts big blind 1000
 *** HOLE CARDS ***
-MuNnW738j1: raises 3000 to 4000
+MuNnW738j1: raises 4000 to 5000
 lopghfvas: folds
-Uncalled bet (3000) returned to MuNnW738j1
+Uncalled bet (4000) returned to MuNnW738j1
 MuNnW738j1 collected 3788 from pot
 *** SUMMARY ***
 Total pot 4000 | Rake 212
@@ -35,7 +35,7 @@ Seat 2: lopghfvas mucked [Ts 4s]"""
         converted = parse(content)
 
         pprint(converted)
-        self.assertTrue(converted.startswith(expected))
+        self.assertEqual(converted, expected)
 
     def test_river_9way_bet_call_with_corrected_date(self):
         expected = """PokerStars Hand #15286756675:  Hold'em No Limit (1000/1000) - 2024/11/30 13:34:46 KST
@@ -113,7 +113,7 @@ Seat 9: drsfbnuserfyb mucked [Jh 8h]"""
 
         pprint(converted)
 
-        self.assertTrue(converted == expected)
+        self.assertEqual(converted, expected)
 
     def test_all_in_pre(self):
         expected = """PokerStars Hand #15286303849:  Hold'em No Limit (1000/1000) - 2024/11/10 15:32:02 KST
@@ -139,7 +139,7 @@ zqclbn9xgi: posts the ante 1000
 apsdifjadsfjhzehzihn: posts small blind 1000
 zqclbn9xgi: posts big blind 1000
 *** HOLE CARDS ***
-bn09: raises 8917 to 9917 and is all-in
+bn09: raises 9917 to 10917 and is all-in
 jqjwhhre: folds
 zjckvjvnek: folds
 nsukrwph: folds
@@ -178,6 +178,68 @@ Seat 9: zqclbn9xgi mucked [Qc 2d]"""
 
         self.assertEqual(converted, expected)
 
+    def test_parse_error1(self):
+        expected = """PokerStars Hand #15287325953:  Hold'em No Limit (1000/1000) - 2024/12/26 17:43:21 KST
+Table 'Table 1' 9-max Seat #7 is the button
+Seat 1: trdhgj06 (86258 in chips)
+Seat 2: vdftfa (26511 in chips)
+Seat 3: AFDADFG (98000 in chips)
+Seat 4: gfjhfghfg (200000 in chips)
+Seat 5: mzvpbms (160363 in chips)
+Seat 6: wfpsvbgo (100000 in chips)
+Seat 7: gtelu940hs (414434 in chips)
+Seat 8: rhmugaqgy (113622 in chips)
+Seat 9: afasfasfa (129979 in chips)
+trdhgj06: posts the ante 1000
+vdftfa: posts the ante 1000
+AFDADFG: posts the ante 1000
+gfjhfghfg: posts the ante 1000
+mzvpbms: posts the ante 1000
+wfpsvbgo: posts the ante 1000
+gtelu940hs: posts the ante 1000
+rhmugaqgy: posts the ante 1000
+afasfasfa: posts the ante 1000
+rhmugaqgy: posts small blind 1000
+afasfasfa: posts big blind 1000
+*** HOLE CARDS ***
+trdhgj06: calls 1000
+vdftfa: folds
+AFDADFG: calls 1000
+gfjhfghfg: folds
+mzvpbms: folds
+wfpsvbgo: folds
+gtelu940hs: calls 1000
+rhmugaqgy: raises 5000 to 6000
+afasfasfa: folds
+trdhgj06: calls 5000
+AFDADFG: folds
+gtelu940hs: calls 5000
+*** FLOP *** [4h 6c Qc]
+rhmugaqgy: bets 9000
+trdhgj06: folds
+gtelu940hs: folds
+Uncalled bet (9000) returned to rhmugaqgy
+rhmugaqgy collected 27463 from pot
+*** SUMMARY ***
+Total pot 29000 | Rake 1537
+Board [4h 6c Qc]
+Seat 1: trdhgj06 mucked [Ks Tc]
+Seat 2: vdftfa mucked [9h 4c]
+Seat 3: AFDADFG mucked [Jd 7h]
+Seat 4: gfjhfghfg mucked [8c 5s]
+Seat 5: mzvpbms mucked [Jc 2s]
+Seat 6: wfpsvbgo mucked [6s 3h]
+Seat 7: gtelu940hs mucked [9s 7s]
+Seat 8: rhmugaqgy showed [Th Td] and won (27463)
+Seat 9: afasfasfa mucked [8s 6h]"""
+
+        content = self.read_test_file("parse_error_1.html")
+        converted = parse(content)
+
+        pprint(converted)
+
+        self.assertEqual(converted, expected)
+
     # Scenario where HU and a player leaves before betting
     def test_parse_error2(self):
         expected = """PokerStars Hand #15292027240:  Hold'em No Limit (1000/1000) - 2024/12/23 22:25:49 KST
@@ -201,4 +263,71 @@ Seat 2: msyjk showed [9d 2d] and won (3788)"""
 
         pprint(converted)
 
-        self.assertTrue(converted == expected)
+        self.assertEqual(converted, expected)
+
+    def test_all_in(self):
+        expected = """PokerStars Hand #15286303596:  Hold'em No Limit (1000/1000) - 2024/09/09 22:32:44 KST
+Table 'Table 1' 9-max Seat #7 is the button
+Seat 1: Qqjwjqkqk (97000 in chips)
+Seat 2: zxssdv (78000 in chips)
+Seat 3: gtelu940hs (300000 in chips)
+Seat 4: ckadmfheo (167932 in chips)
+Seat 5: xbvnfgtrf (81500 in chips)
+Seat 6: 3whj3jk21 (200000 in chips)
+Seat 7: kvvsufhe (152615 in chips)
+Seat 8: bhrghthtr (64136 in chips)
+Seat 9: glkfjhl12 (415051 in chips)
+Qqjwjqkqk: posts the ante 1000
+zxssdv: posts the ante 1000
+gtelu940hs: posts the ante 1000
+ckadmfheo: posts the ante 1000
+xbvnfgtrf: posts the ante 1000
+3whj3jk21: posts the ante 1000
+kvvsufhe: posts the ante 1000
+bhrghthtr: posts the ante 1000
+glkfjhl12: posts the ante 1000
+bhrghthtr: posts small blind 1000
+glkfjhl12: posts big blind 1000
+*** HOLE CARDS ***
+Qqjwjqkqk: calls 1000
+zxssdv: calls 1000
+gtelu940hs: calls 1000
+ckadmfheo: folds
+xbvnfgtrf: folds
+3whj3jk21: folds
+kvvsufhe: calls 1000
+bhrghthtr: checks
+glkfjhl12: checks
+*** FLOP *** [4c 7s Jc]
+bhrghthtr: folds
+glkfjhl12: checks
+Qqjwjqkqk: bets 15000
+zxssdv: raises 22500 to 37500
+gtelu940hs: folds
+kvvsufhe: raises 113115 to 150615 and is all-in
+glkfjhl12: folds
+Qqjwjqkqk: folds
+zxssdv: calls 38500 and is all-in
+Uncalled bet (74615) returned to kvvsufhe
+*** TURN *** [4c 7s Jc] [6h]
+*** RIVER *** [4c 7s Jc] [6h] [4s]
+zxssdv collected 172354 from pot
+*** SUMMARY ***
+Total pot 182000 | Rake 9646
+Board [4c 7s Jc 6h 4s]
+Seat 1: Qqjwjqkqk mucked [Js 9c]
+Seat 2: zxssdv showed [Tc 7c] and won (172354)
+Seat 3: gtelu940hs mucked [As 3s]
+Seat 4: ckadmfheo mucked [Ks 5h]
+Seat 5: xbvnfgtrf mucked [6d 3c]
+Seat 6: 3whj3jk21 mucked [Jd 6s]
+Seat 7: kvvsufhe showed [Ac 2c] and lost
+Seat 8: bhrghthtr mucked [9d 3d]
+Seat 9: glkfjhl12 mucked [Kc 7d]"""
+
+        content = self.read_test_file("all_in.html")
+        converted = parse(content)
+
+        pprint(converted)
+
+        self.assertEqual(converted, expected)

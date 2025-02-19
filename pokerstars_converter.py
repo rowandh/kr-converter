@@ -214,6 +214,7 @@ class PokerStarsConverter():
             action = player_action.action
             amount = player_action.amount
             bet_diff = amount - last_bet_size
+            all_in = " and is all-in" if player_action.remaining_stack == 0 else ""
 
             if action is BetType.CHECK:
                 result.append(f"{player.player}: checks")
@@ -221,22 +222,25 @@ class PokerStarsConverter():
                 result.append(f"{player.player}: calls {self.format_currency(amount)}")
             elif action is BetType.FOLD:
                 result.append(f"{player.player}: folds")
-
             elif action is BetType.BET:
                 if last_bet_size == 0:
                     result.append(f"{player.player}: bets {self.format_currency(amount)}")
                 else:
-                    result.append(f"{player.player}: raises {self.format_currency(bet_diff)} to {self.format_currency(amount)}")
+                    result.append(f"{player.player}: raises {self.format_currency(bet_diff)} to {self.format_currency(amount)}{all_in}")
                 last_bet_size = amount
+
+            # Raises that put a player all in always seem to appear as a raise type
             elif action is BetType.RAISE:
-                result.append(f"{player.player}: raises {self.format_currency(bet_diff)} to {self.format_currency(amount)}")
+                result.append(f"{player.player}: raises {self.format_currency(bet_diff)} to {self.format_currency(amount)}{all_in}")
                 last_bet_size = amount
+
+            # If the bet type is all_in, it's because the player called
             elif action is BetType.ALL_IN:
-                result.append(f"{player.player}: raises {self.format_currency(bet_diff)} to {self.format_currency(amount)} and is all-in")
+                result.append(f"{player.player}: calls {self.format_currency(amount)} and is all-in")
                 last_bet_size = amount
 
             if player_action.uncalled_bet is not None and not 0:
-                uncalled_bet = f"Uncalled bet ({self.format_currency(bet_diff)}) returned to {player.player}"
+                uncalled_bet = f"Uncalled bet ({self.format_currency(player_action.uncalled_bet)}) returned to {player.player}"
 
         # Append the uncalled bet after all the other player actions
         if uncalled_bet is not None:
