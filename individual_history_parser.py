@@ -22,23 +22,7 @@ def parse_hand_history(hand_history: str) -> ParsedHandHistory:
 
     # Fixes an issue where MS are on a newline
     lines = hand_history.strip().split("\n")
-    lines_to_remove = []
-    uncalled_bet = None
-    uncalled_bet_index = None
-
-    for line in lines:
-        # if "ms]" in line:
-        #     index = lines.index(line) - 1
-        #     lines[index] += line.strip()
-        #     lines_to_remove.append(line)
-
-        # Sometimes the uncalled bet will be at the start of the line and we need to persist it for later
-        if "# 공베팅 반환" in line:
-            start_index = line.find("# 공베팅 반환 [") + len("# 공베팅 반환 [")
-            end_index = line.find("원]", start_index)
-            uncalled_bet_str = line[start_index:end_index].replace(",", "")
-            uncalled_bet = int(uncalled_bet_str)
-            uncalled_bet_index = lines.index(line)
+    last_action = None
 
     parsed_lines: ParsedHandHistory = []
 
@@ -117,11 +101,17 @@ def parse_hand_history(hand_history: str) -> ParsedHandHistory:
         elif "베팅:" in line:
             parsed_line = _parse_betting_action(line)
 
-            # Hack to make sure we're setting the uncalled bet on the correct action
-            if uncalled_bet and uncalled_bet_index:
-                line_index = lines.index(line)
-                if line_index == uncalled_bet_index - 2:
-                    parsed_line.uncalled_bet = uncalled_bet
+            # Keep track of the last action so we can add an uncalled_bet to it
+            last_action = parsed_line
+
+        elif "# 공베팅 반환" in line:
+            start_index = line.find("# 공베팅 반환 [") + len("# 공베팅 반환 [")
+            end_index = line.find("원]", start_index)
+            uncalled_bet_str = line[start_index:end_index].replace(",", "")
+            uncalled_bet = int(uncalled_bet_str)
+
+            if last_action is not None:
+                last_action.uncalled_bet = uncalled_bet
 
         elif "결과:" in line:
             parsed_line: ResultsEntry = ResultsEntry()

@@ -155,6 +155,7 @@ skdigufa: checks
 apsdifjadsfjhzehzihn: checks
 skdigufa: bets 9937
 apsdifjadsfjhzehzihn: folds
+Uncalled bet (9937) returned to skdigufa
 *** RIVER *** [7s Js 3d] [2s] [Jc]
 skdigufa collected 37645 from pot
 *** SUMMARY ***
