@@ -84,7 +84,7 @@ class PokerStarsConverter():
 
         sorted_preflop_street_actions = sorted(preflop_actions, key=lambda item: item[1].betting_position)
 
-        preflop_betting_rounds = self.generate_betting_rounds(bb, sorted_preflop_street_actions)
+        preflop_betting_rounds = self.generate_betting_rounds(bb, sorted_preflop_street_actions, True)
 
         history_parts.extend(preflop_betting_rounds)
 
@@ -200,10 +200,11 @@ class PokerStarsConverter():
         return pokerstars_history
 
 
-    def generate_betting_rounds(self, min_bet_size, sorted_street_actions):
+    def generate_betting_rounds(self, min_bet_size, sorted_street_actions, blind = False):
         last_bet_size = min_bet_size
         result = []
         uncalled_bet = None
+        action_opened = False
 
         # Stars format seems to expect a "raise" if there has been any kind of previous action
         # eg. if we're preflop and a blind has been posted
@@ -212,9 +213,10 @@ class PokerStarsConverter():
             player: PlayerAction = street_action[0]
             player_action = street_action[1]
             action = player_action.action
-            amount = player_action.amount
-            bet_diff = amount - last_bet_size
             all_in = " and is all-in" if player_action.remaining_stack == 0 else ""
+            blind_amount = player.get_blind().amount if blind and player.get_blind() is not None else 0
+            amount = player_action.amount + blind_amount
+            bet_diff = amount - last_bet_size
 
             if action is BetType.CHECK:
                 result.append(f"{player.player}: checks")
@@ -228,19 +230,27 @@ class PokerStarsConverter():
                 else:
                     result.append(f"{player.player}: raises {self.format_currency(bet_diff)} to {self.format_currency(amount)}{all_in}")
                 last_bet_size = amount
+                blind = False # Don't add any blinds after this
 
             # Raises that put a player all in always seem to appear as a raise type
             elif action is BetType.RAISE:
                 result.append(f"{player.player}: raises {self.format_currency(bet_diff)} to {self.format_currency(amount)}{all_in}")
                 last_bet_size = amount
+                blind = False  # Don't add any blinds after this
 
-            # If the bet type is all_in, it's because the player called
+            # If the bet type is all_in, it's a raise if no previous action, otherwise it's a call
             elif action is BetType.ALL_IN:
-                result.append(f"{player.player}: calls {self.format_currency(amount)} and is all-in")
+                if action_opened:
+                    result.append(f"{player.player}: calls {self.format_currency(amount)} and is all-in")
+                else:
+                    result.append(f"{player.player}: bets {self.format_currency(amount)} and is all-in")
                 last_bet_size = amount
+                blind = False  # Don't add any blinds after this
 
             if player_action.uncalled_bet is not None and not 0:
                 uncalled_bet = f"Uncalled bet ({self.format_currency(player_action.uncalled_bet)}) returned to {player.player}"
+
+            action_opened = True
 
         # Append the uncalled bet after all the other player actions
         if uncalled_bet is not None:

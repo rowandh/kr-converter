@@ -139,7 +139,7 @@ zqclbn9xgi: posts the ante 1000
 apsdifjadsfjhzehzihn: posts small blind 1000
 zqclbn9xgi: posts big blind 1000
 *** HOLE CARDS ***
-bn09: raises 9917 to 10917 and is all-in
+bn09: bets 9917 and is all-in
 jqjwhhre: folds
 zjckvjvnek: folds
 nsukrwph: folds
