@@ -1,0 +1,54 @@
+PokerStars Hand #15329536332:  Hold'em No Limit ($5000/$5000) - 2025/02/05 15:10:16 KST
+Table 'Table 1' 9-max Seat #7 is the button
+Seat 1: 85xcdkfoqs ($1535760 in chips)
+Seat 2: Piurdkgdx ($931490 in chips)
+Seat 3: quaibuderjkd ($806290 in chips)
+Seat 4: Kojhgbvfffghgvg ($736549 in chips)
+Seat 5: eskhvmop ($985506 in chips)
+Seat 6: jdbdbhkf ($430576 in chips)
+Seat 7: dygfdasd ($506820 in chips)
+Seat 8: mdsfdfoghs ($750000 in chips)
+Seat 9: fdgksuik ($651023 in chips)
+85xcdkfoqs: posts the ante $5000
+Piurdkgdx: posts the ante $5000
+quaibuderjkd: posts the ante $5000
+Kojhgbvfffghgvg: posts the ante $5000
+eskhvmop: posts the ante $5000
+jdbdbhkf: posts the ante $5000
+dygfdasd: posts the ante $5000
+mdsfdfoghs: posts the ante $5000
+fdgksuik: posts the ante $5000
+mdsfdfoghs: posts small blind $5000
+fdgksuik: posts big blind $5000
+*** HOLE CARDS ***
+85xcdkfoqs: calls $5000
+Piurdkgdx: calls $5000
+quaibuderjkd: folds
+Kojhgbvfffghgvg: raises $70000 to $75000
+eskhvmop: folds
+jdbdbhkf: calls $75000
+dygfdasd: folds
+mdsfdfoghs: folds
+fdgksuik: raises $285000 to $360000
+85xcdkfoqs: folds
+Piurdkgdx: folds
+Kojhgbvfffghgvg: raises $371549 to $731549 and is all-in
+jdbdbhkf: folds
+fdgksuik: calls $286023 and is all-in
+Uncalled bet ($85526) returned to Kojhgbvfffghgvg
+*** FLOP *** [Jh 2c 9d]
+*** TURN *** [Jh 2c 9d] [Ad]
+*** RIVER *** [Jh 2c 9d] [Ad] [3c]
+Kojhgbvfffghgvg collected $1351413 from pot
+*** SUMMARY ***
+Total pot $1427046 | Rake $75633
+Board [Jh 2c 9d Ad 3c]
+Seat 1: 85xcdkfoqs mucked [9c 8c]
+Seat 2: Piurdkgdx mucked [Js Ts]
+Seat 3: quaibuderjkd mucked [5d 4s]
+Seat 4: Kojhgbvfffghgvg showed [Kd Kc] and won ($1351413)
+Seat 5: eskhvmop mucked [Jc Td]
+Seat 6: jdbdbhkf mucked [9s 9h]
+Seat 7: dygfdasd mucked [6h 3s]
+Seat 8: mdsfdfoghs mucked [7c 4d]
+Seat 9: fdgksuik showed [Kh Qd] and lost

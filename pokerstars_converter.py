@@ -206,55 +206,57 @@ class PokerStarsConverter():
         return pokerstars_history
 
 
-    def generate_betting_rounds(self, min_bet_size, sorted_street_actions, blind = False):
+    def generate_betting_rounds(self, min_bet_size, sorted_street_actions, include_blind = False):
         last_bet_size = min_bet_size
         result = []
         uncalled_bet = None
-        action_opened = False
+        action_opened = include_blind
 
-        # Stars format seems to expect a "raise" if there has been any kind of previous action
-        # eg. if we're preflop and a blind has been posted
+        # Keep track of the amount invested in this street by each player
+        player_invested = {}
 
         for street_action in sorted_street_actions:
             player: PlayerAction = street_action[0]
             player_action = street_action[1]
             action = player_action.action
+
+            if player.player not in player_invested:
+                # We can have multiple blinds eg. for entry fees so make sure we include all of these
+                blind_amount = player.get_blind_investment() if include_blind else 0
+                player_invested[player.player] = blind_amount
+            player_invested[player.player] += player_action.amount
+
+            player_invested_this_street = player_invested[player.player]
+            bet_diff = player_invested_this_street - last_bet_size
+            amount = player_invested_this_street
             all_in = " and is all-in" if player_action.remaining_stack == 0 else ""
-            blind_amount = player.get_blind().amount if blind and player.get_blind() is not None else 0
-            amount = player_action.amount + blind_amount
-            bet_diff = amount - last_bet_size
 
             if action is BetType.CHECK:
                 result.append(f"{player.player}: checks")
             elif action is BetType.CALL:
-                result.append(f"{player.player}: calls {self.format_currency(amount)}")
+                result.append(f"{player.player}: calls {self.format_currency(player_action.amount)}")
             elif action is BetType.FOLD:
                 result.append(f"{player.player}: folds")
             elif action is BetType.BET:
-                if last_bet_size == 0:
+                if not action_opened:
                     result.append(f"{player.player}: bets {self.format_currency(amount)}")
+                    last_bet_size = amount
                 else:
-                    result.append(f"{player.player}: raises {self.format_currency(bet_diff)} to {self.format_currency(amount)}{all_in}")
-                last_bet_size = amount
-                blind = False # Don't add any blinds after this
-                action_opened = True
-
-            # Raises that put a player all in always seem to appear as a raise type
-            elif action is BetType.RAISE:
-                result.append(f"{player.player}: raises {self.format_currency(bet_diff)} to {self.format_currency(amount)}{all_in}")
-                last_bet_size = amount
-                blind = False  # Don't add any blinds after this
+                    result.append(f"{player.player}: raises {self.format_currency(bet_diff)} to {self.format_currency(player_invested_this_street)}{all_in}")
+                    last_bet_size = player_invested_this_street
                 action_opened = True
 
             elif action is BetType.ALL_IN or BetType.RAISE:
-                if action_opened:
-                    result.append(f"{player.player}: calls {self.format_currency(amount)} and is all-in")
-                elif last_bet_size > 0:
-                    result.append(f"{player.player}: raises {self.format_currency(bet_diff)} to {self.format_currency(amount)} and is all-in")
+                if not action_opened:
+                    result.append(f"{player.player}: bets {self.format_currency(player_invested_this_street)}{all_in}")
+                    last_bet_size = player_invested_this_street
                 else:
-                    result.append(f"{player.player}: bets {self.format_currency(amount)} and is all-in")
-                last_bet_size = amount
-                blind = False  # Don't add any blinds after this
+                    if bet_diff <= 0: # We are calling an all-in
+                        result.append(f"{player.player}: calls {self.format_currency(player_action.amount)}{all_in}")
+                        last_bet_size = player_action.amount
+                    else:
+                        result.append(f"{player.player}: raises {self.format_currency(bet_diff)} to {self.format_currency(player_invested_this_street)}{all_in}")
+                        last_bet_size = player_invested_this_street
                 action_opened = True
 
             if player_action.uncalled_bet is not None and not 0:

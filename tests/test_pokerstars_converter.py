@@ -117,3 +117,12 @@ class TestPokerstarsConverter(unittest.TestCase):
         pprint(converted)
 
         self.assertEqual(converted, expected)
+
+    def test_flop_multiple_raise_allin(self):
+        expected = self.read_expected_file("flop_multiple_raise_allin.txt")
+        content = self.read_test_file("flop_multiple_raise_allin.html")
+        converted = self.parse(content)
+
+        pprint(converted)
+
+        self.assertEqual(converted, expected)

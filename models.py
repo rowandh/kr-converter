@@ -142,6 +142,10 @@ class PlayerAction:
         return next((action.amount for action in self.betting_actions
              if isinstance(action, AnteEntry)  and action.amount is not None), 0)
 
+    def get_blind_investment(self) -> PostBlindEntry | EntryFeeEntry:
+        return next((action.amount for action in self.betting_actions
+                     if isinstance(action, PostBlindEntry) or isinstance(action, EntryFeeEntry)), 0)
+
     def get_blind(self) -> PostBlindEntry:
         return next((action for action in self.betting_actions
              if isinstance(action, PostBlindEntry)), None)
