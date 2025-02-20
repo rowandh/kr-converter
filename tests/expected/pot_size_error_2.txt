@@ -1,5 +1,5 @@
 PokerStars Hand #15329534465:  Hold'em No Limit ($5000/$5000) - 2025/02/05 21:48:47 KST
-Table 'Table 1' 9-max Seat #6 is the button
+Table 'Table 1' 9-max Seat #7 is the button
 Seat 1: abkhgxmtc8 ($1536290 in chips)
 Seat 2: sdfmsjkdms4 ($1159420 in chips)
 Seat 3: mfgipsdyes ($781820 in chips)
@@ -8,6 +8,7 @@ Seat 5: Koijhhbvhbfghhh ($500000 in chips)
 Seat 6: HYEMIll ($571865 in chips)
 Seat 7: juhyg ($2555114 in chips)
 Seat 8: id382906aa ($417952 in chips)
+Seat 9: jsdohisud ($432798 in chips)
 abkhgxmtc8: posts the ante $5000
 sdfmsjkdms4: posts the ante $5000
 mfgipsdyes: posts the ante $5000
@@ -16,7 +17,9 @@ Koijhhbvhbfghhh: posts the ante $5000
 HYEMIll: posts the ante $5000
 juhyg: posts the ante $5000
 id382906aa: posts the ante $5000
+jsdohisud: posts the ante $5000
 id382906aa: posts small blind $5000
+jsdohisud: posts big blind $5000
 Koijhhbvhbfghhh: posts big blind $5000
 *** HOLE CARDS ***
 abkhgxmtc8: calls $5000
@@ -61,3 +64,4 @@ Seat 5: Koijhhbvhbfghhh mucked [Jd 2d]
 Seat 6: HYEMIll mucked [8d 5d]
 Seat 7: juhyg showed [Qh 9s] and lost
 Seat 8: id382906aa mucked [8s 3c]
+Seat 9: jsdohisud mucked [Kc 7c]

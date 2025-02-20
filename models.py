@@ -111,6 +111,9 @@ class PlayerAction:
     final_stack: str  # 남은 잔액 (Final stack after the hand)
     win_money: WinMoneyEntry
 
+    def is_blind(self):
+        return self.get_blind() is not None
+
     def is_winner(self):
         return self.win_money is not None and self.win_money.amount > 0
 
@@ -195,22 +198,43 @@ class PokerHand:
 
     # Returns the players ordered by their action on the flop
     def get_ordered_preflop_players(self):
+        blinds = [self.get_small_blind_player(), self.get_big_blind_player()]
         if len(self.players) <= 2:
-            return [self.get_small_blind_player(), self.get_big_blind_player()]
+            return blinds
 
-        # Get the players who don't make any bets at all
-        players_without_action_entries = [player for player in self.players if
-                                          not any(isinstance(a, ActionEntry) and a.betting_round == 0
-                                                  for a in player.betting_actions)]
+        """
+        Getting preflop players is tricky:
+        - Sometimes players don't have a preflop action eg. they are auto all-in
+        - Sometimes players are the blind but don't have a preflop action
+        - Players can act multiple times preflop
+        
+        To reconstruct the order correctly:
+        - Ignore blinds and append to the end of any list
+        - Find all other players who aren't blinds but don't have any betting actions and put them first
+        - Finally, append players in betting order
+        """
+        ordered_players = [None] * len(self.players)
+        unordered_players = []
 
-        # Get the players who bet preflop
-        players_bet_preflop = sorted(
-            self.get_players_in_hand(0),
-            key=lambda item: self.get_sort_key(item, 0)
-        )
+        for value in self.players:
+            if value.is_blind():
+                continue
+
+            preflop_betting_actions = [a for a in value.betting_actions if isinstance(a, ActionEntry) and a.betting_round == 0]
+
+            # Append players without a betting_order to the start of the list
+            if len(preflop_betting_actions) == 0:
+                unordered_players.append(value)
+                continue
+
+            # We don't want to add the player twice
+            if value not in ordered_players:
+                ordered_players[preflop_betting_actions[0].betting_position] = value
+            else:
+                print("Already found")
 
         # Ensure the players who don't bet at all are returned before the players who bet preflop
-        return players_without_action_entries + players_bet_preflop
+        return unordered_players + [p for p in ordered_players if p is not None] + blinds
 
     def get_ordered_flop_players(self):
         return sorted(
