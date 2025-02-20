@@ -99,3 +99,21 @@ class TestPokerstarsConverter(unittest.TestCase):
         pprint(converted)
 
         self.assertEqual(converted, expected)
+
+    def test_betslider_raise(self):
+        expected = self.read_expected_file("generic_bet.txt")
+        content = self.read_test_file("generic_bet.html")
+        converted = self.parse(content)
+
+        pprint(converted)
+
+        self.assertEqual(converted, expected)
+
+    def test_multiple_raises(self):
+        expected = self.read_expected_file("multiple_raises.txt")
+        content = self.read_test_file("multiple_raises.html")
+        converted = self.parse(content)
+
+        pprint(converted)
+
+        self.assertEqual(converted, expected)

@@ -1,0 +1,52 @@
+PokerStars Hand #15286576952:  Hold'em No Limit ($1000/$1000) - 2024/12/27 19:20:56 KST
+Table 'Table 1' 9-max Seat #7 is the button
+Seat 1: Sweeety4 ($168263 in chips)
+Seat 2: ftxijbnridn ($311675 in chips)
+Seat 3: iuwjrjjff ($87391 in chips)
+Seat 4: woeirvkd ($200000 in chips)
+Seat 5: sdhewrj35 ($455667 in chips)
+Seat 6: 3t2gh2j4 ($120145 in chips)
+Seat 7: gkjasdb ($200000 in chips)
+Seat 8: e3r5fg1fgfd ($511826 in chips)
+Seat 9: ngjyl9xfq2 ($200000 in chips)
+Sweeety4: posts the ante $1000
+ftxijbnridn: posts the ante $1000
+iuwjrjjff: posts the ante $1000
+woeirvkd: posts the ante $1000
+sdhewrj35: posts the ante $1000
+3t2gh2j4: posts the ante $1000
+gkjasdb: posts the ante $1000
+e3r5fg1fgfd: posts the ante $1000
+ngjyl9xfq2: posts the ante $1000
+e3r5fg1fgfd: posts small blind $1000
+ngjyl9xfq2: posts big blind $1000
+*** HOLE CARDS ***
+Sweeety4: folds
+ftxijbnridn: folds
+iuwjrjjff: calls $1000
+woeirvkd: folds
+sdhewrj35: raises $9000 to $10000
+3t2gh2j4: raises $27000 to $37000
+gkjasdb: folds
+e3r5fg1fgfd: folds
+ngjyl9xfq2: folds
+iuwjrjjff: folds
+sdhewrj35: raises $407000 to $444000
+3t2gh2j4: calls $82145 and is all-in
+Uncalled bet ($334855) returned to sdhewrj35
+*** FLOP *** [9c As Tc]
+*** TURN *** [9c As Tc] [8h]
+*** RIVER *** [9c As Tc] [8h] [Jh]
+3t2gh2j4 collected $237025 from pot
+*** SUMMARY ***
+Total pot $250290 | Rake $13265
+Board [9c As Tc 8h Jh]
+Seat 1: Sweeety4 mucked [Ts 2s]
+Seat 2: ftxijbnridn mucked [8d 5s]
+Seat 3: iuwjrjjff mucked [Ad 5d]
+Seat 4: woeirvkd mucked [6c 2c]
+Seat 5: sdhewrj35 showed [Ac Js] and lost
+Seat 6: 3t2gh2j4 showed [9h 9d] and won ($237025)
+Seat 7: gkjasdb mucked [Qh 5c]
+Seat 8: e3r5fg1fgfd mucked [Qc 6d]
+Seat 9: ngjyl9xfq2 mucked [Qd Jc]

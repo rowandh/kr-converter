@@ -1,0 +1,55 @@
+PokerStars Hand #15327737822:  Hold'em No Limit ($5000/$5000) - 2024/12/27 23:53:28 KST
+Table 'Table 1' 9-max Seat #7 is the button
+Seat 1: dks0001 ($849617 in chips)
+Seat 2: vkblrogib ($614375 in chips)
+Seat 3: okjvjbfh ($2710987 in chips)
+Seat 4: wertkhjljkwerth ($500000 in chips)
+Seat 5: abkhgxmtc8 ($1500000 in chips)
+Seat 6: fycizoki ($6554154 in chips)
+Seat 7: hbdjjjebv ($399895 in chips)
+Seat 8: mdsqqtuoo ($941032 in chips)
+Seat 9: dsjgoqpeg ($462970 in chips)
+dks0001: posts the ante $5000
+vkblrogib: posts the ante $5000
+okjvjbfh: posts the ante $5000
+wertkhjljkwerth: posts the ante $5000
+abkhgxmtc8: posts the ante $5000
+fycizoki: posts the ante $5000
+hbdjjjebv: posts the ante $5000
+mdsqqtuoo: posts the ante $5000
+dsjgoqpeg: posts the ante $5000
+mdsqqtuoo: posts small blind $5000
+dsjgoqpeg: posts big blind $5000
+abkhgxmtc8: posts big blind $5000
+*** HOLE CARDS ***
+dks0001: folds
+vkblrogib: folds
+okjvjbfh: folds
+wertkhjljkwerth: folds
+abkhgxmtc8: checks
+fycizoki: calls $5000
+hbdjjjebv: calls $5000
+mdsqqtuoo: checks
+dsjgoqpeg: checks
+*** FLOP *** [3c Ts Th]
+mdsqqtuoo: checks
+dsjgoqpeg: bets $10000
+abkhgxmtc8: raises $45000 to $55000
+fycizoki: folds
+hbdjjjebv: folds
+mdsqqtuoo: folds
+dsjgoqpeg: folds
+Uncalled bet ($45000) returned to abkhgxmtc8
+abkhgxmtc8 collected $85230 from pot
+*** SUMMARY ***
+Total pot $90000 | Rake $4770
+Board [3c Ts Th]
+Seat 1: dks0001 mucked [9d 3h]
+Seat 2: vkblrogib mucked [Kc 5d]
+Seat 3: okjvjbfh mucked [8h 5s]
+Seat 4: wertkhjljkwerth mucked [6s 4h]
+Seat 5: abkhgxmtc8 showed [Qd 4s] and won ($85230)
+Seat 6: fycizoki mucked [9s 6c]
+Seat 7: hbdjjjebv mucked [7d 4d]
+Seat 8: mdsqqtuoo mucked [5c 2d]
+Seat 9: dsjgoqpeg mucked [9h 3d]

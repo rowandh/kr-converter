@@ -1,0 +1,59 @@
+PokerStars Hand #15286588992:  Hold'em No Limit ($1000/$1000) - 2025/01/01 17:17:24 KST
+Table 'Table 1' 9-max Seat #6 is the button
+Seat 1: kamvgbf ($343678 in chips)
+Seat 2: vgt6yhj7l ($404152 in chips)
+Seat 3: nlkjjvdjd ($322562 in chips)
+Seat 4: ddefyyfvh ($185474 in chips)
+Seat 5: etn54ns ($621083 in chips)
+Seat 6: dh34a8ply1 ($200000 in chips)
+Seat 7: nkjlgrsd ($113152 in chips)
+Seat 8: gjsakdjba ($200000 in chips)
+kamvgbf: posts the ante $1000
+vgt6yhj7l: posts the ante $1000
+nlkjjvdjd: posts the ante $1000
+ddefyyfvh: posts the ante $1000
+etn54ns: posts the ante $1000
+dh34a8ply1: posts the ante $1000
+nkjlgrsd: posts the ante $1000
+gjsakdjba: posts the ante $1000
+nkjlgrsd: posts small blind $1000
+gjsakdjba: posts big blind $1000
+*** HOLE CARDS ***
+kamvgbf: calls $1000
+vgt6yhj7l: calls $1000
+nlkjjvdjd: calls $1000
+ddefyyfvh: folds
+etn54ns: folds
+dh34a8ply1: calls $1000
+nkjlgrsd: checks
+gjsakdjba: checks
+*** FLOP *** [Jc 2h 7c]
+nkjlgrsd: checks
+gjsakdjba: checks
+kamvgbf: checks
+vgt6yhj7l: checks
+nlkjjvdjd: bets $10000
+dh34a8ply1: folds
+nkjlgrsd: folds
+gjsakdjba: raises $10000 to $20000
+kamvgbf: folds
+vgt6yhj7l: folds
+nlkjjvdjd: calls $10000
+*** TURN *** [Jc 2h 7c] [2c]
+gjsakdjba: bets $14000
+nlkjjvdjd: calls $14000
+*** RIVER *** [Jc 2h 7c] [2c] [9c]
+gjsakdjba: bets $8000
+nlkjjvdjd: calls $8000
+gjsakdjba collected $92806 from pot
+*** SUMMARY ***
+Total pot $98000 | Rake $5194
+Board [Jc 2h 7c 2c 9c]
+Seat 1: kamvgbf mucked [Ks Ts]
+Seat 2: vgt6yhj7l mucked [Td 4d]
+Seat 3: nlkjjvdjd showed [Qd Jd] and lost
+Seat 4: ddefyyfvh mucked [Kc 7h]
+Seat 5: etn54ns mucked [7d 5h]
+Seat 6: dh34a8ply1 mucked [Qh 3c]
+Seat 7: nkjlgrsd mucked [9d 4s]
+Seat 8: gjsakdjba showed [Jh 8c] and won ($92806)
