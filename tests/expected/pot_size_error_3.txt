@@ -1,0 +1,58 @@
+PokerStars Hand #15329522298:  Hold'em No Limit ($2000/$2000) - 2025/02/08 19:52:41 KST
+Table 'Table 1' 9-max Seat #7 is the button
+Seat 1: ringgg27 ($435529 in chips)
+Seat 2: dgjdkdk ($741372 in chips)
+Seat 3: oguiytreg ($600000 in chips)
+Seat 4: jnfvksdhc ($589831 in chips)
+Seat 5: pihasdtre ($120774 in chips)
+Seat 6: ynfmngaszn ($400000 in chips)
+Seat 7: gfdgfjhtj ($1152648 in chips)
+Seat 8: xzcvzswse ($740792 in chips)
+Seat 9: Wnrdjqhwk ($81032 in chips)
+ringgg27: posts the ante $2000
+dgjdkdk: posts the ante $2000
+oguiytreg: posts the ante $2000
+jnfvksdhc: posts the ante $2000
+pihasdtre: posts the ante $2000
+ynfmngaszn: posts the ante $2000
+gfdgfjhtj: posts the ante $2000
+xzcvzswse: posts the ante $2000
+Wnrdjqhwk: posts the ante $2000
+xzcvzswse: posts small blind $2000
+Wnrdjqhwk: posts big blind $2000
+oguiytreg: posts big blind $2000
+*** HOLE CARDS ***
+ringgg27: folds
+dgjdkdk: folds
+oguiytreg: checks
+jnfvksdhc: folds
+pihasdtre: folds
+ynfmngaszn: folds
+gfdgfjhtj: raises $14000 to $16000
+xzcvzswse: calls $14000
+Wnrdjqhwk: raises $63032 to $79032 and is all-in
+oguiytreg: folds
+gfdgfjhtj: raises $97032 to $176064
+xzcvzswse: calls $160064
+*** FLOP *** [Ts As Jh]
+xzcvzswse: checks
+gfdgfjhtj: checks
+*** TURN *** [Ts As Jh] [5c]
+xzcvzswse: checks
+gfdgfjhtj: checks
+*** RIVER *** [Ts As Jh] [5c] [6c]
+xzcvzswse: checks
+gfdgfjhtj: checks
+Wnrdjqhwk collected $243470 from pot
+*** SUMMARY ***
+Total pot $267381 | Rake $23911
+Board [Ts As Jh 5c 6c]
+Seat 1: ringgg27 mucked [Ad 7c]
+Seat 2: dgjdkdk mucked [7d 6d]
+Seat 3: oguiytreg mucked [Qs 8h]
+Seat 4: jnfvksdhc mucked [8c 4c]
+Seat 5: pihasdtre mucked [4d 3s]
+Seat 6: ynfmngaszn mucked [7s 2c]
+Seat 7: gfdgfjhtj showed [Tc 9d] and lost
+Seat 8: xzcvzswse showed [Kh Ks] and lost
+Seat 9: Wnrdjqhwk showed [Ac 5h] and won ($243470)

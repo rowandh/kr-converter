@@ -266,5 +266,10 @@ class PokerHand:
         return preflop[-3]
 
     def get_community_cards(self):
-        return next((action.community_cards for action in reversed(self.players[0].betting_actions)
-              if isinstance(action, CommunityCardsEntry)), [])
+        return max(
+            (action.community_cards
+             for player in self.players
+             for action in player.betting_actions
+              if isinstance(action, CommunityCardsEntry)),
+            key=lambda cards: len(cards),
+            default=[])

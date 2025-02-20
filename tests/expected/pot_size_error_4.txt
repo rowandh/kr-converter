@@ -1,0 +1,55 @@
+PokerStars Hand #15329520969:  Hold'em No Limit ($5000/$5000) - 2020/10/15 18:50:59 KST
+Table 'Table 1' 9-max Seat #7 is the button
+Seat 1: susbdj ($655193 in chips)
+Seat 2: Pjeibebdn ($623758 in chips)
+Seat 3: coskcjss ($1786760 in chips)
+Seat 4: vjghojtks ($601600 in chips)
+Seat 5: keiserturn ($722862 in chips)
+Seat 6: dxbbtrff ($500000 in chips)
+Seat 7: jhnghutzh ($1577280 in chips)
+Seat 8: 85xcdkfoqs ($1500000 in chips)
+Seat 9: etrbojng ($486555 in chips)
+susbdj: posts the ante $5000
+Pjeibebdn: posts the ante $5000
+coskcjss: posts the ante $5000
+vjghojtks: posts the ante $5000
+keiserturn: posts the ante $5000
+dxbbtrff: posts the ante $5000
+jhnghutzh: posts the ante $5000
+85xcdkfoqs: posts the ante $5000
+etrbojng: posts the ante $5000
+85xcdkfoqs: posts small blind $5000
+etrbojng: posts big blind $5000
+*** HOLE CARDS ***
+susbdj: folds
+Pjeibebdn: calls $5000
+coskcjss: raises $35000 to $40000
+vjghojtks: folds
+keiserturn: folds
+dxbbtrff: folds
+jhnghutzh: folds
+85xcdkfoqs: folds
+etrbojng: calls $35000
+Pjeibebdn: folds
+*** FLOP *** [2d 9d Qs]
+etrbojng: bets $135000
+coskcjss: calls $135000
+*** TURN *** [2d 9d Qs] [5c]
+etrbojng: bets $75000
+coskcjss: raises $555000 to $630000
+etrbojng: calls $231555
+Uncalled bet ($323445) returned to coskcjss
+*** RIVER *** [2d 9d Qs] [5c] [7h]
+etrbojng collected $964151 from pot
+*** SUMMARY ***
+Total pot $1018110 | Rake $53959
+Board [2d 9d Qs 5c 7h]
+Seat 1: susbdj mucked [Kh 4s]
+Seat 2: Pjeibebdn mucked [Jh 4h]
+Seat 3: coskcjss showed [9s 9h] and lost
+Seat 4: vjghojtks mucked [Jd 2h]
+Seat 5: keiserturn mucked [Jc 6c]
+Seat 6: dxbbtrff mucked [Ad 3c]
+Seat 7: jhnghutzh mucked [Ac 5s]
+Seat 8: 85xcdkfoqs mucked [5d 4c]
+Seat 9: etrbojng showed [Qh Qd] and won ($964151)

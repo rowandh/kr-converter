@@ -126,3 +126,51 @@ class TestPokerstarsConverter(unittest.TestCase):
         pprint(converted)
 
         self.assertEqual(converted, expected)
+
+    # HM3
+    # Invalid pot size (0.00 vs pot: 53688.00 rake: 2927.00 jpt: 0.00) for hand #15291928620
+    # Looks like a weird/unlikely scenario
+    def test_pot_size_error_1(self):
+        expected = self.read_expected_file("pot_size_error_1.txt")
+        content = self.read_test_file("pot_size_error_1.html")
+        converted = self.parse(content)
+
+        pprint(converted)
+
+        self.assertEqual(converted, expected)
+
+    # HM3
+    # Invalid pot size (113640.00 vs pot: 110000.00 rake: 6360.00 jpt: 0.00) for hand #15329534465
+    # Looks like a weird/unlikely scenario with a missing player
+    def test_pot_size_error_2(self):
+        expected = self.read_expected_file("pot_size_error_2.txt")
+        content = self.read_test_file("pot_size_error_2.html")
+        converted = self.parse(content)
+
+        pprint(converted)
+
+        self.assertEqual(converted, expected)
+
+    # HM3
+    # Invalid pot size (243470.00 vs pot: 451160.00 rake: 23911.00 jpt: 0.00) for hand #15329522298
+    # Looks like a side pot scenario
+    def test_pot_size_error_3(self):
+        expected = self.read_expected_file("pot_size_error_3.txt")
+        content = self.read_test_file("pot_size_error_3.html")
+        converted = self.parse(content)
+
+        pprint(converted)
+
+        self.assertEqual(converted, expected)
+
+    # HM3
+    # Invalid pot size (964151.00 vs pot: 405000.00 rake: 53959.00 jpt: 0.00) for hand #15329520969
+    # Turn and river are missing due to using player[0] for community cards. Wrong assumption.
+    def test_pot_size_error_4(self):
+        expected = self.read_expected_file("pot_size_error_4.txt")
+        content = self.read_test_file("pot_size_error_4.html")
+        converted = self.parse(content)
+
+        pprint(converted)
+
+        self.assertEqual(converted, expected)
