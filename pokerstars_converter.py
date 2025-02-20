@@ -157,12 +157,16 @@ class PokerStarsConverter():
             river_parts.extend(self.generate_betting_rounds(0, sorted_river_street_actions))
             history_parts.extend(river_parts)
 
-        # showdown = "*** SHOWDOWN ***\n"
-        # for player in poker_hand.players:
-        #     if "shows" in player.raw_betting_action:
-        #         showdown += f"{player.player}: shows [{player.hole_cards}]\n"
+        winner_statements = []
+        winners = poker_hand.get_winners()
 
-        winner_statement = f"{poker_hand.winner} collected {self.format_currency(poker_hand.winning_amount)} from pot"
+        for winner in winners:
+            pot_type = ""
+            if len(winners) > 1:
+                pot_type = " main" if winner.win_money.amount == int(poker_hand.winning_amount) else " side"
+            winner_statements.append(f"{winner.player} collected {self.format_currency(winner.win_money.amount)} from{pot_type} pot")
+
+        history_parts.extend(winner_statements)
 
         summary = "*** SUMMARY ***"
 
@@ -177,7 +181,6 @@ class PokerStarsConverter():
         pot = int(poker_hand.winning_amount) + rake
         total_pot = f"Total pot {self.format_currency(pot)} | Rake {self.format_currency(rake)}"
 
-        history_parts.append(winner_statement)
         history_parts.append(summary)
         history_parts.append(total_pot)
 
@@ -193,7 +196,7 @@ class PokerStarsConverter():
             betting_position = poker_hand.get_betting_position(player)
 
             if player.is_winner():
-                summary_line = f"Seat {betting_position}: {player.player} showed [{hole_cards}] and won ({self.format_currency(poker_hand.winning_amount)})"
+                summary_line = f"Seat {betting_position}: {player.player} showed [{hole_cards}] and won ({self.format_currency(player.win_money.amount)})"
             elif player.went_to_showdown():
                 summary_line = f"Seat {betting_position}: {player.player} showed [{hole_cards}] and lost"
             else:

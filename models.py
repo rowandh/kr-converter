@@ -81,6 +81,11 @@ class EntryFeeEntry:
     amount: int
     remaining_stack: int
 
+class WinMoneyEntry:
+    type: str = "WIN_MONEY"
+    amount: int
+    final_stack: int
+
 HistoryLine = Union[
     StartEntry,
     PlayerEntry,
@@ -104,10 +109,10 @@ class PlayerAction:
     betting_actions: ParsedHandHistory
     amount_won_lost: str  # 변동 금액 (How much they won or lost)
     final_stack: str  # 남은 잔액 (Final stack after the hand)
+    win_money: WinMoneyEntry
 
     def is_winner(self):
-        result = self.results()
-        return result is not None and result.result == "win"
+        return self.win_money is not None and self.win_money.amount > 0
 
     def went_to_showdown(self):
         result = self.results()
@@ -179,6 +184,11 @@ class PokerHand:
     winner: str  # 승자(족보) (Winner and their hand ranking)
     winning_amount: str  # 이긴금액 (Amount won by the winner)
     players: List[PlayerAction]  # List of player actions
+
+    # We can have multiple winners in a multi-pot scenario
+    # Make sure we always return the main pot winner first
+    def get_winners(self):
+        return [a for a in self.players if a.win_money is not None and a.win_money.amount > 0]
 
     def get_betting_position(self, player: PlayerAction):
         return self.get_ordered_preflop_players().index(player) + 1

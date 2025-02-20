@@ -7,7 +7,7 @@ from constants import BetType, ALL_IN, CHECK, RAISE, CALL, FOLD, BIG_BLIND, SMAL
     FULL_POT, \
     MoneyUnit, GENERIC
 from models import ParsedHandHistory, StartEntry, HistoryLine, PlayerEntry, AnteEntry, CommunityCardsEntry, ActionEntry, \
-    PostBlindEntry, ResultsEntry, HoleCardsEntry, EntryFeeEntry
+    PostBlindEntry, ResultsEntry, HoleCardsEntry, EntryFeeEntry, WinMoneyEntry
 import locale
 locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
 
@@ -25,6 +25,7 @@ def parse_hand_history(hand_history: str) -> ParsedHandHistory:
     last_action = None
 
     parsed_lines: ParsedHandHistory = []
+    win_money_line: WinMoneyEntry = None
 
     for line in lines:
         parsed_line: HistoryLine | None = None
@@ -121,10 +122,30 @@ def parse_hand_history(hand_history: str) -> ParsedHandHistory:
             parsed_line: EntryFeeEntry = EntryFeeEntry()
             parsed_line.amount, parsed_line.remaining_stack = _extract_bet_and_stack_constants(line)
 
+        # Must be an if, not elif, because the win money string can also appear in the # returned bet string
+        if "* 종료:" in line:
+            win_money, credit = parse_winmoney_line(line)
+            if win_money is not None and credit is not None:
+                win_money_line = WinMoneyEntry()
+                win_money_line.amount = win_money
+                win_money_line.remaining_stack = credit
+
         if parsed_line is not None:
             parsed_lines.append(parsed_line)
 
-    return parsed_lines
+    return parsed_lines, win_money_line
+
+def parse_winmoney_line(line):
+    pattern = r"WinMoney\[([\d,]+)원\] Credit\[([\d,]+)원\]"
+    match = re.search(pattern, line)
+
+    if match:
+        # Convert captured values to integers (removing commas)
+        win_money = int(match.group(1).replace(",", ""))
+        credit = int(match.group(2).replace(",", ""))
+        return win_money, credit
+    else:
+        return None
 
 def extract_hole_cards(line):
     """
