@@ -1,0 +1,71 @@
+PokerStars Hand #15290790921:  Hold'em No Limit ($1000/$1000) - 2024/07/05 21:02:38 KST
+Table 'Table 1' 9-max Seat #7 is the button
+Seat 1: ghjtyktfd ($100000 in chips)
+Seat 2: MuNnW738j1 ($204933 in chips)
+Seat 3: akjsijfsiiji ($176786 in chips)
+Seat 4: kjafhjkds ($230901 in chips)
+Seat 5: ahfdgaga ($280006 in chips)
+Seat 6: jdhvnctfk ($192025 in chips)
+Seat 7: dnjfvud19 ($39952 in chips)
+Seat 8: sbmxcbml ($315785 in chips)
+Seat 9: asoweidk ($51000 in chips)
+ghjtyktfd: posts the ante $1000
+MuNnW738j1: posts the ante $1000
+akjsijfsiiji: posts the ante $1000
+kjafhjkds: posts the ante $1000
+ahfdgaga: posts the ante $1000
+jdhvnctfk: posts the ante $1000
+dnjfvud19: posts the ante $1000
+sbmxcbml: posts the ante $1000
+asoweidk: posts the ante $1000
+sbmxcbml: posts small blind $1000
+asoweidk: posts big blind $1000
+dnjfvud19: posts big blind $1000
+*** HOLE CARDS ***
+ghjtyktfd: folds
+MuNnW738j1: calls $1000
+akjsijfsiiji: calls $1000
+kjafhjkds: calls $1000
+ahfdgaga: calls $1000
+jdhvnctfk: calls $1000
+dnjfvud19: checks
+sbmxcbml: checks
+asoweidk: checks
+*** FLOP *** [Jd 6d Th]
+sbmxcbml: checks
+asoweidk: checks
+MuNnW738j1: checks
+akjsijfsiiji: checks
+kjafhjkds: checks
+ahfdgaga: checks
+jdhvnctfk: checks
+dnjfvud19: checks
+*** TURN *** [Jd 6d Th] [4c]
+sbmxcbml: bets $6000
+asoweidk: calls $6000
+MuNnW738j1: folds
+akjsijfsiiji: folds
+kjafhjkds: calls $6000
+ahfdgaga: folds
+jdhvnctfk: calls $6000
+dnjfvud19: folds
+*** RIVER *** [Jd 6d Th] [4c] [9c]
+sbmxcbml: checks
+asoweidk: bets $43000 and is all-in
+kjafhjkds: folds
+jdhvnctfk: folds
+sbmxcbml: folds
+Uncalled bet ($43000) returned to asoweidk
+asoweidk collected $38827 from pot
+*** SUMMARY ***
+Total pot $41000 | Rake $2173
+Board [Jd 6d Th 4c 9c]
+Seat 1: ghjtyktfd mucked [Kc 5h]
+Seat 2: MuNnW738j1 mucked [As 9s]
+Seat 3: akjsijfsiiji mucked [Qs 9h]
+Seat 4: kjafhjkds mucked [7h 5s]
+Seat 5: ahfdgaga mucked [Qc 6c]
+Seat 6: jdhvnctfk mucked [Ad 9d]
+Seat 7: dnjfvud19 mucked [8d 3h]
+Seat 8: sbmxcbml mucked [Tc 7c]
+Seat 9: asoweidk showed [Ks Qd] and won ($38827)

@@ -1,0 +1,52 @@
+PokerStars Hand #15286756120:  Hold'em No Limit (1000/1000) - 2024/12/01 18:57:19 KST
+Table 'Table 1' 9-max Seat #7 is the button
+Seat 1: dasfgas (414696 in chips)
+Seat 2: rjrhrhh5 (100000 in chips)
+Seat 3: fgyhnmr3 (305674 in chips)
+Seat 4: htytff (150000 in chips)
+Seat 5: vcbbvasddas (921804 in chips)
+Seat 6: hjagjhgdj (396491 in chips)
+Seat 7: 315fasff (309463 in chips)
+Seat 8: kollosart (123244 in chips)
+Seat 9: drsfbnuserfyb (367822 in chips)
+dasfgas: posts the ante 1000
+rjrhrhh5: posts the ante 1000
+fgyhnmr3: posts the ante 1000
+htytff: posts the ante 1000
+vcbbvasddas: posts the ante 1000
+hjagjhgdj: posts the ante 1000
+315fasff: posts the ante 1000
+kollosart: posts the ante 1000
+drsfbnuserfyb: posts the ante 1000
+kollosart: posts small blind 1000
+drsfbnuserfyb: posts big blind 1000
+rjrhrhh5: posts big blind 1000
+*** HOLE CARDS ***
+dasfgas: folds
+rjrhrhh5: checks
+fgyhnmr3: folds
+htytff: folds
+vcbbvasddas: folds
+hjagjhgdj: calls 1000
+315fasff: folds
+kollosart: checks
+drsfbnuserfyb: checks
+*** FLOP *** [Ad 2s 4s]
+kollosart: bets 6500
+drsfbnuserfyb: folds
+rjrhrhh5: folds
+hjagjhgdj: folds
+Uncalled bet (6500) returned to kollosart
+kollosart collected 12311 from pot
+*** SUMMARY ***
+Total pot 13000 | Rake 689
+Board [Ad 2s 4s]
+Seat 1: dasfgas mucked [7h 2d]
+Seat 2: rjrhrhh5 mucked [Qc 7s]
+Seat 3: fgyhnmr3 mucked [9c 3s]
+Seat 4: htytff mucked [5c 3d]
+Seat 5: vcbbvasddas mucked [Ks 3h]
+Seat 6: hjagjhgdj mucked [Jd 7d]
+Seat 7: 315fasff mucked [Ac 6d]
+Seat 8: kollosart showed [8d 5h] and won (12311)
+Seat 9: drsfbnuserfyb mucked [Js 7c]

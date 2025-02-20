@@ -1,0 +1,53 @@
+PokerStars Hand #15287325953:  Hold'em No Limit ($1000/$1000) - 2024/12/26 17:43:21 KST
+Table 'Table 1' 9-max Seat #7 is the button
+Seat 1: trdhgj06 ($86258 in chips)
+Seat 2: vdftfa ($26511 in chips)
+Seat 3: AFDADFG ($98000 in chips)
+Seat 4: gfjhfghfg ($200000 in chips)
+Seat 5: mzvpbms ($160363 in chips)
+Seat 6: wfpsvbgo ($100000 in chips)
+Seat 7: gtelu940hs ($414434 in chips)
+Seat 8: rhmugaqgy ($113622 in chips)
+Seat 9: afasfasfa ($129979 in chips)
+trdhgj06: posts the ante $1000
+vdftfa: posts the ante $1000
+AFDADFG: posts the ante $1000
+gfjhfghfg: posts the ante $1000
+mzvpbms: posts the ante $1000
+wfpsvbgo: posts the ante $1000
+gtelu940hs: posts the ante $1000
+rhmugaqgy: posts the ante $1000
+afasfasfa: posts the ante $1000
+rhmugaqgy: posts small blind $1000
+afasfasfa: posts big blind $1000
+*** HOLE CARDS ***
+trdhgj06: calls $1000
+vdftfa: folds
+AFDADFG: calls $1000
+gfjhfghfg: folds
+mzvpbms: folds
+wfpsvbgo: folds
+gtelu940hs: calls $1000
+rhmugaqgy: raises $5000 to $6000
+afasfasfa: folds
+trdhgj06: calls $5000
+AFDADFG: folds
+gtelu940hs: calls $5000
+*** FLOP *** [4h 6c Qc]
+rhmugaqgy: bets $9000
+trdhgj06: folds
+gtelu940hs: folds
+Uncalled bet ($9000) returned to rhmugaqgy
+rhmugaqgy collected $27463 from pot
+*** SUMMARY ***
+Total pot $29000 | Rake $1537
+Board [4h 6c Qc]
+Seat 1: trdhgj06 mucked [Ks Tc]
+Seat 2: vdftfa mucked [9h 4c]
+Seat 3: AFDADFG mucked [Jd 7h]
+Seat 4: gfjhfghfg mucked [8c 5s]
+Seat 5: mzvpbms mucked [Jc 2s]
+Seat 6: wfpsvbgo mucked [6s 3h]
+Seat 7: gtelu940hs mucked [9s 7s]
+Seat 8: rhmugaqgy showed [Th Td] and won ($27463)
+Seat 9: afasfasfa mucked [8s 6h]

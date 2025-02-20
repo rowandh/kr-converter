@@ -1,0 +1,54 @@
+PokerStars Hand #15286303617:  Hold'em No Limit ($1000/$1000) - 2024/08/31 02:51:46 KST
+Table 'Table 1' 9-max Seat #6 is the button
+Seat 1: apsdifjadsfjhzehzihn ($100000 in chips)
+Seat 2: zqclbn9xgi ($200000 in chips)
+Seat 3: bn09 ($15917 in chips)
+Seat 4: jqjwhhre ($158512 in chips)
+Seat 5: zjckvjvnek ($100000 in chips)
+Seat 6: nsukrwph ($100000 in chips)
+Seat 7: yydfgrr ($96000 in chips)
+Seat 8: itdtyf7v ($100000 in chips)
+apsdifjadsfjhzehzihn: posts the ante $1000
+zqclbn9xgi: posts the ante $1000
+bn09: posts the ante $1000
+jqjwhhre: posts the ante $1000
+zjckvjvnek: posts the ante $1000
+nsukrwph: posts the ante $1000
+yydfgrr: posts the ante $1000
+itdtyf7v: posts the ante $1000
+yydfgrr: posts small blind $1000
+itdtyf7v: posts big blind $1000
+apsdifjadsfjhzehzihn: posts big blind $1000
+zqclbn9xgi: posts big blind $1000
+bn09: posts big blind $1000
+jqjwhhre: posts big blind $1000
+zjckvjvnek: posts big blind $1000
+*** HOLE CARDS ***
+apsdifjadsfjhzehzihn: checks
+zqclbn9xgi: folds
+bn09: checks
+jqjwhhre: checks
+zjckvjvnek: checks
+nsukrwph: raises $6000 to $7000
+yydfgrr: folds
+itdtyf7v: calls $6000
+apsdifjadsfjhzehzihn: folds
+bn09: folds
+jqjwhhre: folds
+zjckvjvnek: folds
+*** FLOP *** [8d 5c 2c]
+itdtyf7v: bets $28000
+nsukrwph: folds
+Uncalled bet ($28000) returned to itdtyf7v
+itdtyf7v collected $26516 from pot
+*** SUMMARY ***
+Total pot $28000 | Rake $1484
+Board [8d 5c 2c]
+Seat 1: apsdifjadsfjhzehzihn mucked [Qs 2s]
+Seat 2: zqclbn9xgi mucked [Kh 4s]
+Seat 3: bn09 mucked [6h 2d]
+Seat 4: jqjwhhre mucked [Qd 9c]
+Seat 5: zjckvjvnek mucked [Th 9s]
+Seat 6: nsukrwph mucked [As 3c]
+Seat 7: yydfgrr mucked [Qc 4c]
+Seat 8: itdtyf7v showed [6d 4d] and won ($26516)

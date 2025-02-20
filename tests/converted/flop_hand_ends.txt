@@ -1,0 +1,58 @@
+PokerStars Hand #15286303449:  Hold'em No Limit (1000/1000) - 2024/08/08 03:12:26 KST
+Table 'Table 1' 9-max Seat #7 is the button
+Seat 1: bhrghthtr (75636 in chips)
+Seat 2: glkfjhl12 (415187 in chips)
+Seat 3: Qqjwjqkqk (100000 in chips)
+Seat 4: zxssdv (80000 in chips)
+Seat 5: gtelu940hs (300000 in chips)
+Seat 6: ckadmfheo (126820 in chips)
+Seat 7: xbvnfgtrf (92000 in chips)
+Seat 8: 3whj3jk21 (200000 in chips)
+Seat 9: kvvsufhe (156615 in chips)
+bhrghthtr: posts the ante 1000
+glkfjhl12: posts the ante 1000
+Qqjwjqkqk: posts the ante 1000
+zxssdv: posts the ante 1000
+gtelu940hs: posts the ante 1000
+ckadmfheo: posts the ante 1000
+xbvnfgtrf: posts the ante 1000
+3whj3jk21: posts the ante 1000
+kvvsufhe: posts the ante 1000
+3whj3jk21: posts small blind 1000
+kvvsufhe: posts big blind 1000
+Qqjwjqkqk: posts big blind 1000
+gtelu940hs: posts big blind 1000
+*** HOLE CARDS ***
+bhrghthtr: calls 1000
+glkfjhl12: raises 7500 to 8500
+Qqjwjqkqk: folds
+zxssdv: folds
+gtelu940hs: folds
+ckadmfheo: calls 8500
+xbvnfgtrf: calls 8500
+3whj3jk21: calls 7500
+kvvsufhe: folds
+bhrghthtr: calls 7500
+*** FLOP *** [Kh 4d Td]
+3whj3jk21: checks
+bhrghthtr: checks
+glkfjhl12: checks
+ckadmfheo: bets 54500
+xbvnfgtrf: folds
+3whj3jk21: folds
+bhrghthtr: folds
+glkfjhl12: folds
+Uncalled bet (54500) returned to ckadmfheo
+ckadmfheo collected 51612 from pot
+*** SUMMARY ***
+Total pot 54500 | Rake 2888
+Board [Kh 4d Td]
+Seat 1: bhrghthtr mucked [7c 4c]
+Seat 2: glkfjhl12 mucked [6s 6h]
+Seat 3: Qqjwjqkqk mucked [8d 5s]
+Seat 4: zxssdv mucked [Tc 3d]
+Seat 5: gtelu940hs mucked [3c 2s]
+Seat 6: ckadmfheo showed [Ks Ts] and won (51612)
+Seat 7: xbvnfgtrf mucked [Jh 9h]
+Seat 8: 3whj3jk21 mucked [Jc 9c]
+Seat 9: kvvsufhe mucked [Qd 4h]

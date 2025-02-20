@@ -1,0 +1,17 @@
+PokerStars Hand #15290682394:  Hold'em No Limit ($1000/$1000) - 2024/09/03 08:35:31 KST
+Table 'Table 1' 9-max Seat #1 is the button
+Seat 1: MuNnW738j1 ($213827 in chips)
+Seat 2: lopghfvas ($869975 in chips)
+MuNnW738j1: posts the ante $1000
+lopghfvas: posts the ante $1000
+MuNnW738j1: posts small blind $1000
+lopghfvas: posts big blind $1000
+*** HOLE CARDS ***
+MuNnW738j1: raises $4000 to $5000
+lopghfvas: folds
+Uncalled bet ($4000) returned to MuNnW738j1
+MuNnW738j1 collected $3788 from pot
+*** SUMMARY ***
+Total pot $4000 | Rake $212
+Seat 1: MuNnW738j1 showed [Ah 5c] and won ($3788)
+Seat 2: lopghfvas mucked [Ts 4s]

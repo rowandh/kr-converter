@@ -1,0 +1,543 @@
+
+<iframe width="0" height="0" name="hfrm"></iframe>
+<script language="javascript">
+	function goProc(mode,uid,infotype,money){
+		form = document.form1;
+		form.target="hfrm";
+		if (money < 1) {
+			alert("1보다 큰금액만 입력하실수 있습니다");
+			return;
+		}
+		form.infotype.value=infotype;
+		form.money.value=money;
+		form.user_id.value=uid;
+		form.action="userinmoney_proc.asp";
+		
+			if(confirm(uid + "에게 " + money + "원 하자처리 하시겠습니까?")){
+				form.submit();
+			}		
+
+	}
+</script>
+
+<style>
+		body {background:#f5f5f5;}
+		* {padding:0; margin:0;}
+		input:focus,
+		select:focus {
+			outline:none;
+		}
+		.page-layout {
+			height:100%;
+			
+		}
+		
+		.page-layout .bar-search {
+			display:flex;
+			justify-content: space-between;
+			align-items: center;
+			flex-wrap: wrap;
+			gap:0.875rem;
+			
+			padding:0 0.875rem 0.875rem;
+			background:#2e2f39;
+		    border-bottom: 1px solid #e6e6f2;
+		    box-shadow: 0 1px 4px 0 rgba(82,63,105,.15);
+		}
+		
+		.page-layout .bar-search .title {
+			padding-top:0.875rem;
+			font-family:'Malgun Gothic';
+			color:#c5ff88;
+			font-size:1.425rem;
+			font-weight:bolder;
+			letter-spacing:-2px;
+		}
+		
+		.page-layout .bar-search .title > span {
+			font-size:1rem;
+			letter-spacing:0;
+		}
+		
+		.page-layout .bar-search > div:nth-child(2) {
+			flex-grow:1;
+			
+			display:inline-flex;
+    		flex-wrap: wrap;
+    		justify-content: flex-end;
+			gap:0.875rem;
+			
+			padding-top:0.875rem;
+			border-top:1px solid #60931e;
+		}
+		
+		.page-layout .bar-search > div:nth-child(2) span {
+		    line-height:2rem;
+		    color: #fff;
+		    font-weight:bold;
+		}
+		
+		.page-layout .bar-search > div:nth-child(2) select,
+		.page-layout .bar-search > div:nth-child(2) input {
+		    height: calc(2em + 0.8rem + 2px);
+		    padding:0 1rem;
+		    font-size: 1rem;
+		    font-weight: 400;
+		    height:2rem;
+		    line-height:2rem;
+		    color: #ccc;
+		    background-color: #141529;
+		    background-clip: padding-box;
+		    border: 1px solid #141529;
+		    border-radius: 0.25rem;
+		    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+		}
+		
+		.page-layout .bar-search > div:nth-child(2) input.btn-serarch {
+			color:#fff;
+			font-weight:bold;
+			background:#73a730 ;
+			border:1px solid #629322;
+		}
+		
+		
+		.table-area {
+			border:1px solid #e6e6f2;
+			border-radius:1rem;
+			overflow-x:auto;
+			background:#fff;
+			box-shadow:3px 3px 5px #e7e7e7;
+			margin:1rem;
+		}
+		
+		.table-area th {
+			padding: 0 0.5rem;
+			font-size:1rem;
+			height:46px;
+			font-weight: 600;
+    		color: #2e2f39;
+			background:#fff;
+			border-bottom:2px solid #e6e6f2;
+		}
+		
+		.table-area th a {
+			color:#cf0b0b;
+			text-decoration:none;
+		}
+		
+		.table-area td {
+			font-size:14px;
+			padding:0.425rem 0.75rem;
+			color:#71748d;
+			white-space:nowrap;
+			background:#fff;
+			border-bottom:1px solid #e6e6f2;
+		}
+		/*
+		.table-area tr:nth-child(2n) td {
+			background:#f4f4f5;
+			border-top:1px solid #e6e6f2;
+			border-bottom:1px solid #e6e6f2;
+		}
+		*/
+		.table-area th,
+		.table-area td {
+			border-right:1px solid #e6e6f2;
+		}
+		
+		.table-area table td a {
+			display:inline-block;
+			
+			padding:0 1rem 0 1.425rem;
+			line-height:1rem;
+			color:#5e8d21;
+			font-size:14px;
+			font-weight:bold;
+			text-decoration:none;
+			border-radius:0.312rem;
+			background:url('../images/icon-move.png') left 50% no-repeat;
+		}
+		
+		.table-area table td a:hover {
+			filter:hue-rotate(275deg);
+		}
+		
+		.table-area table th.double-table,
+		.table-area table td.double-table {
+			padding:0;
+		}
+		
+		
+		.table-area table th.double-table th {
+			padding:0 0.75rem;
+			border-bottom:none;
+		}
+		
+		.table-area table td.double-table td {
+			line-height:1.5rem;
+			border:none;
+			background:none;
+		}
+		
+		.table-area table td.double-table tr td+td {
+			border-left:1px solid #e6e6f2;
+		}
+		
+		.table-area table td.double-table tr+tr td {
+			border-top:1px solid #e6e6f2;
+		}
+		
+		.table-area table td.double-table tr:nth-child(2n) td {
+			background:#f9f9f9;
+		}
+		
+		.btn-history-back {
+			padding:0 1rem;
+			font-size:1rem;
+			height:2.625rem;
+			line-height:2.625rem;
+			color:#fff;
+			font-weight:bold; 
+			background:#37a730; 
+			border-radius:0.25rem; 
+			border:1px solid #629322; 
+			box-shadow:1px 1px 0 #629322;
+			cursor:pointer;
+		}
+		
+		.btn-history-back:hover {
+			filter:brightness(1.1);
+			border:1px solid #37a730; 
+			box-shadow:1px 1px 0 #37a730;
+		}
+		
+	</style>
+	
+	<div class="page-layout">
+		<div class="bar-search">
+			<div class="title">게임기록보기</div>
+			<div>
+                <div>
+					<input type="button" value="닫기" onclick="self.close()" class="btn-serarch" />
+                </div>	
+			</div>
+		</div>
+		
+		<div class="table-area">
+			<table cellspacing="0" width="100%"  border="0" >
+				<tr>
+                          <th width="" height="34"><p align="center">라운드ID</p></th>
+                          <th width="" height="34"><p align="center">시각</p></th>
+                          <th width="" height="34"><p align="center">게임 종류</p></th>
+                          <th width="" height="34"><p align="center">승자(족보)</p></th>
+					<th width="" height="34"><p align="center">이긴금액</p></th>
+					<th class="double-table">
+						상세정보
+					</th>
+				</tr>
+
+
+
+
+                            <tr bgcolor="white">
+								<td width="56" height="26"><p align="center">&nbsp;15-2-86303617</p></td>
+                                <td height="26" ><p align="center">&nbsp;2024-08-31 오전 2:51:46</p></td>
+                                <td ><p align="center">&nbsp;홀덤</p></td>
+                                <td ><p align="center">&nbsp;<b>itdtyf7v (8 탑)</b></p></td>
+<!--								<td ><p align="center">&nbsp;26516</p></td>   -->
+								<td ><p align="center">&nbsp;26,516</p></td>
+								<td class="double-table">
+									
+									<table cellspacing="0" width="100%"  border="0">										
+										<colgroup>
+											<col width="200" />
+											<col width="*" />
+											<col width="160" />
+											<col width="200" />
+										</colgroup>
+										<tr>
+											<th height="34" style="word-break:break-all"><p align="center">참가자</p></th>
+											<th height="34" style="word-break:break-all"><p align="center">족보</p></th>
+											<th height="34" style="word-break:break-all"><p align="center">변동 금액</p></th>
+											<th height="34" style="word-break:break-all"><p align="center">남은 잔액</p></th>
+										</tr>
+										
+										
+
+
+									
+										<tr bgcolor="white">
+											<td style="word-break:break-all" bgcolor="white"><p align="center"><b><font color=>zjckvjvnek</font></b></p></td>
+											
+											<td style="word-break:break-all"><p align="left">
+											<font color='red'>♥</font>10 ♠9 [10 탑]  (다이) (Entry Fee)
+<br>* 시작 : [StageNo:86303617] [Credit:100,000원] [SB:1,000원] [BB:1,000원] [MBI:100,000원] [CBIR:300]
+<br>* NICKNAME:[zjckvjvnek]
+<br>* 앤티: -1,000원(99,000원)
+<br>* 홀 카드딜: <font color='red'>♥</font>10(35) ♠9(8) [10 탑]
+<br>* 턴 시작: [프리플랍(0)] [족보:10 탑(<font color='red'>♥</font>10 ♠9)]
+<br>* 신규 참가비 [금액:1,000원] [Credit:98,000원]
+<br>* 베팅: 체크 -0원(98,000원) - 베팅순서: [0][5]
+[1193ms]
+<br>* 베팅: 다이 [0](98,000원) - 베팅순서: [0][12]
+[3632ms]
+<br>* 커뮤니티 카드 딜: H(<font color='red'>♥</font>10♠9) C (<font color='red'>◆</font>8♣5♣2)
+<br>* 종료: WinMoney[0원] Credit[98,000원]
+<br>* 결과: 패배 [족보:10 탑] [카드:<font color='red'>♥</font>10 ♠9] - 기권
+
+											</p></td>
+											
+											<td style="word-break:break-all"><p align="right"><font color='red'>-2,000</font></p></td>
+											<td style="word-break:break-all"><p align="right">98,000</p></td>
+											
+										</tr>
+
+
+									
+										<tr bgcolor="white">
+											<td style="word-break:break-all" bgcolor="white"><p align="center"><b><font color=>yydfgrr</font></b></p></td>
+											
+											<td style="word-break:break-all"><p align="left">
+											♣Q ♣4 [Q 탑]  (다이) (Small Blind)
+<br>* 시작 : [StageNo:86303617] [Credit:96,000원] [SB:1,000원] [BB:1,000원] [MBI:100,000원] [CBIR:100]
+<br>* NICKNAME:[김예리미]
+<br>* 앤티: -1,000원(95,000원)
+<br>* 홀 카드딜: ♣Q(50) ♣4(42) [Q 탑]
+<br>* 턴 시작: [프리플랍(0)] [족보:Q 탑(♣Q ♣4)]
+<br>* 베팅: [블라인드:SMALL] [금액:1,000원] [Creadit:94,000원]
+<br>* 베팅: 다이 [0](94,000원) - 베팅순서: [0][7]
+[2479ms]
+<br>* 커뮤니티 카드 딜: H(♣Q♣4) C (<font color='red'>◆</font>8♣5♣2)
+<br>* 종료: WinMoney[0원] Credit[94,000원]
+<br>* 결과: 패배 [족보:Q 탑] [카드:♣Q ♣4] - 기권
+
+											</p></td>
+											
+											<td style="word-break:break-all"><p align="right"><font color='red'>-2,000</font></p></td>
+											<td style="word-break:break-all"><p align="right">94,000</p></td>
+											
+										</tr>
+
+
+									
+										<tr bgcolor="white">
+											<td style="word-break:break-all" bgcolor="white"><p align="center"><b><font color=>apsdifjadsfjhzehzihn</font></b></p></td>
+											
+											<td style="word-break:break-all"><p align="left">
+											♠Q ♠2 [Q 탑]  (다이) (Entry Fee)
+<br>* 시작 : [StageNo:86303617] [Credit:100,000원] [SB:1,000원] [BB:1,000원] [MBI:100,000원] [CBIR:100]
+<br>* NICKNAME:[apsdifjadsfjhzehzihn]
+<br>* 앤티: -1,000원(99,000원)
+<br>* 홀 카드딜: ♠Q(11) ♠2(1) [Q 탑]
+<br>* 턴 시작: [프리플랍(0)] [족보:Q 탑(♠Q ♠2)]
+<br>* 신규 참가비 [금액:1,000원] [Credit:98,000원]
+<br>* 베팅: 체크 -0원(98,000원) - 베팅순서: [0][1]
+[2047ms]
+<br>* 베팅: 다이 [0](98,000원) - 베팅순서: [0][9]
+[754ms]
+<br>* 커뮤니티 카드 딜: H(♠Q♠2) C (<font color='red'>◆</font>8♣5♣2)
+<br>* 종료: WinMoney[0원] Credit[98,000원]
+<br>* 결과: 패배 [족보:Q 탑] [카드:♠Q ♠2] - 기권
+
+											</p></td>
+											
+											<td style="word-break:break-all"><p align="right"><font color='red'>-2,000</font></p></td>
+											<td style="word-break:break-all"><p align="right">98,000</p></td>
+											
+										</tr>
+
+
+									
+										<tr bgcolor="white">
+											<td style="word-break:break-all" bgcolor="white"><p align="center"><b><font color=>nsukrwph</font></b></p></td>
+											
+											<td style="word-break:break-all"><p align="left">
+											♠A ♣3 <font color='red'>◆</font>8 ♣5 ♣2 [A 탑]  (다이) 
+<br>* 시작 : [StageNo:86303617] [Credit:100,000원] [SB:1,000원] [BB:1,000원] [MBI:100,000원] [CBIR:100]
+<br>* NICKNAME:[nsukrwph]
+<br>* 앤티: -1,000원(99,000원)
+<br>* 홀 카드딜: ♠A(0) ♣3(41) [A 탑]
+<br>* 턴 시작: [프리플랍(0)] [족보:A 탑(♠A ♣3)]
+<br>* 베팅: [레이즈] (7,000원) Credit(92,000원) - 베팅순서: [0][6]
+[2936ms]
+<br>* 커뮤니티 카드 딜: H(♠A♣3) C (<font color='red'>◆</font>8♣5♣2)
+<br>* 턴 시작: [플랍(1)] [족보:A 탑(♠A <font color='red'>◆</font>8 ♣5 ♣3 ♣2)]
+<br>* 베팅: 다이 [0](92,000원) - 베팅순서: [1][2]
+[3757ms]
+<br>* 종료: WinMoney[0원] Credit[92,000원]
+<br>* 결과: 패배 [족보:A 탑] [카드:♠A <font color='red'>◆</font>8 ♣5 ♣3 ♣2] - 기권
+
+											</p></td>
+											
+											<td style="word-break:break-all"><p align="right"><font color='red'>-8,000</font></p></td>
+											<td style="word-break:break-all"><p align="right">92,000</p></td>
+											
+										</tr>
+
+
+									
+										<tr bgcolor="white">
+											<td style="word-break:break-all" bgcolor="white"><p align="center"><b><font color=>zqclbn9xgi</font></b></p></td>
+											
+											<td style="word-break:break-all"><p align="left">
+											<font color='red'>♥</font>K ♠4 [K 탑]  (다이) (Entry Fee)
+<br>* 시작 : [StageNo:86303617] [Credit:200,000원] [SB:1,000원] [BB:1,000원] [MBI:100,000원] [CBIR:200]
+<br>* NICKNAME:[nbgfn235r]
+<br>* 앤티: -1,000원(199,000원)
+<br>* 홀 카드딜: <font color='red'>♥</font>K(38) ♠4(3) [K 탑]
+<br>* 턴 시작: [프리플랍(0)] [족보:K 탑(<font color='red'>♥</font>K ♠4)]
+<br>* 신규 참가비 [금액:1,000원] [Credit:198,000원]
+<br>* 베팅: 다이 [0](198,000원) - 베팅순서: [0][2]
+[1113ms]
+<br>* 커뮤니티 카드 딜: H(<font color='red'>♥</font>K♠4) C (<font color='red'>◆</font>8♣5♣2)
+<br>* 종료: WinMoney[0원] Credit[198,000원]
+<br>* 결과: 패배 [족보:K 탑] [카드:<font color='red'>♥</font>K ♠4] - 기권
+
+											</p></td>
+											
+											<td style="word-break:break-all"><p align="right"><font color='red'>-2,000</font></p></td>
+											<td style="word-break:break-all"><p align="right">198,000</p></td>
+											
+										</tr>
+
+
+									
+										<tr bgcolor="white">
+											<td style="word-break:break-all" bgcolor="white"><p align="center"><b><font color=>bn09</font></b></p></td>
+											
+											<td style="word-break:break-all"><p align="left">
+											<font color='red'>♥</font>6 <font color='red'>◆</font>2 [6 탑]  (다이) (Entry Fee)
+<br>* 시작 : [StageNo:86303617] [Credit:15,917원] [SB:1,000원] [BB:1,000원] [MBI:100,000원] [CBIR:100]
+<br>* NICKNAME:[bn09]
+<br>* 앤티: -1,000원(14,917원)
+<br>* 홀 카드딜: <font color='red'>♥</font>6(31) <font color='red'>◆</font>2(14) [6 탑]
+<br>* 턴 시작: [프리플랍(0)] [족보:6 탑(<font color='red'>♥</font>6 <font color='red'>◆</font>2)]
+<br>* 신규 참가비 [금액:1,000원] [Credit:13,917원]
+<br>* 베팅: 체크 -0원(13,917원) - 베팅순서: [0][3]
+[767ms]
+<br>* 베팅: 다이 [0](13,917원) - 베팅순서: [0][10]
+[1383ms]
+<br>* 커뮤니티 카드 딜: H(<font color='red'>♥</font>6<font color='red'>◆</font>2) C (<font color='red'>◆</font>8♣5♣2)
+<br>* 종료: WinMoney[0원] Credit[13,917원]
+<br>* 결과: 패배 [족보:6 탑] [카드:<font color='red'>♥</font>6 <font color='red'>◆</font>2] - 기권
+
+											</p></td>
+											
+											<td style="word-break:break-all"><p align="right"><font color='red'>-2,000</font></p></td>
+											<td style="word-break:break-all"><p align="right">13,917</p></td>
+											
+										</tr>
+
+
+									
+										<tr bgcolor="white">
+											<td style="word-break:break-all" bgcolor="white"><p align="center"><b><font color=>jqjwhhre</font></b></p></td>
+											
+											<td style="word-break:break-all"><p align="left">
+											<font color='red'>◆</font>Q ♣9 [Q 탑]  (다이) (Entry Fee)
+<br>* 시작 : [StageNo:86303617] [Credit:158,512원] [SB:1,000원] [BB:1,000원] [MBI:100,000원] [CBIR:250]
+<br>* NICKNAME:[jqjwhhre]
+<br>* 앤티: -1,000원(157,512원)
+<br>* 홀 카드딜: <font color='red'>◆</font>Q(24) ♣9(47) [Q 탑]
+<br>* 턴 시작: [프리플랍(0)] [족보:Q 탑(<font color='red'>◆</font>Q ♣9)]
+<br>* 신규 참가비 [금액:1,000원] [Credit:156,512원]
+<br>* 베팅: 체크 -0원(156,512원) - 베팅순서: [0][4]
+[1307ms]
+<br>* 베팅: 다이 [0](156,512원) - 베팅순서: [0][11]
+[256ms]
+<br>* 커뮤니티 카드 딜: H(<font color='red'>◆</font>Q♣9) C (<font color='red'>◆</font>8♣5♣2)
+<br>* 종료: WinMoney[0원] Credit[156,512원]
+<br>* 결과: 패배 [족보:Q 탑] [카드:<font color='red'>◆</font>Q ♣9] - 기권
+
+											</p></td>
+											
+											<td style="word-break:break-all"><p align="right"><font color='red'>-2,000</font></p></td>
+											<td style="word-break:break-all"><p align="right">156,512</p></td>
+											
+										</tr>
+
+
+									
+										<tr bgcolor="white">
+											<td style="word-break:break-all" bgcolor="white"><p align="center"><b><font color=>itdtyf7v</font></b></p></td>
+											
+											<td style="word-break:break-all"><p align="left">
+											<font color='red'>◆</font>6 <font color='red'>◆</font>4 <font color='red'>◆</font>8 ♣5 ♣2 [8 탑]  (Big Blind)
+<br>* 시작 : [StageNo:86303617] [Credit:100,000원] [SB:1,000원] [BB:1,000원] [MBI:100,000원] [CBIR:100]
+<br>* NICKNAME:[itdtyf7v]
+<br>* 앤티: -1,000원(99,000원)
+<br>* 홀 카드딜: <font color='red'>◆</font>6(18) <font color='red'>◆</font>4(16) [6 탑]
+<br>* 턴 시작: [프리플랍(0)] [족보:6 탑(<font color='red'>◆</font>6 <font color='red'>◆</font>4)]
+<br>* 베팅: [블라인드:BIG] [금액:1,000원] [Creadit:98,000원]
+<br>* 베팅: 콜 -6,000원(92,000원) - 베팅순서: [0][8]
+[1045ms]
+<br>* 커뮤니티 카드 딜: H(<font color='red'>◆</font>6<font color='red'>◆</font>4) C (<font color='red'>◆</font>8♣5♣2)
+<br>* 턴 시작: [플랍(1)] [족보:8 탑(<font color='red'>◆</font>8 <font color='red'>◆</font>6 ♣5 <font color='red'>◆</font>4 ♣2)]
+<br>* 베팅: [풀] (28,000원) Credit(64,000원) - 베팅순서: [1][1]
+[3390ms]
+# 공베팅 반환 [28,000원]<br>* 종료: WinMoney[26,516원] Credit[118,516원]
+<br>* 결과: 승리 [족보:8 탑] [카드:<font color='red'>◆</font>8 <font color='red'>◆</font>6 ♣5 <font color='red'>◆</font>4 ♣2] - 기권승
+
+											</p></td>
+											
+											<td style="word-break:break-all"><p align="right"><font color='red'>18,516</font></p></td>
+											<td style="word-break:break-all"><p align="right">118,516</p></td>
+											
+										</tr>
+
+									 </table>
+								</td>
+                            </tr>
+
+
+
+
+
+
+						
+                        </table>
+                        
+                        <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                            <tr>
+                                <td width="100%" align="center" style="padding:1rem 0; background:#fdfdfd;">
+                                	<input type="button" value="닫기" onclick="self.close()" class="btn-history-back">
+                                </td>
+                            </tr>
+                        </table>
+                        
+		</div>
+                        
+	</div>
+
+
+
+
+<form name="form1" method="Post">
+<input type="hidden" name="s_scroll" value="">
+<input type="hidden" name="s_key" value="">
+<input type="hidden" name="logno" value="15-2-86303617">
+<input type="hidden" name="regdate_f" value="">
+<input type="hidden" name="user_id">
+<input type="hidden" name="userid">
+<input type="hidden" name="rebateid">
+<input type="hidden" name="topid">
+<input type="hidden" name="infotype">
+<input type="hidden" name="money">
+</form>
+
+<form name="form3" method="post">
+<input type="hidden" name="idx">
+<input type="hidden" name="p_logno">
+<input type="hidden" name="s_scroll" value="">
+<input type="hidden" name="s_key" value="">
+<input type="hidden" name="page" value="">
+
+<input type="hidden" name="s_regdate_y1" value="">
+<input type="hidden" name="s_regdate_m1" value="">
+<input type="hidden" name="s_regdate_d1" value="">
+<input type="hidden" name="s_regdate_h1" value="">
+<input type="hidden" name="game_id" value="">
+<input type="hidden" name="s_regdate" value="">
+</form>
+
+

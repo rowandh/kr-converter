@@ -1,0 +1,54 @@
+PokerStars Hand #15286303849:  Hold'em No Limit ($1000/$1000) - 2024/11/10 15:32:02 KST
+Table 'Table 1' 9-max Seat #7 is the button
+Seat 1: bn09 ($10917 in chips)
+Seat 2: jqjwhhre ($153512 in chips)
+Seat 3: zjckvjvnek ($96000 in chips)
+Seat 4: nsukrwph ($100000 in chips)
+Seat 5: yydfgrr ($91000 in chips)
+Seat 6: skdigufa ($184201 in chips)
+Seat 7: itdtyf7v ($114516 in chips)
+Seat 8: apsdifjadsfjhzehzihn ($107311 in chips)
+Seat 9: zqclbn9xgi ($200000 in chips)
+bn09: posts the ante $1000
+jqjwhhre: posts the ante $1000
+zjckvjvnek: posts the ante $1000
+nsukrwph: posts the ante $1000
+yydfgrr: posts the ante $1000
+skdigufa: posts the ante $1000
+itdtyf7v: posts the ante $1000
+apsdifjadsfjhzehzihn: posts the ante $1000
+zqclbn9xgi: posts the ante $1000
+apsdifjadsfjhzehzihn: posts small blind $1000
+zqclbn9xgi: posts big blind $1000
+*** HOLE CARDS ***
+bn09: raises $8917 to $9917 and is all-in
+jqjwhhre: folds
+zjckvjvnek: folds
+nsukrwph: folds
+yydfgrr: folds
+skdigufa: calls $9917
+itdtyf7v: folds
+apsdifjadsfjhzehzihn: calls $8917
+zqclbn9xgi: folds
+*** FLOP *** [7s Js 3d]
+apsdifjadsfjhzehzihn: checks
+skdigufa: checks
+*** TURN *** [7s Js 3d] [2s]
+apsdifjadsfjhzehzihn: checks
+skdigufa: bets $9937
+apsdifjadsfjhzehzihn: folds
+Uncalled bet ($9937) returned to skdigufa
+*** RIVER *** [7s Js 3d] [2s] [Jc]
+skdigufa collected $37645 from pot
+*** SUMMARY ***
+Total pot $39751 | Rake $2106
+Board [7s Js 3d 2s Jc]
+Seat 1: bn09 showed [Ac 2h] and lost
+Seat 2: jqjwhhre mucked [Jh 5d]
+Seat 3: zjckvjvnek mucked [Ah 8s]
+Seat 4: nsukrwph mucked [Th 4h]
+Seat 5: yydfgrr mucked [Qh 8d]
+Seat 6: skdigufa showed [As 5s] and won ($37645)
+Seat 7: itdtyf7v mucked [9s 3h]
+Seat 8: apsdifjadsfjhzehzihn mucked [Qd Td]
+Seat 9: zqclbn9xgi mucked [Qc 2d]

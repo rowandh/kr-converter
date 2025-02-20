@@ -1,0 +1,58 @@
+PokerStars Hand #15286303596:  Hold'em No Limit ($1000/$1000) - 2024/09/09 22:32:44 KST
+Table 'Table 1' 9-max Seat #7 is the button
+Seat 1: Qqjwjqkqk ($97000 in chips)
+Seat 2: zxssdv ($78000 in chips)
+Seat 3: gtelu940hs ($300000 in chips)
+Seat 4: ckadmfheo ($167932 in chips)
+Seat 5: xbvnfgtrf ($81500 in chips)
+Seat 6: 3whj3jk21 ($200000 in chips)
+Seat 7: kvvsufhe ($152615 in chips)
+Seat 8: bhrghthtr ($64136 in chips)
+Seat 9: glkfjhl12 ($415051 in chips)
+Qqjwjqkqk: posts the ante $1000
+zxssdv: posts the ante $1000
+gtelu940hs: posts the ante $1000
+ckadmfheo: posts the ante $1000
+xbvnfgtrf: posts the ante $1000
+3whj3jk21: posts the ante $1000
+kvvsufhe: posts the ante $1000
+bhrghthtr: posts the ante $1000
+glkfjhl12: posts the ante $1000
+bhrghthtr: posts small blind $1000
+glkfjhl12: posts big blind $1000
+*** HOLE CARDS ***
+Qqjwjqkqk: calls $1000
+zxssdv: calls $1000
+gtelu940hs: calls $1000
+ckadmfheo: folds
+xbvnfgtrf: folds
+3whj3jk21: folds
+kvvsufhe: calls $1000
+bhrghthtr: checks
+glkfjhl12: checks
+*** FLOP *** [4c 7s Jc]
+bhrghthtr: folds
+glkfjhl12: checks
+Qqjwjqkqk: bets $15000
+zxssdv: raises $22500 to $37500
+gtelu940hs: folds
+kvvsufhe: raises $113115 to $150615 and is all-in
+glkfjhl12: folds
+Qqjwjqkqk: folds
+zxssdv: calls $38500 and is all-in
+Uncalled bet ($74615) returned to kvvsufhe
+*** TURN *** [4c 7s Jc] [6h]
+*** RIVER *** [4c 7s Jc] [6h] [4s]
+zxssdv collected $172354 from pot
+*** SUMMARY ***
+Total pot $182000 | Rake $9646
+Board [4c 7s Jc 6h 4s]
+Seat 1: Qqjwjqkqk mucked [Js 9c]
+Seat 2: zxssdv showed [Tc 7c] and won ($172354)
+Seat 3: gtelu940hs mucked [As 3s]
+Seat 4: ckadmfheo mucked [Ks 5h]
+Seat 5: xbvnfgtrf mucked [6d 3c]
+Seat 6: 3whj3jk21 mucked [Jd 6s]
+Seat 7: kvvsufhe showed [Ac 2c] and lost
+Seat 8: bhrghthtr mucked [9d 3d]
+Seat 9: glkfjhl12 mucked [Kc 7d]

@@ -1,0 +1,15 @@
+PokerStars Hand #15292027240:  Hold'em No Limit ($1000/$1000) - 2024/12/23 22:25:49 KST
+Table 'Table 1' 9-max Seat #1 is the button
+Seat 1: i309357ai1 ($200000 in chips)
+Seat 2: msyjk ($100000 in chips)
+i309357ai1: posts the ante $1000
+msyjk: posts the ante $1000
+i309357ai1: posts small blind $1000
+msyjk: posts big blind $1000
+*** HOLE CARDS ***
+i309357ai1: folds
+msyjk collected $3788 from pot
+*** SUMMARY ***
+Total pot $4000 | Rake $212
+Seat 1: i309357ai1 mucked [Qc 9s]
+Seat 2: msyjk showed [9d 2d] and won ($3788)
