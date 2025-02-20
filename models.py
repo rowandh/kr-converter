@@ -195,10 +195,22 @@ class PokerHand:
 
     # Returns the players ordered by their action on the flop
     def get_ordered_preflop_players(self):
-        return sorted(
+        if len(self.players) <= 2:
+            return [self.get_small_blind_player(), self.get_big_blind_player()]
+
+        # Get the players who don't make any bets at all
+        players_without_action_entries = [player for player in self.players if
+                                          not any(isinstance(a, ActionEntry) and a.betting_round == 0
+                                                  for a in player.betting_actions)]
+
+        # Get the players who bet preflop
+        players_bet_preflop = sorted(
             self.get_players_in_hand(0),
             key=lambda item: self.get_sort_key(item, 0)
         )
+
+        # Ensure the players who don't bet at all are returned before the players who bet preflop
+        return players_without_action_entries + players_bet_preflop
 
     def get_ordered_flop_players(self):
         return sorted(

@@ -1,13 +1,15 @@
 PokerStars Hand #15291928620:  Hold'em No Limit ($1000/$1000) - 2025/02/08 02:09:46 KST
 Table 'Table 1' 9-max Seat #6 is the button
-Seat 1: qwtyrjuykfg ($570094 in chips)
-Seat 2: gtelu940hs ($304933 in chips)
-Seat 3: ruddk11 ($134461 in chips)
-Seat 4: izalobebu ($1060626 in chips)
-Seat 5: lain75 ($21844 in chips)
-Seat 6: aa ($100000 in chips)
-Seat 7: jklhgfgyy ($303099 in chips)
-Seat 8: piik ($92206 in chips)
+Seat 1: fdxfdc ($1551 in chips)
+Seat 2: qwtyrjuykfg ($570094 in chips)
+Seat 3: gtelu940hs ($304933 in chips)
+Seat 4: ruddk11 ($134461 in chips)
+Seat 5: izalobebu ($1060626 in chips)
+Seat 6: lain75 ($21844 in chips)
+Seat 7: aa ($100000 in chips)
+Seat 8: jklhgfgyy ($303099 in chips)
+Seat 9: piik ($92206 in chips)
+fdxfdc: posts the ante $1000
 qwtyrjuykfg: posts the ante $1000
 gtelu940hs: posts the ante $1000
 ruddk11: posts the ante $1000
@@ -18,6 +20,7 @@ jklhgfgyy: posts the ante $1000
 piik: posts the ante $1000
 jklhgfgyy: posts small blind $1000
 piik: posts big blind $1000
+fdxfdc: posts big blind $551
 aa: posts big blind $1000
 *** HOLE CARDS ***
 qwtyrjuykfg: folds
@@ -34,15 +37,17 @@ Uncalled bet ($27619) returned to gtelu940hs
 *** FLOP *** [Kd 7c Kc]
 *** TURN *** [Kd 7c Kc] [9c]
 *** RIVER *** [Kd 7c Kc] [9c] [8d]
-fdxfdc collected $12176 from pot
+fdxfdc collected $12176 from main pot
+gtelu940hs collected $40136 from side pot
 *** SUMMARY ***
 Total pot $15103 | Rake $2927
 Board [Kd 7c Kc 9c 8d]
-Seat 1: qwtyrjuykfg mucked [Jd 7s]
-Seat 2: gtelu940hs showed [Ad 7d] and lost
-Seat 3: ruddk11 mucked [Qs 3d]
-Seat 4: izalobebu mucked [Ts 9h]
-Seat 5: lain75 showed [6h 3h] and lost
-Seat 6: aa mucked [8s 3c]
-Seat 7: jklhgfgyy mucked [8c 3s]
-Seat 8: piik mucked [Jh 2c]
+Seat 1: fdxfdc showed [Th 9d] and won ($12176)
+Seat 2: qwtyrjuykfg mucked [Jd 7s]
+Seat 3: gtelu940hs showed [Ad 7d] and won ($40136)
+Seat 4: ruddk11 mucked [Qs 3d]
+Seat 5: izalobebu mucked [Ts 9h]
+Seat 6: lain75 showed [6h 3h] and lost
+Seat 7: aa mucked [8s 3c]
+Seat 8: jklhgfgyy mucked [8c 3s]
+Seat 9: piik mucked [Jh 2c]
