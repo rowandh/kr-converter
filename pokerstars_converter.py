@@ -176,6 +176,11 @@ maybesteve collected 36385 from main pot
 *** SUMMARY ***
 Total pot 162857 Main pot 36385. Side pot-1 38366. Side pot-2 80777. | Rake 7329 
         """
+
+        # TODO this is not how you determine side pots, because there can be multiple side pots
+        # in the HH that are won by the same player
+        # We need to keep track of side pots correctly
+        # A side pot happens if a player is all in and there is further betting
         for winner in winners:
             pot_type = ""
             if len(winners) > 1:
@@ -244,9 +249,7 @@ Total pot 162857 Main pot 36385. Side pot-1 38366. Side pot-2 80777. | Rake 7329
         # Keep track of the amount invested in this street by each player
         player_invested = {}
 
-        for street_action in sorted_street_actions:
-            player: PlayerAction = street_action[0]
-            player_action = street_action[1]
+        for player, player_action in sorted_street_actions:
             action = player_action.action
 
             if player.player not in player_invested:
@@ -255,9 +258,8 @@ Total pot 162857 Main pot 36385. Side pot-1 38366. Side pot-2 80777. | Rake 7329
                 player_invested[player.player] = blind_amount
             player_invested[player.player] += player_action.amount
 
-            player_invested_this_street = player_invested[player.player]
-            bet_diff = player_invested_this_street - last_bet_size
-            amount = player_invested_this_street
+            invested = player_invested[player.player]
+            bet_diff = invested - last_bet_size
             all_in = " and is all-in" if player_action.remaining_stack == 0 else ""
 
             if action is BetType.CHECK:
@@ -266,29 +268,26 @@ Total pot 162857 Main pot 36385. Side pot-1 38366. Side pot-2 80777. | Rake 7329
                 result.append(f"{player.player}: calls {self.format_currency(player_action.amount)}")
             elif action is BetType.FOLD:
                 result.append(f"{player.player}: folds")
-            elif action is BetType.BET:
+            elif action in (BetType.BET, BetType.ALL_IN, BetType.RAISE):
                 if not action_opened:
-                    result.append(f"{player.player}: bets {self.format_currency(amount)}")
-                    last_bet_size = amount
+                    verb = "bets"
+                    value = self.format_currency(invested)
+                    new_last = invested
                 else:
-                    result.append(f"{player.player}: raises {self.format_currency(bet_diff)} to {self.format_currency(player_invested_this_street)}{all_in}")
-                    last_bet_size = player_invested_this_street
-                action_opened = True
-
-            elif action is BetType.ALL_IN or BetType.RAISE:
-                if not action_opened:
-                    result.append(f"{player.player}: bets {self.format_currency(player_invested_this_street)}{all_in}")
-                    last_bet_size = player_invested_this_street
-                else:
-                    if bet_diff <= 0: # We are calling an all-in
-                        result.append(f"{player.player}: calls {self.format_currency(player_action.amount)}{all_in}")
-                        last_bet_size = player_action.amount
+                    if bet_diff <= 0:
+                        verb = "calls"
+                        value = self.format_currency(player_action.amount)
+                        new_last = player_action.amount
                     else:
-                        result.append(f"{player.player}: raises {self.format_currency(bet_diff)} to {self.format_currency(player_invested_this_street)}{all_in}")
-                        last_bet_size = player_invested_this_street
+                        verb = "raises"
+                        value = f"{self.format_currency(bet_diff)} to {self.format_currency(invested)}"
+                        new_last = invested
+
+                result.append(f"{player.player}: {verb} {value}{all_in}")
+                last_bet_size = new_last
                 action_opened = True
 
-            if player_action.uncalled_bet is not None and not 0:
+            if player_action.uncalled_bet not in (None, 0):
                 uncalled_bet = f"Uncalled bet ({self.format_currency(player_action.uncalled_bet)}) returned to {player.player}"
 
         # Append the uncalled bet after all the other player actions
