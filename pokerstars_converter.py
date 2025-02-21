@@ -159,11 +159,36 @@ class PokerStarsConverter():
 
         winner_statements = []
         winners = poker_hand.get_winners()
+        main_pot = 0
+        side_pot = 0
+        main_pot_text = ""
+        side_pot_text = ""
 
+        """TODO side pots are n-indexed if there's more than 1.
+*** SHOW DOWN ***
+maybesteve: shows [Js 4h 8h Qh] (a straight, Four to Eight)
+Calligula2: mucks hand 
+maybesteve collected 80777 from side pot-2 
+Bluff_R_Fish: mucks hand 
+maybesteve collected 38366 from side pot-1 
+aldan55: mucks hand 
+maybesteve collected 36385 from main pot        
+*** SUMMARY ***
+Total pot 162857 Main pot 36385. Side pot-1 38366. Side pot-2 80777. | Rake 7329 
+        """
         for winner in winners:
             pot_type = ""
             if len(winners) > 1:
-                pot_type = " main" if winner.win_money.amount == int(poker_hand.winning_amount) else " side"
+                if winner.win_money.amount == int(poker_hand.winning_amount):
+                    pot_type = " main"
+                    main_pot = winner.win_money.amount
+                    main_pot_text = f" Main pot {self.format_currency(winner.win_money.amount)}."
+                else:
+                    pot_type = " side"
+                    side_pot = winner.win_money.amount
+                    side_pot_text = f" Side pot {self.format_currency(winner.win_money.amount)}."
+            else:
+                main_pot = winner.win_money.amount
             winner_statements.append(f"{winner.player} collected {self.format_currency(winner.win_money.amount)} from{pot_type} pot")
 
         history_parts.extend(winner_statements)
@@ -178,8 +203,9 @@ class PokerStarsConverter():
             chips_before += player.get_start_stack()
 
         rake = chips_before - chips_after
-        pot = int(poker_hand.winning_amount) + rake
-        total_pot = f"Total pot {self.format_currency(pot)} | Rake {self.format_currency(rake)}"
+        pot = main_pot + side_pot + rake
+
+        total_pot = f"Total pot {self.format_currency(pot)}{main_pot_text}{side_pot_text} | Rake {self.format_currency(rake)}"
 
         history_parts.append(summary)
         history_parts.append(total_pot)

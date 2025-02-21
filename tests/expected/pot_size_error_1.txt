@@ -40,7 +40,7 @@ Uncalled bet ($27619) returned to gtelu940hs
 fdxfdc collected $12176 from main pot
 gtelu940hs collected $40136 from side pot
 *** SUMMARY ***
-Total pot $15103 | Rake $2927
+Total pot $55239 Main pot $12176. Side pot $40136. | Rake $2927
 Board [Kd 7c Kc 9c 8d]
 Seat 1: fdxfdc showed [Th 9d] and won ($12176)
 Seat 2: qwtyrjuykfg mucked [Jd 7s]

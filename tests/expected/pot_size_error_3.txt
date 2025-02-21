@@ -46,7 +46,7 @@ gfdgfjhtj: checks
 Wnrdjqhwk collected $243470 from main pot
 xzcvzswse collected $183779 from side pot
 *** SUMMARY ***
-Total pot $267381 | Rake $23911
+Total pot $451160 Main pot $243470. Side pot $183779. | Rake $23911
 Board [Ts As Jh 5c 6c]
 Seat 1: ringgg27 mucked [Ad 7c]
 Seat 2: dgjdkdk mucked [7d 6d]
