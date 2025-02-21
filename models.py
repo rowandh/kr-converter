@@ -141,6 +141,9 @@ class PlayerAction:
     def get_river_actions(self):
         return self.get_round_actions(3)
 
+    def get_all_betting_actions(self):
+        return [action for action in self.betting_actions if isinstance(action, ActionEntry)]
+
     @property
     def flop_betting_position(self):
         return next((action.betting_position for action in self.betting_actions

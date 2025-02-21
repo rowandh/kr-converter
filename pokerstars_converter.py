@@ -94,68 +94,18 @@ class PokerStarsConverter():
 
         history_parts.extend(preflop_betting_rounds)
 
-        # If there's a flop
-        flop_parts = []
-        if len(community_cards) > 0:
-            flop = ' '.join(self.change_suit_card(s) for s in community_cards[0])
-            flop_str = f"*** FLOP *** [{flop}]"
-            flop_parts.append(flop_str)
+        round_methods = [
+            ("FLOP", poker_hand.get_ordered_flop_players, lambda p: p.get_flop_actions()),
+            ("TURN", poker_hand.get_ordered_turn_players, lambda p: p.get_turn_actions()),
+            ("RIVER", poker_hand.get_ordered_river_players, lambda p: p.get_river_actions())
+        ]
 
-            flop_players = poker_hand.get_ordered_flop_players()
-
-            flop_actions = []
-            for player in flop_players:
-                river_betting = player.get_flop_actions()
-                for action in river_betting:
-                    flop_actions.append((player, action))
-
-            # Get the flop actions in the order they occurred
-            sorted_flop_street_actions = sorted(flop_actions, key=lambda item: item[1].betting_position)
-
-            flop_parts.extend(self.generate_betting_rounds(0, sorted_flop_street_actions))
-            history_parts.extend(flop_parts)
-
-        # If there's a turn
-        turn_parts = []
-        if len(community_cards) > 1:
-            flop = ' '.join(self.change_suit_card(s) for s in community_cards[0])
-            turn = ' '.join(self.change_suit_card(s) for s in community_cards[1])
-            turn_str = f"*** TURN *** [{flop}] [{turn}]"
-            turn_parts.append(turn_str)
-
-            turn_players = poker_hand.get_ordered_turn_players()
-
-            turn_actions = []
-            for player in turn_players:
-                river_betting = [action for action in player.betting_actions if action.type == "ACTION" and action.betting_round == 2]
-                for action in river_betting:
-                    turn_actions.append((player, action))
-
-            sorted_turn_street_actions = sorted(turn_actions, key=lambda item: item[1].betting_position)
-
-            turn_parts.extend(self.generate_betting_rounds(0, sorted_turn_street_actions))
-            history_parts.extend(turn_parts)
-
-        river_parts = []
-        if len(community_cards) > 2:
-            flop = ' '.join(self.change_suit_card(s) for s in community_cards[0])
-            turn = ' '.join(self.change_suit_card(s) for s in community_cards[1])
-            river = ' '.join(self.change_suit_card(s) for s in community_cards[2])
-            river_str = ''f"*** RIVER *** [{flop}] [{turn}] [{river}]"
-            river_parts.append(river_str)
-
-            river_players = poker_hand.get_ordered_river_players()
-
-            river_actions = []
-            for player in river_players:
-                river_betting = [action for action in player.betting_actions if action.type == "ACTION" and action.betting_round == 3]
-                for action in river_betting:
-                    river_actions.append((player, action))
-
-            sorted_river_street_actions = sorted(river_actions, key=lambda item: item[1].betting_position)
-
-            river_parts.extend(self.generate_betting_rounds(0, sorted_river_street_actions))
-            history_parts.extend(river_parts)
+        for round_index, (round_name, get_players_func, get_actions_func) in enumerate(round_methods, start=1):
+            if len(community_cards) >= round_index:
+                history_parts.append(f"*** {round_name} *** {self.format_community_cards(community_cards, round_index)}")
+                actions = [(player, action) for player in get_players_func() for action in get_actions_func(player)]
+                sorted_actions = sorted(actions, key=lambda item: item[1].betting_position)
+                history_parts.extend(self.generate_betting_rounds(0, sorted_actions))
 
         winner_statements = []
         winners = poker_hand.get_winners()
@@ -296,9 +246,11 @@ Total pot 162857 Main pot 36385. Side pot-1 38366. Side pot-2 80777. | Rake 7329
 
         return result
 
+    def format_community_cards(self, cards, street_index):
+        """Formats community cards up to the current street."""
+        return ' '.join(f'[{" ".join(self.change_suit_card(card) for card in cards[i])}]' for i in range(street_index))
 
-    @staticmethod
-    def change_suit_card(line):
+    def change_suit_card(self, line):
         suit = {"♠": "s", "◆": "d", "♣": "c", "♥": "h"}
 
         return line[1] + suit[line[0]]
