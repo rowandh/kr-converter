@@ -18,24 +18,15 @@ class PokerStarsConverter():
             return None
 
         hand_id = poker_hand.round_id.replace("-", "")
-        sb = poker_hand.get_small_blind_amount()
-        bb = poker_hand.get_big_blind_amount()
-        game_type = f"Hold'em No Limit ({self.format_currency(sb)}/{self.format_currency(bb)})"
-
+        sb, bb = poker_hand.get_small_blind_amount(), poker_hand.get_big_blind_amount()
         timestamp = convert_korean_datetime_with_timezone(poker_hand.timestamp) if correct_datetime is None else format_korean_date(correct_datetime)
-        community_cards = poker_hand.get_community_cards()
-        history_parts = []
-
-        dealer = poker_hand.get_dealer()
-
         preflop_players = poker_hand.get_ordered_preflop_players()
 
         # HEADER DATA
-        header = []
-        header.append(f"PokerStars Hand #{hand_id}:  {game_type} - {timestamp}")
-        header.append(f"Table 'Table 1' 9-max Seat #{dealer.flop_betting_position} is the button")
-
-        history_parts.extend(header)
+        history_parts = [
+            f"PokerStars Hand #{hand_id}:  Hold'em No Limit ({self.format_currency(sb)}/{self.format_currency(bb)}) - {timestamp}",
+            f"Table 'Table 1' 9-max Seat #{poker_hand.get_dealer().flop_betting_position} is the button"
+        ]
 
         # STATUS HISTORY
         # Seat numbers are 1-indexed
@@ -54,45 +45,23 @@ class PokerStarsConverter():
         history_parts.extend(antes)
 
         # BLIND HISTORY
-        blinds = []
         for player in preflop_players:
-            blind: PostBlindEntry = player.get_blind()
-            if blind is not None:
-                blind_amount = blind.amount
-                if blind.blind_type == "small":
-                    blinds.append(f"{player.player}: posts small blind {self.format_currency(blind_amount)}")
-                if blind.blind_type == "big":
-                    blinds.append(f"{player.player}: posts big blind {self.format_currency(blind_amount)}")
+            blind = player.get_blind()
+            if blind:
+                history_parts.append(
+                    f"{player.player}: posts {blind.blind_type} blind {self.format_currency(blind.amount)}")
 
-        # Now post the entry fees
+        # ENTRY FEES
         for player in preflop_players:
             entry_fee: EntryFeeEntry = player.get_entry_fee()
             if entry_fee is not None:
-                blinds.append(f"{player.player}: posts big blind {self.format_currency(entry_fee.amount)}")
-
-        history_parts.extend(blinds)
+                history_parts.append(f"{player.player}: posts big blind {self.format_currency(entry_fee.amount)}")
 
         # PREFLOP HISTORY
-        hole_cards_str = []
-        hole_cards_str.append("*** HOLE CARDS ***")
-        # for player in poker_hand.players:
-        #     hole_cards = player.get_hole_cards()
-        #     if hole_cards:
-        #         hole_cards_str.append(f"Dealt to {player.player} [{hole_cards}]")
-        #
-        history_parts.extend(hole_cards_str)
-
-        preflop_actions: List[Tuple[PlayerAction, ActionEntry]] = []
-        for player in preflop_players:
-            river_betting = player.get_preflop_actions()
-            for action in river_betting:
-                preflop_actions.append((player, action))
-
+        history_parts.append("*** HOLE CARDS ***")
+        preflop_actions = [(player, action) for player in preflop_players for action in player.get_preflop_actions()]
         sorted_preflop_street_actions = sorted(preflop_actions, key=lambda item: item[1].betting_position)
-
-        preflop_betting_rounds = self.generate_betting_rounds(bb, sorted_preflop_street_actions, True)
-
-        history_parts.extend(preflop_betting_rounds)
+        history_parts.extend(self.generate_betting_rounds(bb, sorted_preflop_street_actions, True))
 
         round_methods = [
             ("FLOP", poker_hand.get_ordered_flop_players, lambda p: p.get_flop_actions()),
@@ -100,6 +69,7 @@ class PokerStarsConverter():
             ("RIVER", poker_hand.get_ordered_river_players, lambda p: p.get_river_actions())
         ]
 
+        community_cards = poker_hand.get_community_cards()
         for round_index, (round_name, get_players_func, get_actions_func) in enumerate(round_methods, start=1):
             if len(community_cards) >= round_index:
                 history_parts.append(f"*** {round_name} *** {self.format_community_cards(community_cards, round_index)}")
@@ -154,7 +124,7 @@ Total pot 162857 Main pot 36385. Side pot-1 38366. Side pot-2 80777. | Rake 7329
         chips_before = 0
         chips_after = 0
         for player in poker_hand.players:
-            chips_after += int(player.final_stack)
+            chips_after += player.final_stack
             chips_before += player.get_start_stack()
 
         rake = chips_before - chips_after
@@ -188,7 +158,6 @@ Total pot 162857 Main pot 36385. Side pot-1 38366. Side pot-2 80777. | Rake 7329
         pokerstars_history = "\n".join(history_parts)
 
         return pokerstars_history
-
 
     def generate_betting_rounds(self, min_bet_size, sorted_street_actions, include_blind = False):
         last_bet_size = min_bet_size
