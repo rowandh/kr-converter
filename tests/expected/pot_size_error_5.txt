@@ -1,0 +1,57 @@
+PokerStars Hand #15291931708:  Hold'em No Limit ($1000/$1000) - 2025/02/08 03:16:42 KST
+Table 'Table 1' 9-max Seat #7 is the button
+Seat 1: rkdcjf ($95000 in chips)
+Seat 2: StarJ ($97000 in chips)
+Seat 3: mnbkhjtglg ($381181 in chips)
+Seat 4: gtelu940hs ($342958 in chips)
+Seat 5: wepoipweo ($512967 in chips)
+Seat 6: ripdifunt ($210258 in chips)
+Seat 7: Bbnak ($116000 in chips)
+Seat 8: kljdnx ($96000 in chips)
+Seat 9: iywffhkvx ($106603 in chips)
+rkdcjf: posts the ante $1000
+StarJ: posts the ante $1000
+mnbkhjtglg: posts the ante $1000
+gtelu940hs: posts the ante $1000
+wepoipweo: posts the ante $1000
+ripdifunt: posts the ante $1000
+Bbnak: posts the ante $1000
+kljdnx: posts the ante $1000
+iywffhkvx: posts the ante $1000
+kljdnx: posts small blind $1000
+iywffhkvx: posts big blind $1000
+*** HOLE CARDS ***
+rkdcjf: folds
+StarJ: raises $3000 to $4000
+mnbkhjtglg: folds
+gtelu940hs: folds
+wepoipweo: folds
+ripdifunt: calls $4000
+Bbnak: folds
+kljdnx: calls $3000
+iywffhkvx: calls $3000
+*** FLOP *** [3c 5s 2d]
+kljdnx: checks
+iywffhkvx: checks
+StarJ: bets $1000
+ripdifunt: calls $1000
+kljdnx: calls $1000
+iywffhkvx: folds
+*** TURN *** [3c 5s 2d] [Qd]
+kljdnx: checks
+StarJ: bets $1000
+ripdifunt: raises $15000 to $16000
+kljdnx: folds
+StarJ collected $42615 from pot
+*** SUMMARY ***
+Total pot $45000 | Rake $2385
+Board [3c 5s 2d Qd]
+Seat 1: rkdcjf mucked [8c 6s]
+Seat 2: StarJ showed [2c 2s] and won ($42615)
+Seat 3: mnbkhjtglg mucked [Jh Th]
+Seat 4: gtelu940hs mucked [Ah Ts]
+Seat 5: wepoipweo mucked [Qs 6c]
+Seat 6: ripdifunt mucked [Qc 9h]
+Seat 7: Bbnak mucked [7d 3s]
+Seat 8: kljdnx mucked [7h 4d]
+Seat 9: iywffhkvx mucked [Js 9c]

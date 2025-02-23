@@ -1,0 +1,55 @@
+PokerStars Hand #15291903832:  Hold'em No Limit ($1000/$1000) - 2025/02/07 15:30:05 KST
+Table 'Table 1' 9-max Seat #7 is the button
+Seat 1: fghdidtye ($519101 in chips)
+Seat 2: tzghsgzw ($378341 in chips)
+Seat 3: hjytrtrtr ($121403 in chips)
+Seat 4: Kjgfddfhh ($62258 in chips)
+Seat 5: hdhgxvb ($114589 in chips)
+Seat 6: artkjfgnioks ($365550 in chips)
+Seat 7: zxcvgfh ($100000 in chips)
+Seat 8: alpzlbnda ($130392 in chips)
+Seat 9: zxssdv ($168471 in chips)
+fghdidtye: posts the ante $1000
+tzghsgzw: posts the ante $1000
+hjytrtrtr: posts the ante $1000
+Kjgfddfhh: posts the ante $1000
+hdhgxvb: posts the ante $1000
+artkjfgnioks: posts the ante $1000
+zxcvgfh: posts the ante $1000
+alpzlbnda: posts the ante $1000
+zxssdv: posts the ante $1000
+alpzlbnda: posts small blind $1000
+zxssdv: posts big blind $1000
+zxcvgfh: posts big blind $1000
+*** HOLE CARDS ***
+fghdidtye: folds
+tzghsgzw: calls $1000
+hjytrtrtr: raises $14000 to $15000
+Kjgfddfhh: folds
+hdhgxvb: folds
+artkjfgnioks: folds
+zxcvgfh: raises $21000 to $36000
+alpzlbnda: raises $49000 to $85000
+zxssdv: folds
+tzghsgzw: raises $292341 to $377341 and is all-in
+hjytrtrtr: folds
+zxcvgfh: calls $63000 and is all-in
+alpzlbnda: raises $66392 to $129392 and is all-in
+Uncalled bet ($247949) returned to tzghsgzw
+*** FLOP *** [Th Ks 3c]
+*** TURN *** [Th Ks 3c] [5s]
+*** RIVER *** [Th Ks 3c] [5s] [9c]
+tzghsgzw collected $57563 from side pot
+zxcvgfh collected $304934 from main pot
+*** SUMMARY ***
+Total pot $382784 Main pot $304934. Side pot $57563. | Rake $20287
+Board [Th Ks 3c 5s 9c]
+Seat 1: fghdidtye mucked [7s 3s]
+Seat 2: tzghsgzw showed [Ac As] and won ($57563)
+Seat 3: hjytrtrtr mucked [Td 8d]
+Seat 4: Kjgfddfhh mucked [7d 4c]
+Seat 5: hdhgxvb mucked [Ts 6s]
+Seat 6: artkjfgnioks mucked [4s 2h]
+Seat 7: zxcvgfh showed [9s 9d] and won ($304934)
+Seat 8: alpzlbnda showed [Ad Kh] and lost
+Seat 9: zxssdv mucked [Kd 5d]

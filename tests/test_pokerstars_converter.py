@@ -174,3 +174,21 @@ class TestPokerstarsConverter(unittest.TestCase):
         pprint(converted)
 
         self.assertEqual(converted, expected)
+
+    def test_pot_size_error_5(self):
+        expected = self.read_expected_file("pot_size_error_5.txt")
+        content = self.read_test_file("pot_size_error_5.html")
+        converted = self.parse(content)
+
+        pprint(converted)
+
+        self.assertEqual(converted, expected)
+
+    def test_invalid_stack(self):
+        expected = self.read_expected_file("invalid_stack.txt")
+        content = self.read_test_file("invalid_stack.html")
+        converted = self.parse(content)
+
+        pprint(converted)
+
+        self.assertEqual(converted, expected)
