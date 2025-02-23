@@ -83,8 +83,8 @@ def parse_detailed_info(detailed_info_html: str) -> List[PlayerAction]:
         player_data = PlayerAction(
             player=columns[0].text.strip(), # 참가자 Player name
             raw_betting_action=betting_action, # 족보 Betting action
-            amount_won_lost=columns[2].text.strip().replace(",", ""), # 변동 금액 Won/lost
-            final_stack=columns[3].text.strip().replace(",", ""), # 남은 잔액 Final stack size
+            amount_won_lost=int(columns[2].text.strip().replace(",", "")), # 변동 금액 Won/lost
+            final_stack=int(columns[3].text.strip().replace(",", "")), # 남은 잔액 Final stack size
             betting_actions=parsed_betting_action,
             win_money=win_money
         )

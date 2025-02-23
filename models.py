@@ -107,8 +107,8 @@ class PlayerAction:
     player: str  # 참가자 (Player name)
     raw_betting_action: str  # 족보 (Hand action, e.g., call, fold, raise)
     betting_actions: ParsedHandHistory
-    amount_won_lost: str  # 변동 금액 (How much they won or lost)
-    final_stack: str  # 남은 잔액 (Final stack after the hand)
+    amount_won_lost: int  # 변동 금액 (How much they won or lost)
+    final_stack: int  # 남은 잔액 (Final stack after the hand)
     win_money: WinMoneyEntry
 
     def is_blind(self):
@@ -194,7 +194,7 @@ class PokerHand:
     # We can have multiple winners in a multi-pot scenario
     # Make sure we always return the main pot winner first
     def get_winners(self):
-        return [a for a in self.players if a.win_money is not None and a.win_money.amount > 0]
+        return [a for a in self.players if a.amount_won_lost > 0]
 
     def get_betting_position(self, player: PlayerAction):
         return self.get_ordered_preflop_players().index(player) + 1
