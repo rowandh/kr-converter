@@ -194,7 +194,7 @@ class PokerHand:
     # We can have multiple winners in a multi-pot scenario
     # Make sure we always return the main pot winner first
     def get_winners(self):
-        return [a for a in self.players if a.amount_won_lost > 0]
+        return [a for a in self.players if a.win_money is not None and a.win_money.amount > 0]
 
     def get_betting_position(self, player: PlayerAction):
         return self.get_ordered_preflop_players().index(player) + 1
